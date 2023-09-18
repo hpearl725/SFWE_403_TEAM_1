@@ -1,3 +1,5 @@
+__pycache__
+.vscode
 # Default ignored files
 /shelf/
 /workspace.xml
@@ -6,3 +8,4 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+.idea
