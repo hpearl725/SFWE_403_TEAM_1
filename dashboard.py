@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from ttkthemes import ThemedStyle
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -13,15 +14,19 @@ def create_dashboard():
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
 
+    # Create a ThemedStyle instance for modern themes
+    style = ThemedStyle(dashboard)
+    style.set_theme("equilux")  # Use the "equilux" theme or choose another theme
+
     # Create a frame to hold the buttons and table
-    frame = tk.Frame(dashboard)
+    frame = ttk.Frame(dashboard)
     frame.pack(padx=20, pady=20)
 
     # Create buttons for Inventory, Patients, Users, and Settings
-    inventory_button = tk.Button(frame, text="Inventory", command=show_inventory_table)
-    patients_button = tk.Button(frame, text="Patients", command=show_patients_table)
-    users_button = tk.Button(frame, text="Users", command=show_users_table)
-    settings_button = tk.Button(frame, text="Settings")
+    inventory_button = ttk.Button(frame, text="Inventory", command=show_inventory_table)
+    patients_button = ttk.Button(frame, text="Patients", command=show_patients_table)
+    users_button = ttk.Button(frame, text="Users", command=show_users_table)
+    settings_button = ttk.Button(frame, text="Settings")
 
     # Pack buttons in a row
     inventory_button.pack(side="left", padx=10)

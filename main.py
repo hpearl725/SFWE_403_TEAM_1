@@ -1,5 +1,7 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
+from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 from dashboard import create_dashboard
 
 # Function to validate the login credentials and open the dashboard
@@ -13,8 +15,8 @@ def open_dashboard():
 
     if username == correct_username and password == correct_password:
         messagebox.showinfo("Login Successful", "Welcome, " + username + "!")
-        root.destroy()  # Close the login window
         create_dashboard()  # Open the dashboard window
+        root.destroy()  # Close the login window
     else:
         messagebox.showerror("Login Failed", "Incorrect username or password")
 
@@ -22,19 +24,23 @@ def open_dashboard():
 root = tk.Tk()
 root.title("Login Page")
 
+# Create a ThemedStyle instance for the modern theme
+style = ThemedStyle(root)
+style.set_theme("equilux")  # Use the "equilux" theme or choose another theme
+
 # Create labels and entry widgets for username and password
-username_label = tk.Label(root, text="Username:")
+username_label = ttk.Label(root, text="Username:")
 username_label.pack(pady=10)
-username_entry = tk.Entry(root)
+username_entry = ttk.Entry(root)
 username_entry.pack(pady=5)
 
-password_label = tk.Label(root, text="Password:")
+password_label = ttk.Label(root, text="Password:")
 password_label.pack()
-password_entry = tk.Entry(root, show="*")  # Show asterisks for password
+password_entry = ttk.Entry(root, show="*")  # Show asterisks for password
 password_entry.pack(pady=10)
 
 # Create the Login button
-login_button = tk.Button(root, text="Login", command=open_dashboard)
+login_button = ttk.Button(root, text="Login", command=open_dashboard)
 login_button.pack()
 
 # Center the login window on the screen
