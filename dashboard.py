@@ -3,15 +3,20 @@ from tkinter import ttk
 from tkinter import messagebox
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 
+import inventory_table
+import patients_table
+import users_table
+
 # Declare the Treeview widgets as global variables
 inventory_tree = None
 patients_tree = None
 users_tree = None
 frame = None  # Define 'frame' as a global variable
+add_user_button = None  # Define 'add_user_button' as a global variable
 
-# Function to create the dashboard window with the Inventory table
+# Function to create the dashboard window with the Inventory, Patients, and Users tables
 def create_dashboard():
-    global inventory_tree, patients_tree, users_tree, frame  # Access the global variables
+    global inventory_tree, patients_tree, users_tree, frame, add_user_button  # Access the global variables
     # Create the dashboard window
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
@@ -37,7 +42,7 @@ def create_dashboard():
     inventory_button = ttk.Button(button_frame, text="Inventory", command=show_inventory_table)
     patients_button = ttk.Button(button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(button_frame, text="Users", command=show_users_table)
-    settings_button = ttk.Button(button_frame, text="Settings", command=show_hello_world_button)
+    settings_button = ttk.Button(button_frame, text="Settings", command=show_user_button)
     exit_button = ttk.Button(frame, text="Exit", command=dashboard.quit)
 
     # Pack buttons horizontally with padding
@@ -46,42 +51,10 @@ def create_dashboard():
     users_button.pack(side="left", padx=10)
     settings_button.pack(side="left", padx=10)
 
-    # Create a Treeview widget for the Inventory table (hidden initially)
-    inventory_tree = ttk.Treeview(frame, columns=("Item", "Qty"), show="headings")
-
-    # Define column headings for Inventory
-    inventory_tree.heading("Item", text="Item")
-    inventory_tree.heading("Qty", text="Qty")
-
-    # Insert data into the Inventory table (hidden initially)
-    inventory_tree.insert("", "end", values=("Medicine 1", "2"))
-    inventory_tree.insert("", "end", values=("Medicine 2", "2"))
-
-    # Create a Treeview widget for the Patients table (hidden initially)
-    patients_tree = ttk.Treeview(frame, columns=("Name", "Phone"), show="headings")
-
-    # Define column headings for Patients
-    patients_tree.heading("Name", text="Name")
-    patients_tree.heading("Phone", text="Phone")
-
-    # Insert example data into the Patients table (hidden initially)
-    patients_tree.insert("", "end", values=("John Doe", "123-456-7890"))
-    patients_tree.insert("", "end", values=("Jane Smith", "987-654-3210"))
-    patients_tree.insert("", "end", values=("Alice Johnson", "555-123-4567"))
-    patients_tree.insert("", "end", values=("Bob Brown", "777-888-9999"))
-    patients_tree.insert("", "end", values=("Eve Wilson", "555-555-5555"))
-
-    # Create a Treeview widget for the Users table (hidden initially)
-    users_tree = ttk.Treeview(frame, columns=("Username", "Role"), show="headings")
-
-    # Define column headings for Users
-    users_tree.heading("Username", text="Username")
-    users_tree.heading("Role", text="Role")
-
-    # Insert example data into the Users table (hidden initially)
-    users_tree.insert("", "end", values=("user1", "Admin"))
-    users_tree.insert("", "end", values=("user2", "User"))
-    users_tree.insert("", "end", values=("user3", "User"))
+    # Call the functions from the separate files to create the trees
+    inventory_tree = inventory_table.create_inventory_table(frame)
+    patients_tree = patients_table.create_patients_table(frame)
+    users_tree = users_table.create_users_table(frame)
 
     # Create an Exit button at the bottom right
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
@@ -91,32 +64,45 @@ def create_dashboard():
 
 # Function to show the Inventory table
 def show_inventory_table():
-    inventory_tree.pack()
-    patients_tree.pack_forget()  # Hide the Patients table
-    users_tree.pack_forget()  # Hide the Users table
+    inventory_table.show_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    hide_add_user_button()
 
 # Function to show the Patients table
 def show_patients_table():
-    patients_tree.pack()
-    inventory_tree.pack_forget()  # Hide the Inventory table
-    users_tree.pack_forget()  # Hide the Users table
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.show_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    hide_add_user_button()
 
 # Function to show the Users table
 def show_users_table():
-    users_tree.pack()
-    inventory_tree.pack_forget()  # Hide the Inventory table
-    patients_tree.pack_forget()  # Hide the Patients table
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.show_users_table(users_tree)
+    hide_add_user_button()
 
-# Function to show "Hello World" button and hide the table
-def show_hello_world_button():
-    global frame  # Access the global 'frame' variable
-    inventory_tree.pack_forget()
-    patients_tree.pack_forget()
-    users_tree.pack_forget()
-    
- # Create a "Hello World" button
-    hello_world_button = ttk.Button(frame, text="Hello World")
-    hello_world_button.pack(side="top", pady=10)
+# Function to show settings buttons and hide the tables
+def show_user_button():
+    # Hide the table views
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    show_add_user_button()
+
+# Function to hide the "Add User" button
+def hide_add_user_button():
+    global add_user_button
+    if add_user_button is not None:
+        add_user_button.pack_forget()
+
+# Function to show the "Add User" button
+def show_add_user_button():
+    global add_user_button
+    if add_user_button is None:
+        add_user_button = ttk.Button(frame, text="Add User")
+    add_user_button.pack(side="top", pady=10)
 
 if __name__ == "__main__":
     create_dashboard()
