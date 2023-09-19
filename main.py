@@ -1,3 +1,4 @@
+import csv
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -9,15 +10,16 @@ def open_dashboard():
     username = username_entry.get()
     password = password_entry.get()
 
-    # Replace these with your actual username and password
-    correct_username = "a"
-    correct_password = "1"
+    # Open the .csv file and search for the username and password
+    with open("credentials.csv", "r") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[0] == username and row[1] == password:
+                create_dashboard()  # Open the dashboard window
+                root.destroy()  # Close the login window
+                return
 
-    if username == correct_username and password == correct_password:
-        create_dashboard()  # Open the dashboard window
-        root.destroy()  # Close the login window
-    else:
-        messagebox.showerror("Login Failed", "Incorrect username or password")
+    messagebox.showerror("Login Failed", "Incorrect username or password")
 
 # Create the main login window
 root = tk.Tk()
