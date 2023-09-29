@@ -29,7 +29,7 @@ def open_dashboard():
                         writer = csv.writer(file)
                         writer.writerows(rows)
                 root.destroy()  # Close the login window
-                create_dashboard()  # Open the dashboard window
+                create_dashboard(current_user_role)  # Open the dashboard window
                 return
 
     messagebox.showerror("Login Failed", "Incorrect username or password")
