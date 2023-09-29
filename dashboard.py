@@ -28,7 +28,7 @@ def open_new_user_window():
 
 
 # Create the dashboard window
-def create_dashboard():
+def create_dashboard(current_user_role):
     global inventory_tree, patients_tree, users_tree, frame, add_user_button
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
