@@ -19,6 +19,11 @@ add_user_button = None
 
 # Function to open the new user window
 def open_new_user_window():
+    # Check if the current user is a manager
+    if current_user_role != "manager":
+        messagebox.showerror("Permission Denied", "Only managers can add new users.")
+        return
+
     os.system('python new_user_window.py')
 
 
