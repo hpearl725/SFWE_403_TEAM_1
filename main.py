@@ -14,7 +14,6 @@ def open_dashboard():
 
     # Global variable to store the role of the current user
     global current_user_role
-    return current_user_role
 
     # Open the .csv file and search for the username and password
     with open("credentials.csv", "r") as file:
@@ -74,3 +73,7 @@ root.geometry("+%d+%d" % ((root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
 
 # Start the Tkinter main loop for the login page
 root.mainloop()
+
+
+def current_user_role():
+    return current_user_role
