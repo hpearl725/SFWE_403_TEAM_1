@@ -25,7 +25,7 @@ def submit_user():
     # Append the values to the CSV file with a newline character
     with open("credentials.csv", "a", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow([username, password])
+        writer.writerow([username, password, True])
 
     # Show a success message and destroy the window
     messagebox.showinfo("Success", f"New user added successfully. The temporary password is {password}")

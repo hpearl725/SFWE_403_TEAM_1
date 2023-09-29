@@ -14,8 +14,15 @@ def open_dashboard():
     # Open the .csv file and search for the username and password
     with open("credentials.csv", "r") as file:
         reader = csv.reader(file)
-        for row in reader:
+        rows = list(reader)
+        for i, row in enumerate(rows):
             if row[0] == username and row[1] == password:
+                if row[2] == 'True':
+                    new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
+                    rows[i] = [username, new_password, False]
+                    with open("credentials.csv", "w", newline="") as file:
+                        writer = csv.writer(file)
+                        writer.writerows(rows)
                 root.destroy()  # Close the login window
                 create_dashboard()  # Open the dashboard window
                 return
