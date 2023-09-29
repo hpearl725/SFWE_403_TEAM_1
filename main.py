@@ -16,8 +16,8 @@ def open_dashboard():
         reader = csv.reader(file)
         for row in reader:
             if row[0] == username and row[1] == password:
-                create_dashboard()  # Open the dashboard window
                 root.destroy()  # Close the login window
+                create_dashboard()  # Open the dashboard window
                 return
 
     messagebox.showerror("Login Failed", "Incorrect username or password")
