@@ -18,7 +18,7 @@ add_user_button = None
 
 
 # Function to open the new user window
-def open_new_user_window():
+def open_new_user_window(current_user_role):
     # Check if the current user is a manager
     if current_user_role != "manager":
         messagebox.showerror("Permission Denied", "Only managers can add new users.")
@@ -101,10 +101,10 @@ def hide_add_user_button():
         add_user_button.pack_forget()
 
 
-def show_add_user_button():
+def show_add_user_button(current_user_role):
     global add_user_button
     if add_user_button is None:
-        add_user_button = ttk.Button(frame, text="Add User", command=open_new_user_window)
+        add_user_button = ttk.Button(frame, text="Add User", command=lambda: open_new_user_window(current_user_role))
     add_user_button.pack(side="top", pady=10)
 
 
