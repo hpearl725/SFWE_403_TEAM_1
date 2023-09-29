@@ -4,6 +4,7 @@ from tkinter import messagebox
 import csv
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 
+
 # Function to handle the submit button click event
 def submit_user():
     # Get the values from the entry widgets
@@ -25,6 +26,7 @@ def submit_user():
         # Clear the entry widgets
         username_entry.delete(0, tk.END)
         password_entry.delete(0, tk.END)
+
 
 # Create the new user window
 new_user_window = tk.Tk()

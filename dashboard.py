@@ -16,9 +16,11 @@ users_tree = None
 frame = None
 add_user_button = None
 
+
 # Function to open the new user window
 def open_new_user_window():
     os.system('python new_user_window.py')
+
 
 # Create the dashboard window
 def create_dashboard():
@@ -59,11 +61,13 @@ def create_dashboard():
 
     dashboard.mainloop()
 
+
 def show_inventory_table():
     inventory_table.show_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     hide_add_user_button()
+
 
 def show_patients_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -71,11 +75,13 @@ def show_patients_table():
     users_table.hide_users_table(users_tree)
     hide_add_user_button()
 
+
 def show_users_table():
     inventory_table.hide_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.show_users_table(users_tree)
     hide_add_user_button()
+
 
 def show_user_button():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -83,16 +89,19 @@ def show_user_button():
     users_table.hide_users_table(users_tree)
     show_add_user_button()
 
+
 def hide_add_user_button():
     global add_user_button
     if add_user_button is not None:
         add_user_button.pack_forget()
+
 
 def show_add_user_button():
     global add_user_button
     if add_user_button is None:
         add_user_button = ttk.Button(frame, text="Add User", command=open_new_user_window)
     add_user_button.pack(side="top", pady=10)
+
 
 if __name__ == "__main__":
     create_dashboard()

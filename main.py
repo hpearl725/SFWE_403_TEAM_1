@@ -5,6 +5,7 @@ from tkinter import messagebox
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 from dashboard import create_dashboard
 
+
 # Function to validate the login credentials and open the dashboard
 def open_dashboard():
     username = username_entry.get()
@@ -20,6 +21,7 @@ def open_dashboard():
                 return
 
     messagebox.showerror("Login Failed", "Incorrect username or password")
+
 
 # Create the main login window
 root = tk.Tk()
@@ -55,7 +57,7 @@ login_button.pack()
 
 # Center the login window on the screen
 root.geometry("+%d+%d" % ((root.winfo_screenwidth() - root.winfo_reqwidth()) / 2,
-                            (root.winfo_screenheight() - root.winfo_reqheight()) / 2))
+                          (root.winfo_screenheight() - root.winfo_reqheight()) / 2))
 
 # Start the Tkinter main loop for the login page
 root.mainloop()
