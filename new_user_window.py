@@ -5,24 +5,31 @@ import csv
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 
 
+import secrets
+import string
+
+# Function to generate a random password
+def generate_password(length):
+    alphabet = string.ascii_letters + string.digits
+    password = ''.join(secrets.choice(alphabet) for i in range(length))
+    return password
+
 # Function to handle the submit button click event
 def submit_user():
     # Get the values from the entry widgets
     username = username_entry.get()
-    password = password_entry.get()
 
-    # Validate the values
-    if not username or not password:
-        messagebox.showerror("Error", "Please enter both username and password")
-    else:
-        # Append the values to the CSV file with a newline character
-        with open("credentials.csv", "a", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow([username, password])
+    # Generate a random password
+    password = generate_password(10)
 
-        # Show a success message and destroy the window
-        messagebox.showinfo("Success", "New user added successfully")
-        new_user_window.destroy()
+    # Append the values to the CSV file with a newline character
+    with open("credentials.csv", "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([username, password])
+
+    # Show a success message and destroy the window
+    messagebox.showinfo("Success", f"New user added successfully. The temporary password is {password}")
+    new_user_window.destroy()
 
 
 # Create the new user window
