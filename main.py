@@ -24,7 +24,7 @@ def open_dashboard():
                 current_user_role = row[3]
                 if row[2] == 'True':
                     new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
-                    rows[i] = [username, new_password, False]
+                    rows[i] = [username, new_password, False, current_user_role]
                     with open("credentials.csv", "w", newline="") as file:
                         writer = csv.writer(file)
                         writer.writerows(rows)
