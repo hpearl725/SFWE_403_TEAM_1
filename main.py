@@ -14,6 +14,7 @@ def open_dashboard():
 
     # Global variable to store the role of the current user
     global current_user_role
+    return current_user_role
 
     # Open the .csv file and search for the username and password
     with open("credentials.csv", "r") as file:

@@ -4,6 +4,7 @@ from tkinter import messagebox
 from ttkthemes import ThemedStyle
 import csv
 import os
+from main import current_user_role
 
 import inventory_table
 import patients_table
