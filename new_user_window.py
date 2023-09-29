@@ -4,15 +4,16 @@ from tkinter import messagebox
 import csv
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 
-
 import secrets
 import string
+
 
 # Function to generate a random password
 def generate_password(length):
     alphabet = string.ascii_letters + string.digits
     password = ''.join(secrets.choice(alphabet) for i in range(length))
     return password
+
 
 # Function to handle the submit button click event
 def submit_user():
