@@ -52,8 +52,6 @@ frame.pack(expand=True, fill="both")
 # Create a label and entry widgets for username and password
 username_label = ttk.Label(frame, text="Username:")
 username_entry = ttk.Entry(frame)
-password_label = ttk.Label(frame, text="Password:")
-password_entry = ttk.Entry(frame, show="*")
 
 # Create a submit button
 submit_button = ttk.Button(frame, text="Submit", command=submit_user)
@@ -61,9 +59,7 @@ submit_button = ttk.Button(frame, text="Submit", command=submit_user)
 # Use grid layout to arrange the widgets
 username_label.grid(row=0, column=0, padx=10, pady=5, sticky="e")
 username_entry.grid(row=0, column=1, padx=10, pady=5, columnspan=2, sticky="w")
-password_label.grid(row=1, column=0, padx=10, pady=5, sticky="e")
-password_entry.grid(row=1, column=1, padx=10, pady=5, columnspan=2, sticky="w")
-submit_button.grid(row=2, column=0, columnspan=3, padx=10, pady=10)
+submit_button.grid(row=1, column=0, columnspan=3, padx=10, pady=10)
 
 # Center the entry widgets in the window
 frame.grid_rowconfigure(0, weight=1)
