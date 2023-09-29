@@ -20,12 +20,9 @@ def submit_user():
             writer = csv.writer(file)
             writer.writerow([username, password])
 
-        # Show a success message
+        # Show a success message and destroy the window
         messagebox.showinfo("Success", "New user added successfully")
-
-        # Clear the entry widgets
-        username_entry.delete(0, tk.END)
-        password_entry.delete(0, tk.END)
+        new_user_window.destroy()
 
 
 # Create the new user window
