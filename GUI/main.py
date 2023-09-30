@@ -5,6 +5,7 @@ from tkinter import messagebox
 from tkinter import simpledialog
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 from dashboard import create_dashboard
+import os
 
 
 # Function to validate the login credentials and open the dashboard
@@ -16,7 +17,9 @@ def open_dashboard():
     global current_user_role
 
     # Open the .csv file and search for the username and password
-    with open("credentials.csv", "r") as file:
+    script_dir = os.path.dirname(__file__)  # get directory of the current script
+    credentials_path = os.path.join(script_dir, 'credentials.csv')  # construct path to credentials.csv
+    with open(credentials_path, "r") as file:
         reader = csv.reader(file)
         rows = list(reader)
         for i, row in enumerate(rows):
@@ -71,8 +74,9 @@ login_button.pack()
 root.geometry("+%d+%d" % ((root.winfo_screenwidth() - root.winfo_reqwidth()) / 2,
                           (root.winfo_screenheight() - root.winfo_reqheight()) / 2))
 
-# Start the Tkinter main loop for the login page
-root.mainloop()
+if __name__ == "__main__":
+    # Start the Tkinter main loop for the login page
+    root.mainloop()
 
 
 def current_user_role():
