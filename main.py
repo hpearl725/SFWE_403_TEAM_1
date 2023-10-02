@@ -4,8 +4,8 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkinter import simpledialog
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
-from dashboard import create_dashboard
-
+from GUI.dashboard import create_dashboard
+from logs.log import logger, event, events, log_obj
 
 def open_dashboard():
     """
@@ -39,6 +39,12 @@ def open_dashboard():
                         writer.writerows(rows)
                 root.destroy()  # Close the login window
                 create_dashboard(current_user_role)  # Open the dashboard window
+
+                # Log the login event
+                log = logger("logs\log.csv")
+                login_event = event("user_action", events.login.name, "User logged in")
+                log.log(log_obj(login_event, username))
+
                 return
 
     messagebox.showerror("Login Failed", "Incorrect username or password")
