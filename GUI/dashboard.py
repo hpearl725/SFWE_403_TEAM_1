@@ -16,12 +16,19 @@ users_tree = None
 frame = None
 add_user_button = None
 
+
 # Function to open the new user window
-def open_new_user_window():
+def open_new_user_window(current_user_role):
+    # Check if the current user is a manager
+    if current_user_role != "manager":
+        messagebox.showerror("Permission Denied", "Only managers can add new users.")
+        return
+
     os.system('python new_user_window.py')
 
+
 # Create the dashboard window
-def create_dashboard():
+def create_dashboard(current_user_role):
     global inventory_tree, patients_tree, users_tree, frame, add_user_button
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
@@ -43,7 +50,7 @@ def create_dashboard():
     inventory_button = ttk.Button(button_frame, text="Inventory", command=show_inventory_table)
     patients_button = ttk.Button(button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(button_frame, text="Users", command=show_users_table)
-    settings_button = ttk.Button(button_frame, text="Settings", command=show_user_button)
+    settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_user_button(current_user_role))
     exit_button = ttk.Button(frame, text="Exit", command=dashboard.quit)
 
     inventory_button.pack(side="left", padx=10)
@@ -59,11 +66,13 @@ def create_dashboard():
 
     dashboard.mainloop()
 
+
 def show_inventory_table():
     inventory_table.show_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     hide_add_user_button()
+
 
 def show_patients_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -71,28 +80,33 @@ def show_patients_table():
     users_table.hide_users_table(users_tree)
     hide_add_user_button()
 
+
 def show_users_table():
     inventory_table.hide_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.show_users_table(users_tree)
     hide_add_user_button()
 
-def show_user_button():
+
+def show_user_button(current_user_role):
     inventory_table.hide_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
-    show_add_user_button()
+    show_add_user_button(current_user_role)
+
 
 def hide_add_user_button():
     global add_user_button
     if add_user_button is not None:
         add_user_button.pack_forget()
 
-def show_add_user_button():
+
+def show_add_user_button(current_user_role):
     global add_user_button
     if add_user_button is None:
-        add_user_button = ttk.Button(frame, text="Add User", command=open_new_user_window)
+        add_user_button = ttk.Button(frame, text="Add User", command=lambda: open_new_user_window(current_user_role))
     add_user_button.pack(side="top", pady=10)
+
 
 if __name__ == "__main__":
     create_dashboard()
