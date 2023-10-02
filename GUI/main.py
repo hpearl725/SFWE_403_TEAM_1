@@ -7,8 +7,17 @@ from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 from dashboard import create_dashboard
 
 
-# Function to validate the login credentials and open the dashboard
 def open_dashboard():
+    """
+    Validate the login credentials and open the dashboard.
+
+    This function retrieves the username and password entered by the user,
+    checks them against the credentials stored in a CSV file, and opens the
+    dashboard if the credentials are valid. If the "change password" flag is
+    set for the user, it prompts the user to enter a new password.
+
+    :return: None
+    """
     username = username_entry.get()
     password = password_entry.get()
 
@@ -76,4 +85,12 @@ root.mainloop()
 
 
 def current_user_role():
+    """
+    Get the role of the current user.
+
+    This function returns the role of the current user, which is stored in the
+    global variable `current_user_role`.
+
+    :return: The role of the current user.
+    """
     return current_user_role
