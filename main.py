@@ -5,7 +5,7 @@ from tkinter import messagebox
 from tkinter import simpledialog
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 from GUI.dashboard import create_dashboard
-from logs.log import logger, event, events
+from logs.log import logger, event, events, log_obj
 
 def open_dashboard():
     """
@@ -42,7 +42,8 @@ def open_dashboard():
 
                 # Log the login event
                 log = logger("logs\log.csv")
-                log.log(log_obj(events.login, username))
+                login_event = event("user_action", events.login.name, "User logged in")
+                log.log(log_obj(login_event, username))
 
                 return
 

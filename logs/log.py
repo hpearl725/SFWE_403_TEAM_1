@@ -3,8 +3,8 @@
 # contains class logger, log_obj, and event
 from datetime import datetime
 from enum import Enum
-events = Enum('login', 'logout', 'create_user', 'delete_user',
-              'add_meds', 'remove_meds', 'add_rx', "remove_rx")
+events = Enum('Events', ['login', 'logout', 'create_user', 'delete_user',
+              'add_meds', 'remove_meds', 'add_rx', "remove_rx"])
 
 
 class logger:
