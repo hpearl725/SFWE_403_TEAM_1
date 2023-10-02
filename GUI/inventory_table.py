@@ -1,7 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 import csv
-from GUI.inventory import read_inventory
+
+# from GUI.inventory import read_inventory
+# Uncomment these when building sphinx
+from inventory import read_inventory
 
 # This function create_inventory_table is part of this module.
 def create_inventory_table(frame):

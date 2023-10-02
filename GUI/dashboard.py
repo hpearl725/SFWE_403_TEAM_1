@@ -4,9 +4,14 @@ from tkinter import messagebox
 from ttkthemes import ThemedStyle
 import csv
 import os
-import GUI.inventory_table
-import GUI.patients_table
-import GUI.users_table
+
+# import GUI.inventory_table
+# import GUI.patients_table
+# import GUI.users_table
+# Uncomment these when building sphinx
+import inventory_table
+import patients_table
+import users_table
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -14,18 +19,6 @@ patients_tree = None
 users_tree = None
 frame = None
 add_user_button = None
-
-
-# Function to open the new user window
-# This function open_new_user_window is part of this module.
-def open_new_user_window(current_user_role):
-    # Check if the current user is a manager
-    if current_user_role != "manager":
-        messagebox.showerror("Permission Denied", "Only managers can add new users.")
-        return
-
-    os.system('python new_user_window.py')
-
 
 # Create the dashboard window
 # This function create_dashboard is part of this module.
@@ -66,6 +59,17 @@ def create_dashboard(current_user_role):
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
 
     dashboard.mainloop()
+
+
+# Function to open the new user window
+# This function open_new_user_window is part of this module.
+def open_new_user_window(current_user_role):
+    # Check if the current user is a manager
+    if current_user_role != "manager":
+        messagebox.showerror("Permission Denied", "Only managers can add new users.")
+        return
+
+    os.system('python new_user_window.py')
 
 
 # This function show_inventory_table is part of this module.
@@ -116,4 +120,4 @@ def show_add_user_button(current_user_role):
 
 
 if __name__ == "__main__":
-    create_dashboard()
+    create_dashboard("manager")
