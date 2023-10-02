@@ -1,33 +1,24 @@
+import tkinter as tk
 from tkinter import ttk
 
-from inventory import FIELDNAMES, read_inventory, write_inventory
-
-# Function to create the Inventory table
 def create_inventory_table(frame):
-    # Create a Treeview widget for the Inventory table (hidden initially)
-    inventory_tree = ttk.Treeview(frame, columns=FIELDNAMES, show="headings")
+    inventory_tree = ttk.Treeview(frame)
+    inventory_tree["columns"] = ("name", "quantity", "price")
 
-    # set inventory column widths so that all columns will fit in the frame
-    # also define the column headings for the table from fieldnames
-    for name in FIELDNAMES:
-        inventory_tree.column(name, width=100)
-        inventory_tree.heading(name, text=name)
-    
-    # read inventory from csv and store as dictionary
-    inventory_dictionary = read_inventory("inventory.csv")
+    inventory_tree.column("#0", width=0, stretch=tk.NO)
+    inventory_tree.column("name", anchor=tk.W, width=200)
+    inventory_tree.column("quantity", anchor=tk.CENTER, width=100)
+    inventory_tree.column("price", anchor=tk.E, width=100)
 
-    # insert each product's information into table
-    for product in inventory_dictionary.values():
-        inventory_tree.insert("", "end", values = tuple(product.values()))
+    inventory_tree.heading("#0", text="", anchor=tk.W)
+    inventory_tree.heading("name", text="Name", anchor=tk.W)
+    inventory_tree.heading("quantity", text="Quantity", anchor=tk.CENTER)
+    inventory_tree.heading("price", text="Price", anchor=tk.E)
 
     return inventory_tree
 
-
-# Function to show the Inventory table
 def show_inventory_table(inventory_tree):
     inventory_tree.pack()
 
-
-# Function to hide the Inventory table
 def hide_inventory_table(inventory_tree):
     inventory_tree.pack_forget()
