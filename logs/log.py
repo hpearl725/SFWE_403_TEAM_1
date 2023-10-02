@@ -11,8 +11,7 @@ class logger:
     # constructor
     def __init__(self, filename):
         # open a file for writing in append mode
-        assert (filename != None and filename != "",
-                "filename cannot be None or empty")
+        assert filename != None and filename != "", "filename cannot be None or empty"
         self.log_file = open(filename, 'a')
     # destructor
 
@@ -21,7 +20,7 @@ class logger:
 
     def log(self, log):
         # write msg to the file
-        assert (type(log) == log_obj)
+        assert type(log) == log_obj
         self.log_file.write(log.write())
         self.log_file.write('\n')  # Add a line break after each entry
         return
