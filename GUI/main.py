@@ -25,7 +25,7 @@ def open_dashboard():
     global current_user_role
 
     # Open the .csv file and search for the username and password
-    with open("credentials.csv", "r") as file:
+    with open("GUI\credentials.csv", "r") as file:
         reader = csv.reader(file)
         rows = list(reader)
         for i, row in enumerate(rows):
