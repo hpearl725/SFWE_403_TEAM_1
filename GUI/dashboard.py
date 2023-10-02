@@ -20,9 +20,17 @@ users_tree = None
 frame = None
 add_user_button = None
 
-# Create the dashboard window
-# This function create_dashboard is part of this module.
+"""
+This module contains the dashboard of the application.
+"""
+
 def create_dashboard(current_user_role):
+    """
+    Creates the dashboard window.
+
+    :param current_user_role: The role of the current user.
+    :type current_user_role: str
+    """
     global inventory_tree, patients_tree, users_tree, frame, add_user_button
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
@@ -61,9 +69,13 @@ def create_dashboard(current_user_role):
     dashboard.mainloop()
 
 
-# Function to open the new user window
-# This function open_new_user_window is part of this module.
 def open_new_user_window(current_user_role):
+    """
+    Opens the new user window.
+
+    :param current_user_role: The role of the current user.
+    :type current_user_role: str
+    """
     # Check if the current user is a manager
     if current_user_role != "manager":
         messagebox.showerror("Permission Denied", "Only managers can add new users.")
