@@ -4,10 +4,9 @@ from tkinter import messagebox
 from ttkthemes import ThemedStyle
 import csv
 import os
-
-import inventory_table
-import patients_table
-import users_table
+import GUI.inventory_table
+import GUI.patients_table
+import GUI.users_table
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -58,9 +57,9 @@ def create_dashboard(current_user_role):
     users_button.pack(side="left", padx=10)
     settings_button.pack(side="left", padx=10)
 
-    inventory_tree = inventory_table.create_inventory_table(frame)
-    patients_tree = patients_table.create_patients_table(frame)
-    users_tree = users_table.create_users_table(frame)
+    inventory_tree = GUI.inventory_table.create_inventory_table(frame)
+    patients_tree = GUI.patients_table.create_patients_table(frame)
+    users_tree = GUI.users_table.create_users_table(frame)
 
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
 
@@ -68,30 +67,30 @@ def create_dashboard(current_user_role):
 
 
 def show_inventory_table():
-    inventory_table.show_inventory_table(inventory_tree)
-    patients_table.hide_patients_table(patients_tree)
-    users_table.hide_users_table(users_tree)
+    GUI.inventory_table.show_inventory_table(inventory_tree)
+    GUI.patients_table.hide_patients_table(patients_tree)
+    GUI.users_table.hide_users_table(users_tree)
     hide_add_user_button()
 
 
 def show_patients_table():
-    inventory_table.hide_inventory_table(inventory_tree)
-    patients_table.show_patients_table(patients_tree)
-    users_table.hide_users_table(users_tree)
+    GUI.inventory_table.hide_inventory_table(inventory_tree)
+    GUI.patients_table.show_patients_table(patients_tree)
+    GUI.users_table.hide_users_table(users_tree)
     hide_add_user_button()
 
 
 def show_users_table():
-    inventory_table.hide_inventory_table(inventory_tree)
-    patients_table.hide_patients_table(patients_tree)
-    users_table.show_users_table(users_tree)
+    GUI.inventory_table.hide_inventory_table(inventory_tree)
+    GUI.patients_table.hide_patients_table(patients_tree)
+    GUI.users_table.show_users_table(users_tree)
     hide_add_user_button()
 
 
 def show_user_button(current_user_role):
-    inventory_table.hide_inventory_table(inventory_tree)
-    patients_table.hide_patients_table(patients_tree)
-    users_table.hide_users_table(users_tree)
+    GUI.inventory_table.hide_inventory_table(inventory_tree)
+    GUI.patients_table.hide_patients_table(patients_tree)
+    GUI.users_table.hide_users_table(users_tree)
     show_add_user_button(current_user_role)
 
 

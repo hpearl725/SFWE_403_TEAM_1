@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import csv
-from inventory import read_inventory
+from GUI.inventory import read_inventory
 
 def create_inventory_table(frame):
     inventory_tree = ttk.Treeview(frame)
