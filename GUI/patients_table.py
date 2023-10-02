@@ -1,5 +1,6 @@
 from tkinter import ttk
 
+
 # Function to create the Patients table
 def create_patients_table(frame):
     # Create a Treeview widget for the Patients table (hidden initially)
@@ -18,9 +19,11 @@ def create_patients_table(frame):
 
     return patients_tree
 
+
 # Function to show the Patients table
 def show_patients_table(patients_tree):
     patients_tree.pack()
+
 
 # Function to hide the Patients table
 def hide_patients_table(patients_tree):

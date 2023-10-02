@@ -22,9 +22,11 @@ def create_inventory_table(frame):
 
     return inventory_tree
 
+
 # Function to show the Inventory table
 def show_inventory_table(inventory_tree):
     inventory_tree.pack()
+
 
 # Function to hide the Inventory table
 def hide_inventory_table(inventory_tree):
