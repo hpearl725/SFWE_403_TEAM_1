@@ -2,6 +2,7 @@ from tkinter import ttk
 
 
 # Function to create the Patients table
+# This function create_patients_table is part of this module.
 def create_patients_table(frame):
     # Create a Treeview widget for the Patients table (hidden initially)
     patients_tree = ttk.Treeview(frame, columns=("Name", "Phone"), show="headings")
@@ -21,10 +22,12 @@ def create_patients_table(frame):
 
 
 # Function to show the Patients table
+# This function show_patients_table is part of this module.
 def show_patients_table(patients_tree):
     patients_tree.pack()
 
 
 # Function to hide the Patients table
+# This function hide_patients_table is part of this module.
 def hide_patients_table(patients_tree):
     patients_tree.pack_forget()

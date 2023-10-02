@@ -17,6 +17,7 @@ add_user_button = None
 
 
 # Function to open the new user window
+# This function open_new_user_window is part of this module.
 def open_new_user_window(current_user_role):
     # Check if the current user is a manager
     if current_user_role != "manager":
@@ -27,6 +28,7 @@ def open_new_user_window(current_user_role):
 
 
 # Create the dashboard window
+# This function create_dashboard is part of this module.
 def create_dashboard(current_user_role):
     global inventory_tree, patients_tree, users_tree, frame, add_user_button
     dashboard = tk.Tk()
@@ -66,6 +68,7 @@ def create_dashboard(current_user_role):
     dashboard.mainloop()
 
 
+# This function show_inventory_table is part of this module.
 def show_inventory_table():
     GUI.inventory_table.show_inventory_table(inventory_tree)
     GUI.patients_table.hide_patients_table(patients_tree)
@@ -73,6 +76,7 @@ def show_inventory_table():
     hide_add_user_button()
 
 
+# This function show_patients_table is part of this module.
 def show_patients_table():
     GUI.inventory_table.hide_inventory_table(inventory_tree)
     GUI.patients_table.show_patients_table(patients_tree)
@@ -80,6 +84,7 @@ def show_patients_table():
     hide_add_user_button()
 
 
+# This function show_users_table is part of this module.
 def show_users_table():
     GUI.inventory_table.hide_inventory_table(inventory_tree)
     GUI.patients_table.hide_patients_table(patients_tree)
@@ -87,6 +92,7 @@ def show_users_table():
     hide_add_user_button()
 
 
+# This function show_user_button is part of this module.
 def show_user_button(current_user_role):
     GUI.inventory_table.hide_inventory_table(inventory_tree)
     GUI.patients_table.hide_patients_table(patients_tree)
@@ -94,12 +100,14 @@ def show_user_button(current_user_role):
     show_add_user_button(current_user_role)
 
 
+# This function hide_add_user_button is part of this module.
 def hide_add_user_button():
     global add_user_button
     if add_user_button is not None:
         add_user_button.pack_forget()
 
 
+# This function show_add_user_button is part of this module.
 def show_add_user_button(current_user_role):
     global add_user_button
     if add_user_button is None:

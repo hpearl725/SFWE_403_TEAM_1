@@ -9,6 +9,7 @@ import string
 
 
 # Function to generate a random password
+# This function generate_password is part of this module.
 def generate_password(length):
     alphabet = string.ascii_letters + string.digits
     password = ''.join(secrets.choice(alphabet) for i in range(length))
@@ -16,6 +17,7 @@ def generate_password(length):
 
 
 # Function to handle the submit button click event
+# This function submit_user is part of this module.
 def submit_user():
     # Get the values from the entry widgets
     username = username_entry.get()

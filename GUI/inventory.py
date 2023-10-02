@@ -3,6 +3,7 @@ import csv
 # define csv header to use to read/write/display inventory
 FIELDNAMES = ["ID_number", "product_name","in_stock","date_added","date_expires","is_expired", "price"]
 
+# This function read_inventory is part of this module.
 def read_inventory(filename):
     inventory_dict = {}
     with open(filename, mode='r', newline='', encoding='utf-8') as csv_file:
@@ -12,6 +13,7 @@ def read_inventory(filename):
     return inventory_dict
 
 
+# This function write_inventory is part of this module.
 def write_inventory(filename, inventory_dict):
     with open(filename, mode='w', newline='', encoding='utf-8') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=FIELDNAMES)

@@ -2,6 +2,7 @@ from tkinter import ttk
 
 
 # Function to create the Users table
+# This function create_users_table is part of this module.
 def create_users_table(frame):
     # Create a Treeview widget for the Users table (hidden initially)
     users_tree = ttk.Treeview(frame, columns=("Username", "Role"), show="headings")
@@ -19,10 +20,12 @@ def create_users_table(frame):
 
 
 # Function to show the Users table
+# This function show_users_table is part of this module.
 def show_users_table(users_tree):
     users_tree.pack()
 
 
 # Function to hide the Users table
+# This function hide_users_table is part of this module.
 def hide_users_table(users_tree):
     users_tree.pack_forget()
