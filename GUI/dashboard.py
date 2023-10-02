@@ -5,13 +5,13 @@ from ttkthemes import ThemedStyle
 import csv
 import os
 
-# import GUI.inventory_table
-# import GUI.patients_table
-# import GUI.users_table
+import GUI.inventory_table
+import GUI.patients_table
+import GUI.users_table
 # Uncomment these when building sphinx
-import inventory_table
-import patients_table
-import users_table
+# import inventory_table
+# import patients_table
+# import users_table
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None

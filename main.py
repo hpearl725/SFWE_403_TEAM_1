@@ -86,8 +86,9 @@ login_button.pack()
 root.geometry("+%d+%d" % ((root.winfo_screenwidth() - root.winfo_reqwidth()) / 2,
                           (root.winfo_screenheight() - root.winfo_reqheight()) / 2))
 
-# Start the Tkinter main loop for the login page
-root.mainloop()
+if __name__ == "__main__":
+    # Start the Tkinter main loop for the login page
+    root.mainloop()
 
 
 def current_user_role():
