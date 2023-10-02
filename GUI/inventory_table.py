@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import csv
 
 def create_inventory_table(frame):
     inventory_tree = ttk.Treeview(frame)
@@ -18,7 +19,25 @@ def create_inventory_table(frame):
     return inventory_tree
 
 def show_inventory_table(inventory_tree):
+    inventory_tree.delete(*inventory_tree.get_children())  # Clear existing rows
+
+    inventory_dict = read_inventory("GUI/inventory.csv")
+
+    for row in inventory_dict.values():
+        name = row["product_name"]
+        quantity = row["in_stock"]
+        price = row["price"]
+        inventory_tree.insert("", tk.END, values=(name, quantity, price))
+
     inventory_tree.pack()
 
 def hide_inventory_table(inventory_tree):
     inventory_tree.pack_forget()
+
+def read_inventory(filename):
+    inventory_dict = {}
+    with open(filename, mode='r', newline='', encoding='utf-8') as csv_file:
+        reader = csv.DictReader(csv_file)
+        for row in reader:
+            inventory_dict[row["ID_number"]] = row
+    return inventory_dict

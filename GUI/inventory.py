@@ -1,9 +1,9 @@
 import csv
 
 # define csv header to use to read/write/display inventory
-FIELDNAMES = ["ID_number", "product_name","in_stock","date_added","date_expires","is_expired"]
+FIELDNAMES = ["ID_number", "product_name","in_stock","date_added","date_expires","is_expired", "price"]
 
-def read_inventory(filename : str)-> dict: 
+def read_inventory(filename):
     inventory_dict = {}
     with open(filename, mode='r', newline='', encoding='utf-8') as csv_file:
         reader = csv.DictReader(csv_file)
@@ -12,7 +12,7 @@ def read_inventory(filename : str)-> dict:
     return inventory_dict
 
 
-def write_inventory(filename : str, inventory_dict : dict)-> None: 
+def write_inventory(filename, inventory_dict):
     with open(filename, mode='w', newline='', encoding='utf-8') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=FIELDNAMES)
         writer.writeheader()
