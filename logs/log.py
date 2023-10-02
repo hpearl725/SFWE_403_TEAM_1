@@ -23,6 +23,7 @@ class logger:
         # write msg to the file
         assert (type(log) == log_obj)
         self.log_file.write(log.write())
+        self.log_file.write('\n')  # Add a line break after each entry
         return
 
 

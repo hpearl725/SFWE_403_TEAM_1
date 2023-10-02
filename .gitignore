@@ -10,3 +10,4 @@ __pycache__
 /dataSources.local.xml
 .idea
 *.aider*
+.aider*
