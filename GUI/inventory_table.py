@@ -1,27 +1,36 @@
+import tkinter as tk
 from tkinter import ttk
+import csv
+from inventory import read_inventory
 
-
-# Function to create the Inventory table
 def create_inventory_table(frame):
-    # Create a Treeview widget for the Inventory table (hidden initially)
-    inventory_tree = ttk.Treeview(frame, columns=("Item", "Qty"), show="headings")
+    inventory_tree = ttk.Treeview(frame)
+    inventory_tree["columns"] = ("name", "quantity", "price")
 
-    # Define column headings for Inventory
-    inventory_tree.heading("Item", text="Item")
-    inventory_tree.heading("Qty", text="Qty")
+    inventory_tree.column("#0", width=0, stretch=tk.NO)
+    inventory_tree.column("name", anchor=tk.W, width=200)
+    inventory_tree.column("quantity", anchor=tk.CENTER, width=100)
+    inventory_tree.column("price", anchor=tk.E, width=100)
 
-    # Insert data into the Inventory table (hidden initially)
-    inventory_tree.insert("", "end", values=("Medicine 1", "2"))
-    inventory_tree.insert("", "end", values=("Medicine 2", "2"))
+    inventory_tree.heading("#0", text="", anchor=tk.W)
+    inventory_tree.heading("name", text="Name", anchor=tk.W)
+    inventory_tree.heading("quantity", text="Quantity", anchor=tk.CENTER)
+    inventory_tree.heading("price", text="Price", anchor=tk.E)
 
     return inventory_tree
 
-
-# Function to show the Inventory table
 def show_inventory_table(inventory_tree):
+    inventory_tree.delete(*inventory_tree.get_children())  # Clear existing rows
+
+    inventory_dict = read_inventory("GUI/inventory.csv")
+
+    for row in inventory_dict.values():
+        name = row["product_name"]
+        quantity = row["in_stock"]
+        price = row["price"]
+        inventory_tree.insert("", tk.END, values=(name, quantity, price))
+
     inventory_tree.pack()
 
-
-# Function to hide the Inventory table
 def hide_inventory_table(inventory_tree):
     inventory_tree.pack_forget()
