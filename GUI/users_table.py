@@ -1,5 +1,6 @@
 from tkinter import ttk
 
+
 # Function to create the Users table
 def create_users_table(frame):
     # Create a Treeview widget for the Users table (hidden initially)
@@ -16,9 +17,11 @@ def create_users_table(frame):
 
     return users_tree
 
+
 # Function to show the Users table
 def show_users_table(users_tree):
     users_tree.pack()
+
 
 # Function to hide the Users table
 def hide_users_table(users_tree):
