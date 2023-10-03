@@ -2,7 +2,11 @@ import unittest
 from unittest.mock import patch, MagicMock
 import main
 
+
 class TestMain(unittest.TestCase):
+    """
+    This class contains unit tests for the main module.
+    """
 
     def setUp(self):
         # Mock the username and password Entry widgets
@@ -13,6 +17,9 @@ class TestMain(unittest.TestCase):
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
     def test_open_dashboard(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+        """
+        Test the open_dashboard function with incorrect credentials.
+        """
         # Set the username and password to an incorrect value
         main.username_entry.get.return_value = 'a'
         main.password_entry.get.return_value = '2'
@@ -30,6 +37,9 @@ class TestMain(unittest.TestCase):
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
     def test_open_dashboard_blank_password(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+        """
+        Test the open_dashboard function with a blank password.
+        """
         # Set the username to a correct value and password to blank
         main.username_entry.get.return_value = 'a'
         main.password_entry.get.return_value = ''
@@ -47,6 +57,9 @@ class TestMain(unittest.TestCase):
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
     def test_open_dashboard_blank_username(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+        """
+        Test the open_dashboard function with a blank username.
+        """
         # Set the username to blank and password to a correct value
         main.username_entry.get.return_value = ''
         main.password_entry.get.return_value = '1'
@@ -64,6 +77,9 @@ class TestMain(unittest.TestCase):
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
     def test_open_dashboard_blank_username_and_password(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+        """
+        Test the open_dashboard function with blank username and password.
+        """
         # Set the username and password to blank
         main.username_entry.get.return_value = ''
         main.password_entry.get.return_value = ''
@@ -81,6 +97,9 @@ class TestMain(unittest.TestCase):
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
     def test_open_dashboard_correct_credentials(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+        """
+        Test the open_dashboard function with correct credentials.
+        """
         # Set the username and password to correct values
         main.username_entry.get.return_value = 'a'
         main.password_entry.get.return_value = '1'

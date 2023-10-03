@@ -3,8 +3,15 @@ import csv
 # define csv header to use to read/write/display inventory
 FIELDNAMES = ["ID_number", "product_name","in_stock","date_added","date_expires","is_expired", "price"]
 
-# This function read_inventory is part of this module.
 def read_inventory(filename):
+    """
+    This function reads the inventory data from a CSV file and returns it as a dictionary.
+
+    :param filename: The path to the CSV file.
+    :type filename: str
+    :return: The inventory data as a dictionary.
+    :rtype: dict
+    """
     inventory_dict = {}
     with open(filename, mode='r', newline='', encoding='utf-8') as csv_file:
         reader = csv.DictReader(csv_file)
@@ -13,8 +20,15 @@ def read_inventory(filename):
     return inventory_dict
 
 
-# This function write_inventory is part of this module.
 def write_inventory(filename, inventory_dict):
+    """
+    This function writes the inventory data to a CSV file.
+
+    :param filename: The path to the CSV file.
+    :type filename: str
+    :param inventory_dict: The inventory data as a dictionary.
+    :type inventory_dict: dict
+    """
     with open(filename, mode='w', newline='', encoding='utf-8') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=FIELDNAMES)
         writer.writeheader()
@@ -30,7 +44,8 @@ def write_inventory(filename, inventory_dict):
 #                    "in_stock" : "15",
 #                    "date_added" : "2023/9/27",
 #                    "date_expires" : "2024/9/24",
-#                    "is_expired" : "false"}
+#                    "is_expired" : "false",
+#                    "price" : "12.99"}
 
 # # example of modifying product attribute
 # inventory["1"]["in_stock"] = "17"

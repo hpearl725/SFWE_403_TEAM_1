@@ -11,6 +11,14 @@ import string
 # Function to generate a random password
 # This function generate_password is part of this module.
 def generate_password(length):
+    """
+    This function generates a random password.
+
+    :param length: The length of the password.
+    :type length: int
+    :return: The generated password.
+    :rtype: str
+    """
     alphabet = string.ascii_letters + string.digits
     password = ''.join(secrets.choice(alphabet) for i in range(length))
     return password
@@ -19,6 +27,12 @@ def generate_password(length):
 # Function to handle the submit button click event
 # This function submit_user is part of this module.
 def submit_user():
+    """
+    This function handles the submit button click event.
+
+    It gets the values from the entry widgets, generates a random password,
+    appends the values to the CSV file, shows a success message, and destroys the window.
+    """
     # Get the values from the entry widgets
     username = username_entry.get()
 

@@ -6,8 +6,15 @@ from GUI.inventory import read_inventory
 # Uncomment these when building sphinx
 # from inventory import read_inventory
 
-# This function create_inventory_table is part of this module.
 def create_inventory_table(frame):
+    """
+    This function creates an inventory table using a Treeview widget.
+
+    :param frame: The parent frame to which the inventory table will be added.
+    :type frame: tk.Frame
+    :return: The created inventory table.
+    :rtype: ttk.Treeview
+    """
     inventory_tree = ttk.Treeview(frame)
     inventory_tree["columns"] = ("name", "quantity", "price")
 
@@ -23,8 +30,13 @@ def create_inventory_table(frame):
 
     return inventory_tree
 
-# This function show_inventory_table is part of this module.
 def show_inventory_table(inventory_tree):
+    """
+    This function populates the inventory table with data from a CSV file.
+
+    :param inventory_tree: The inventory table to be populated.
+    :type inventory_tree: ttk.Treeview
+    """
     inventory_tree.delete(*inventory_tree.get_children())  # Clear existing rows
 
     inventory_dict = read_inventory("GUI/inventory.csv")
@@ -37,6 +49,11 @@ def show_inventory_table(inventory_tree):
 
     inventory_tree.pack()
 
-# This function hide_inventory_table is part of this module.
 def hide_inventory_table(inventory_tree):
+    """
+    This function hides the inventory table.
+
+    :param inventory_tree: The inventory table to be hidden.
+    :type inventory_tree: ttk.Treeview
+    """
     inventory_tree.pack_forget()
