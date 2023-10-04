@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 import csv
@@ -5,6 +6,7 @@ import csv
 from GUI.inventory import read_inventory
 # Uncomment these when building sphinx
 # from inventory import read_inventory
+
 
 def create_inventory_table(frame):
     """
@@ -30,6 +32,7 @@ def create_inventory_table(frame):
 
     return inventory_tree
 
+
 def show_inventory_table(inventory_tree):
     """
     This function populates the inventory table with data from a CSV file.
@@ -39,7 +42,8 @@ def show_inventory_table(inventory_tree):
     """
     inventory_tree.delete(*inventory_tree.get_children())  # Clear existing rows
 
-    inventory_dict = read_inventory("GUI/inventory.csv")
+    inventory_path = os.path.join('GUI', 'inventory.csv')
+    inventory_dict = read_inventory(inventory_path)
 
     for row in inventory_dict.values():
         name = row["product_name"]
@@ -48,6 +52,7 @@ def show_inventory_table(inventory_tree):
         inventory_tree.insert("", tk.END, values=(name, quantity, price))
 
     inventory_tree.pack()
+
 
 def hide_inventory_table(inventory_tree):
     """

@@ -68,6 +68,8 @@ def create_dashboard(current_user_role):
 
     dashboard.mainloop()
 
+    os.system('python GUI/new_user_window.py')
+
 
 def open_new_user_window(current_user_role):
     """
