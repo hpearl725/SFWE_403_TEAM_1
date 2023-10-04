@@ -4,7 +4,7 @@ from tkinter import messagebox
 from ttkthemes import ThemedStyle
 import csv
 import os
-
+import GUI.new_user_window
 import GUI.inventory_table
 import GUI.patients_table
 import GUI.users_table
@@ -80,8 +80,8 @@ def open_new_user_window(current_user_role):
     if current_user_role != "manager":
         messagebox.showerror("Permission Denied", "Only managers can add new users.")
         return
-
-    os.system('python new_user_window.py')
+    
+    GUI.new_user_window.create_new_user_window()
 
 
 # This function show_inventory_table is part of this module.
