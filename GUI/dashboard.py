@@ -141,6 +141,7 @@ def hide_add_user_button():
 
 # This function show_add_user_button is part of this module.
 def show_add_user_button(current_user_role):
+    print(f"Current user role: {current_user_role}")  # Add this line for debugging
     hide_inventory_table()
     hide_users_table()
     hide_patients_table()
