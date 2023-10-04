@@ -14,3 +14,4 @@ __pycache__
 *.orig
 logs/log.csv
 credentials.csv
+logs/log.csv
