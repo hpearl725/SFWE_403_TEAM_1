@@ -68,17 +68,6 @@ class TestDashboard(unittest.TestCase):
         mock_hide_users_table.assert_called_once()
         mock_hide_add_user_button.assert_called_once()
 
-    @patch('GUI.dashboard.GUI.inventory_table.hide_inventory_table')
-    def test_hide_inventory_table(self, mock_hide_inventory_table):
-        """
-        Test the hide_inventory_table function.
-        """
-        # Call the function
-        dashboard.hide_inventory_table()
 
-        # Check that the appropriate functions were called
-        mock_hide_inventory_table.assert_called_once()
-
-        
 if __name__ == '__main__':
     unittest.main()

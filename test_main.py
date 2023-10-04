@@ -16,7 +16,8 @@ class TestMain(unittest.TestCase):
     @patch('main.root.mainloop')
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
-    def test_open_dashboard(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+    @patch('main.create_authorization_page')
+    def test_open_dashboard(self, mock_create_authorization_page, mock_create_dashboard, mock_showerror, mock_mainloop):
         """
         Test the open_dashboard function with incorrect credentials.
         """
@@ -36,7 +37,8 @@ class TestMain(unittest.TestCase):
     @patch('main.root.mainloop')
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
-    def test_open_dashboard_blank_password(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+    @patch('main.create_authorization_page')
+    def test_open_dashboard_blank_password(self, mock_create_authorization_page, mock_create_dashboard, mock_showerror, mock_mainloop):
         """
         Test the open_dashboard function with a blank password.
         """
@@ -56,7 +58,8 @@ class TestMain(unittest.TestCase):
     @patch('main.root.mainloop')
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
-    def test_open_dashboard_blank_username(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+    @patch('main.create_authorization_page')
+    def test_open_dashboard_blank_username(self, mock_create_authorization_page, mock_create_dashboard, mock_showerror, mock_mainloop):
         """
         Test the open_dashboard function with a blank username.
         """
@@ -76,7 +79,8 @@ class TestMain(unittest.TestCase):
     @patch('main.root.mainloop')
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
-    def test_open_dashboard_blank_username_and_password(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+    @patch('main.create_authorization_page')
+    def test_open_dashboard_blank_username_and_password(self, mock_create_authorization_page, mock_create_dashboard, mock_showerror, mock_mainloop):
         """
         Test the open_dashboard function with blank username and password.
         """
@@ -96,7 +100,8 @@ class TestMain(unittest.TestCase):
     @patch('main.root.mainloop')
     @patch('main.messagebox.showerror')
     @patch('main.create_dashboard')
-    def test_open_dashboard_correct_credentials(self, mock_create_dashboard, mock_showerror, mock_mainloop):
+    @patch('main.create_authorization_page')
+    def test_open_dashboard_correct_credentials(self, mock_create_authorization_page, mock_create_dashboard, mock_showerror, mock_mainloop):
         """
         Test the open_dashboard function with correct credentials.
         """
