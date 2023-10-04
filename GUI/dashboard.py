@@ -69,6 +69,17 @@ def create_dashboard(current_user_role):
     dashboard.mainloop()
 
 
+def can_open_new_user_window(current_user_role):
+    """
+    Checks if the new user window can be opened.
+
+    :param current_user_role: The role of the current user.
+    :type current_user_role: str
+    :return: True if the current user is a manager, False otherwise.
+    :rtype: bool
+    """
+    return current_user_role == "manager"
+
 def open_new_user_window(current_user_role):
     """
     Opens the new user window.
@@ -76,8 +87,7 @@ def open_new_user_window(current_user_role):
     :param current_user_role: The role of the current user.
     :type current_user_role: str
     """
-    # Check if the current user is a manager
-    if current_user_role != "manager":
+    if not can_open_new_user_window(current_user_role):
         messagebox.showerror("Permission Denied", "Only managers can add new users.")
         return
     

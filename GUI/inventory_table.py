@@ -32,6 +32,7 @@ def create_inventory_table(frame):
 
     return inventory_tree
 
+
 def show_inventory_table(inventory_tree):
     """
     This function populates the inventory table with data from a CSV file.
