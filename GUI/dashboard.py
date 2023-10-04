@@ -52,7 +52,7 @@ def create_dashboard(current_user_role):
     inventory_button = ttk.Button(button_frame, text="Inventory", command=show_inventory_table)
     patients_button = ttk.Button(button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(button_frame, text="Users", command=show_users_table)
-    settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_user_button(current_user_role))
+    settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_add_user_button(current_user_role))
     exit_button = ttk.Button(frame, text="Exit", command=dashboard.quit)
 
     inventory_button.pack(side="left", padx=10)
@@ -71,6 +71,17 @@ def create_dashboard(current_user_role):
     os.system('python GUI/new_user_window.py')
 
 
+def can_open_new_user_window(current_user_role):
+    """
+    Checks if the new user window can be opened.
+
+    :param current_user_role: The role of the current user.
+    :type current_user_role: str
+    :return: True if the current user is a manager, False otherwise.
+    :rtype: bool
+    """
+    return current_user_role == "manager"
+
 def open_new_user_window(current_user_role):
     """
     Opens the new user window.
@@ -78,8 +89,7 @@ def open_new_user_window(current_user_role):
     :param current_user_role: The role of the current user.
     :type current_user_role: str
     """
-    # Check if the current user is a manager
-    if current_user_role != "manager":
+    if not can_open_new_user_window(current_user_role):
         messagebox.showerror("Permission Denied", "Only managers can add new users.")
         return
 
@@ -89,22 +99,22 @@ def open_new_user_window(current_user_role):
 # This function show_inventory_table is part of this module.
 def show_inventory_table():
     GUI.inventory_table.show_inventory_table(inventory_tree)
-    GUI.patients_table.hide_patients_table(patients_tree)
-    GUI.users_table.hide_users_table(users_tree)
+    hide_patients_table()
+    hide_users_table()
     hide_add_user_button()
 
 
 # This function show_patients_table is part of this module.
 def show_patients_table():
-    GUI.inventory_table.hide_inventory_table(inventory_tree)
+    hide_inventory_table()
     GUI.patients_table.show_patients_table(patients_tree)
-    GUI.users_table.hide_users_table(users_tree)
+    hide_users_table()
     hide_add_user_button()
 
 
 # This function show_users_table is part of this module.
 def show_users_table():
-    GUI.inventory_table.hide_inventory_table(inventory_tree)
+    hide_inventory_table()
     hide_patients_table()
     GUI.users_table.show_users_table(users_tree)
     hide_add_user_button()
@@ -112,14 +122,6 @@ def show_users_table():
 
 def hide_patients_table():
     GUI.patients_table.hide_patients_table(patients_tree)
-
-
-# This function show_user_button is part of this module.
-def show_user_button(current_user_role):
-    hide_inventory_table()
-    GUI.patients_table.hide_patients_table(patients_tree)
-    hide_users_table()
-    show_add_user_button(current_user_role)
 
 
 def hide_inventory_table():
@@ -139,6 +141,9 @@ def hide_add_user_button():
 
 # This function show_add_user_button is part of this module.
 def show_add_user_button(current_user_role):
+    hide_inventory_table()
+    hide_users_table()
+    hide_patients_table()
     global add_user_button
     if add_user_button is None:
         add_user_button = ttk.Button(frame, text="Add User", command=lambda: open_new_user_window(current_user_role))
