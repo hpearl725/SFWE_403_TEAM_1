@@ -26,7 +26,7 @@ def generate_password(length):
 
 # Function to handle the submit button click event
 # This function submit_user is part of this module.
-def submit_user(username_entry):
+def submit_user(username_entry,window):
     """
     This function handles the submit button click event.
 
@@ -46,6 +46,9 @@ def submit_user(username_entry):
 
     # Show a success message and destroy the window
     messagebox.showinfo("Success", f"New user added successfully. The temporary password is {password}")
+
+    # Destroy the window
+    window.destroy()
 
 
 def create_new_user_window():
@@ -71,7 +74,7 @@ def create_new_user_window():
     username_entry = ttk.Entry(frame)
 
     # Create a submit button
-    submit_button = ttk.Button(frame, text="Submit", command=lambda: submit_user(username_entry))
+    submit_button = ttk.Button(frame, text="Submit", command=lambda: submit_user(username_entry,new_user_window))
 
     # Use grid layout to arrange the widgets
     username_label.grid(row=0, column=0, padx=10, pady=5, sticky="e")
