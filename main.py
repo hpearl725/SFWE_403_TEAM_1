@@ -45,6 +45,10 @@ def open_dashboard():
                         with open("credentials.csv", "w", newline="") as file:
                             writer = csv.writer(file)
                             writer.writerows(rows)
+                    
+                    # Close the login window
+                    root.destroy()
+                    
                     # Open the dashboard window
                     create_dashboard(current_user_role)
 
