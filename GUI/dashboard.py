@@ -4,7 +4,7 @@ from tkinter import messagebox
 from ttkthemes import ThemedStyle
 import csv
 import os
-
+import new_user_window
 import GUI.inventory_table
 import GUI.patients_table
 import GUI.users_table
@@ -105,17 +105,29 @@ def show_patients_table():
 # This function show_users_table is part of this module.
 def show_users_table():
     GUI.inventory_table.hide_inventory_table(inventory_tree)
-    GUI.patients_table.hide_patients_table(patients_tree)
+    hide_patients_table()
     GUI.users_table.show_users_table(users_tree)
     hide_add_user_button()
 
 
+def hide_patients_table():
+    GUI.patients_table.hide_patients_table(patients_tree)
+
+
 # This function show_user_button is part of this module.
 def show_user_button(current_user_role):
-    GUI.inventory_table.hide_inventory_table(inventory_tree)
+    hide_inventory_table()
     GUI.patients_table.hide_patients_table(patients_tree)
-    GUI.users_table.hide_users_table(users_tree)
+    hide_users_table()
     show_add_user_button(current_user_role)
+
+
+def hide_inventory_table():
+    GUI.inventory_table.hide_inventory_table(inventory_tree)
+
+
+def hide_users_table():
+    GUI.users_table.hide_users_table(users_tree)
 
 
 # This function hide_add_user_button is part of this module.
