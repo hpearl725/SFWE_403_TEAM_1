@@ -3,13 +3,12 @@ from tkinter import ttk
 from ttkthemes import ThemedTk
 
 def on_submit():
-    # [Put your code verification logic here]
-    # print("2FA Code Submitted:", entry_2fa.get())
-    is_submitted.set(True)  # Set the flag to True since it's submitted
-    window.destroy()  # Close the window
+
+    is_submitted.set(True)  
+    window.destroy()  
 
 def create_authorization_page():
-    global window, entry_2fa, is_submitted  # Make these variables accessible in on_submit
+    global window, entry_2fa, is_submitted  
     
     window = ThemedTk(theme="equilux")
     window.title("2FA Authentication")
@@ -24,14 +23,12 @@ def create_authorization_page():
     submit_button = ttk.Button(window, text="Submit", command=on_submit)
     submit_button.pack(pady=15)
     
-    is_submitted = tk.BooleanVar(window, value=False)  # Create a boolean flag
-    window.wait_window()  # Wait until the window is destroyed
-    
-    return is_submitted.get()  # Return the flag value
 
-# Example usage:
-is_authorization_successful = create_authorization_page()
-print("Was Authorization successful?", is_authorization_successful)
+    is_submitted = tk.BooleanVar(window, value=False)  
+    window.wait_window()  
+    
+    return is_submitted.get()
 
 if __name__ == "__main__":
-    create_authorization_page()
+    is_authorization_successful = create_authorization_page()
+    print("Was Authorization successful?", is_authorization_successful)
