@@ -7,6 +7,7 @@ from tkinter import simpledialog
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 from GUI.authorization_page import create_authorization_page
 from GUI.dashboard import create_dashboard
+from GUI.authorization_page import create_authorization_page
 from logs.log import logger, event, events, log_obj
 
 
@@ -37,13 +38,13 @@ def open_dashboard():
                 if create_authorization_page():
                     current_user_role = row[3]
                     if row[2] == 'True':
+
                         new_password = simpledialog.askstring(
                             "New Password", "Enter new password:", show='*')
                         rows[i] = [username, new_password, False, current_user_role]
                         with open("credentials.csv", "w", newline="") as file:
                             writer = csv.writer(file)
                             writer.writerows(rows)
-                    root.destroy()  # Close the login window
                     # Open the dashboard window
                     create_dashboard(current_user_role)
 

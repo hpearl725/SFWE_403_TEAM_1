@@ -3,6 +3,7 @@ from tkinter import ttk
 from ttkthemes import ThemedTk
 
 def on_submit():
+
     is_submitted.set(True)  
     window.destroy()  
 
@@ -22,6 +23,7 @@ def create_authorization_page():
     submit_button = ttk.Button(window, text="Submit", command=on_submit)
     submit_button.pack(pady=15)
     
+
     is_submitted = tk.BooleanVar(window, value=False)  
     window.wait_window()  
     
