@@ -4,6 +4,7 @@ from tkinter import messagebox
 from ttkthemes import ThemedStyle
 import csv
 import os
+import GUI.new_user_window
 import GUI.inventory_table
 import GUI.patients_table
 import GUI.users_table
@@ -23,7 +24,7 @@ def open_new_user_window(current_user_role):
         messagebox.showerror("Permission Denied", "Only managers can add new users.")
         return
 
-    os.system('python new_user_window.py')
+    GUI.new_user_window.create_new_user_window()
 
 
 # Create the dashboard window
@@ -64,8 +65,6 @@ def create_dashboard(current_user_role):
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
 
     dashboard.mainloop()
-
-    os.system('python GUI/new_user_window.py')
 
 
 def show_inventory_table():
