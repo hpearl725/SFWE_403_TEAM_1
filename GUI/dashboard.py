@@ -65,6 +65,8 @@ def create_dashboard(current_user_role):
 
     dashboard.mainloop()
 
+    os.system('python GUI/new_user_window.py')
+
 
 def show_inventory_table():
     GUI.inventory_table.show_inventory_table(inventory_tree)
