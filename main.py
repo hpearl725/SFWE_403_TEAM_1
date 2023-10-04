@@ -29,23 +29,32 @@ def open_dashboard():
         reader = csv.reader(file)
         rows = list(reader)
         for i, row in enumerate(rows):
-            if row[0] == username and row[1] == password:
-                current_user_role = row[3]
-                if row[2] == 'True':
-                    new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
-                    rows[i] = [username, new_password, False, current_user_role]
-                    with open("credentials.csv", "w", newline="") as file:
+            if row[0] == username:
+                if row[4] >= 5:
+                    raise Exception("Too many failed attempts")
+                if row[1] == password:
+                    current_user_role = row[3]
+                    if row[2] == 'True':
+                        new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
+                        rows[i] = [username, new_password, False, current_user_role]
+                        with open("credentials.csv", "w", newline="") as file:
+                            writer = csv.writer(file)
+                            writer.writerows(rows)
+                    root.destroy()  # Close the login window
+                    create_dashboard(current_user_role)  # Open the dashboard window
+
+                    # Log the login event
+                    log = logger("logs\log.csv")
+                    login_event = event("user_action", events.login.name, "User logged in")
+                    log.log(log_obj(login_event, username))
+
+                    return
+                else:
+                    with open("credentials.csv", "w") as file:
+                        rows[i] = [row[0], row[1], row[2], row[3], int(row[4])+1]
                         writer = csv.writer(file)
                         writer.writerows(rows)
-                root.destroy()  # Close the login window
-                create_dashboard(current_user_role)  # Open the dashboard window
-
-                # Log the login event
-                log = logger("logs\log.csv")
-                login_event = event("user_action", events.login.name, "User logged in")
-                log.log(log_obj(login_event, username))
-
-                return
+                    
 
     messagebox.showerror("Login Failed", "Incorrect username or password")
 

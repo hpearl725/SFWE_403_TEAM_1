@@ -1,0 +1,3 @@
+userID, fname, lname, dob, address,phonenumber,emailaddress,insurance
+09000,tony,stark,01-01-2000,123 N Avengers Lane, 123-456-7890, iamironman@gmail.com, ahcccs
+00001,steve,rogers,12-20-1940,123 S Avengers Lane, 012-345-6789,firstavenger@aol.com, va
