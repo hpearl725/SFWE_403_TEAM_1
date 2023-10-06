@@ -1,11 +1,15 @@
 import csv
+import os
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import simpledialog
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
+from GUI.authorization_page import create_authorization_page
 from GUI.dashboard import create_dashboard
+from GUI.authorization_page import create_authorization_page
 from logs.log import logger, event, events, log_obj
+
 
 def open_dashboard():
     """
@@ -25,10 +29,12 @@ def open_dashboard():
     global current_user_role
 
     # Open the .csv file and search for the username and password
-    with open("GUI\credentials.csv", "r") as file:
+    credentials_file_path = os.path.join('GUI', 'credentials.csv')
+    with open(credentials_file_path, "r") as file:
         reader = csv.reader(file)
         rows = list(reader)
         for i, row in enumerate(rows):
+
             if row[0] == username:
                 if row[4] >= 5:
                     raise Exception("Too many failed attempts")
@@ -36,6 +42,7 @@ def open_dashboard():
                     current_user_role = row[3]
                     if row[2] == 'True':
                         new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
+
                         rows[i] = [username, new_password, False, current_user_role]
                         with open("credentials.csv", "w", newline="") as file:
                             writer = csv.writer(file)
@@ -54,7 +61,6 @@ def open_dashboard():
                         rows[i] = [row[0], row[1], row[2], row[3], int(row[4])+1]
                         writer = csv.writer(file)
                         writer.writerows(rows)
-                    
 
     messagebox.showerror("Login Failed", "Incorrect username or password")
 
