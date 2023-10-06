@@ -28,11 +28,19 @@ def show_prescriptions_table(prescriptions_tree):
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
     prescriptions_dict = read_prescriptions(prescriptions_path)
 
-    for row in prescriptions_dict.values():
-        name = row["product_name"]
-        quantity = row["in_stock"]
-        price = row["price"]
-        prescriptions_tree.insert("", tk.END, values=(name, quantity, price))
+    patients_path = os.path.join('GUI', 'patients.csv')
+    patients_dict = read_patients(patients_path)
+
+    for patient in patients_dict.values():
+        patient_name = patient["name"]
+        patient_node = prescriptions_tree.insert("", tk.END, text=patient_name)
+
+        for row in prescriptions_dict.values():
+            if row["patient_name"] == patient_name:
+                name = row["product_name"]
+                quantity = row["in_stock"]
+                price = row["price"]
+                prescriptions_tree.insert(patient_node, tk.END, values=(name, quantity, price))
 
     prescriptions_tree.pack()
 

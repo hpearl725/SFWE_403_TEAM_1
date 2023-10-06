@@ -1,6 +1,6 @@
-product_name,in_stock,price
-Aspirin,100,0.25
-Paracetamol,200,0.15
-Ibuprofen,150,0.20
-Amoxicillin,50,0.75
-Cetirizine,75,0.30
+product_name,in_stock,price,patient_name
+Aspirin,100,0.25,John Doe
+Paracetamol,200,0.15,John Doe
+Ibuprofen,150,0.20,Jane Doe
+Amoxicillin,50,0.75,Jane Doe
+Cetirizine,75,0.30,John Doe
