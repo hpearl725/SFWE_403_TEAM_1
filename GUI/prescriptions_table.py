@@ -16,17 +16,15 @@ def read_patients(filename):
 
 def create_prescriptions_table(frame):
     prescriptions_tree = ttk.Treeview(frame)
-    prescriptions_tree["columns"] = ("name", "quantity", "price")
+    prescriptions_tree["columns"] = ("name", "quantity")
 
     prescriptions_tree.column("#0", width=200, stretch=tk.NO)
     prescriptions_tree.column("name", anchor=tk.W, width=200)
     prescriptions_tree.column("quantity", anchor=tk.CENTER, width=100)
-    prescriptions_tree.column("price", anchor=tk.E, width=100)
 
     prescriptions_tree.heading("#0", text="Patient Name", anchor=tk.W)
     prescriptions_tree.heading("name", text="Medicine Name", anchor=tk.W)
     prescriptions_tree.heading("quantity", text="Quantity", anchor=tk.CENTER)
-    prescriptions_tree.heading("price", text="Price", anchor=tk.E)
 
     return prescriptions_tree
 
@@ -47,15 +45,16 @@ def show_prescriptions_table(prescriptions_tree):
         for row in prescriptions_dict.values():
             if row["patient_name"] == patient_name:
                 name = row["product_name"]
-                quantity = row["in_stock"]
-                price = row["price"]
-                prescriptions_tree.insert(patient_node, 'end', values=(name, quantity, price))
+                quantity = row["qty"]
+                prescriptions_tree.insert(patient_node, 'end', values=(name, quantity))
 
     prescriptions_tree.pack()
 
 
 def hide_prescriptions_table(prescriptions_tree):
     prescriptions_tree.pack_forget()
+from GUI.create_prescription import PrescriptionForm
+
 def add_prescription():
-    # Add the code to open the prescription form here
-    pass
+    prescription_form = PrescriptionForm()
+    prescription_form.window.mainloop()

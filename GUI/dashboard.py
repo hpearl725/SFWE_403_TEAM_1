@@ -56,7 +56,7 @@ def create_dashboard(current_user_role):
     patients_button = ttk.Button(button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(button_frame, text="Users", command=show_users_table)
     prescriptions_button = ttk.Button(button_frame, text="Prescriptions", command=show_prescriptions_table)
-    settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_user_button(current_user_role))
+    settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_settings(current_user_role))
     exit_button = ttk.Button(frame, text="Exit", command=dashboard.quit)
 
     inventory_button.pack(side="left", padx=10)
@@ -104,12 +104,13 @@ def show_users_table():
     hide_add_prescription_button()
 
 
-def show_user_button(current_user_role):
+def show_settings(current_user_role):
     inventory_table.hide_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_add_user_button(current_user_role)
+    hide_add_prescription_button()
 
 
 def hide_add_user_button():

@@ -1,6 +1,8 @@
-product_name,in_stock,price,patient_name
-Aspirin,100,0.25,H asd
-Paracetamol,200,0.15,H asd
-Ibuprofen,150,0.20,Harrison Pearl
-Amoxicillin,50,0.75,Harrison Pearl
-Cetirizine,75,0.30,Harrison Pearl
+product_name,qty,patient_name
+Aspirin,100,H asd
+Paracetamol,200,H asd
+Ibuprofen,150,Harrison Pearl
+Amoxicillin,50,Harrison Pearl
+Cetirizine,75,Harrison Pearl
+Aspirin,50,H asd
+asdfff,34,H asd
