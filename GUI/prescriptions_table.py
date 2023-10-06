@@ -56,3 +56,6 @@ def show_prescriptions_table(prescriptions_tree):
 
 def hide_prescriptions_table(prescriptions_tree):
     prescriptions_tree.pack_forget()
+def add_prescription():
+    # Add the code to open the prescription form here
+    pass

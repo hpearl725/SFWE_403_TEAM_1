@@ -20,6 +20,7 @@ prescriptions_tree = None
 frame = None
 add_user_button = None
 add_patient_button = None
+add_prescription_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user_role):
@@ -81,7 +82,7 @@ def show_inventory_table():
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
     hide_add_patient_button()
-
+    hide_add_prescription_button()
 
 def show_patients_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -90,6 +91,7 @@ def show_patients_table():
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
     show_add_patient_button()
+    hide_add_prescription_button()
 
 
 def show_users_table():
@@ -99,6 +101,7 @@ def show_users_table():
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
     hide_add_patient_button()
+    hide_add_prescription_button()
 
 
 def show_user_button(current_user_role):
@@ -136,12 +139,24 @@ def show_prescriptions_table():
     prescriptions_table.show_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
     hide_add_patient_button()
+    show_add_prescription_button()
 
 
 def hide_add_patient_button():
     global add_patient_button
     if add_patient_button is not None:
         add_patient_button.pack_forget()
+
+def show_add_prescription_button():
+    global add_prescription_button
+    if add_prescription_button is None:
+        add_prescription_button = ttk.Button(frame, text="Add Prescription", command=prescriptions_table.add_prescription)
+    add_prescription_button.pack(pady=10)
+
+def hide_add_prescription_button():
+    global add_prescription_button
+    if add_prescription_button is not None:
+        add_prescription_button.pack_forget()
 
 if __name__ == "__main__":
     create_dashboard("manager")
