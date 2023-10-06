@@ -4,10 +4,12 @@ from tkinter import messagebox
 from ttkthemes import ThemedStyle
 import csv
 import os
-import GUI.new_user_window
-import GUI.inventory_table
-import GUI.patients_table
-import GUI.users_table
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from GUI import new_user_window
+from GUI import inventory_table
+from GUI import patients_table
+from GUI import users_table
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -24,7 +26,7 @@ def open_new_user_window(current_user_role):
         messagebox.showerror("Permission Denied", "Only managers can add new users.")
         return
 
-    GUI.new_user_window.create_new_user_window()
+    new_user_window.create_new_user_window()
 
 
 # Create the dashboard window
@@ -58,9 +60,9 @@ def create_dashboard(current_user_role):
     users_button.pack(side="left", padx=10)
     settings_button.pack(side="left", padx=10)
 
-    inventory_tree = GUI.inventory_table.create_inventory_table(frame)
-    patients_tree = GUI.patients_table.create_patients_table(frame)
-    users_tree = GUI.users_table.create_users_table(frame)
+    inventory_tree = inventory_table.create_inventory_table(frame)
+    patients_tree = patients_table.create_patients_table(frame)
+    users_tree = users_table.create_users_table(frame)
 
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
 
@@ -68,30 +70,30 @@ def create_dashboard(current_user_role):
 
 
 def show_inventory_table():
-    GUI.inventory_table.show_inventory_table(inventory_tree)
-    GUI.patients_table.hide_patients_table(patients_tree)
-    GUI.users_table.hide_users_table(users_tree)
+    inventory_table.show_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
     hide_add_user_button()
 
 
 def show_patients_table():
-    GUI.inventory_table.hide_inventory_table(inventory_tree)
-    GUI.patients_table.show_patients_table(patients_tree)
-    GUI.users_table.hide_users_table(users_tree)
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.show_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
     hide_add_user_button()
 
 
 def show_users_table():
-    GUI.inventory_table.hide_inventory_table(inventory_tree)
-    GUI.patients_table.hide_patients_table(patients_tree)
-    GUI.users_table.show_users_table(users_tree)
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.show_users_table(users_tree)
     hide_add_user_button()
 
 
 def show_user_button(current_user_role):
-    GUI.inventory_table.hide_inventory_table(inventory_tree)
-    GUI.patients_table.hide_patients_table(patients_tree)
-    GUI.users_table.hide_users_table(users_tree)
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
     show_add_user_button(current_user_role)
 
 
@@ -109,4 +111,4 @@ def show_add_user_button(current_user_role):
 
 
 if __name__ == "__main__":
-    create_dashboard()
+    create_dashboard("manager")
