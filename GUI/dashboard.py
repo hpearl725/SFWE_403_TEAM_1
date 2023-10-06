@@ -19,7 +19,7 @@ users_tree = None
 prescriptions_tree = None
 frame = None
 add_user_button = None
-
+add_patient_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user_role):
@@ -80,6 +80,7 @@ def show_inventory_table():
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
+    hide_add_patient_button()
 
 
 def show_patients_table():
@@ -88,6 +89,7 @@ def show_patients_table():
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
+    show_add_patient_button()
 
 
 def show_users_table():
@@ -96,6 +98,7 @@ def show_users_table():
     users_table.show_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
+    hide_add_patient_button()
 
 
 def show_user_button(current_user_role):
@@ -119,12 +122,26 @@ def show_add_user_button(current_user_role):
     add_user_button.pack(side="top", pady=10)
 
 
+def show_add_patient_button():
+    global add_patient_button
+    if add_patient_button is None:
+        add_patient_button = ttk.Button(frame, text="Add Patient", command=patients_table.add_patient)
+    add_patient_button.pack(pady=10)  # pad y provides a little vertical space between the tree and button
+
+
 def show_prescriptions_table():
     inventory_table.hide_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.show_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
+    hide_add_patient_button()
+
+
+def hide_add_patient_button():
+    global add_patient_button
+    if add_patient_button is not None:
+        add_patient_button.pack_forget()
 
 if __name__ == "__main__":
     create_dashboard("manager")

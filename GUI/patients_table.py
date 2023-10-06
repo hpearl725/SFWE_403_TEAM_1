@@ -1,6 +1,9 @@
 from tkinter import ttk, Tk, Button
 from GUI.Create_patients import PatientForm
 
+# Declare the Add Patient button as a global variable
+add_patient_button = None
+
 # Function to create the Patients table
 def create_patients_table(frame):
     patients_tree = ttk.Treeview(frame, columns=("Name", "Phone"), show="headings")
@@ -20,13 +23,10 @@ def create_patients_table(frame):
 def show_patients_table(patients_tree):
     patients_tree.pack()
     
-    # Add a button below the tree
-    def add_patient():
-        patient_form = PatientForm()
-        patient_form.save_patient_info()
 
-    button = Button(patients_tree.master, text="Add Patient", command=add_patient)
-    button.pack(pady=5)  # pad y provides a little vertical space between the tree and button
+def add_patient():
+    patient_form = PatientForm()
+    patient_form.save_patient_info()
 
 
 # Function to hide the Patients table and the button
@@ -34,4 +34,3 @@ def hide_patients_table(patients_tree, button=None):
     patients_tree.pack_forget()
     if button is not None:
         button.pack_forget()
-
