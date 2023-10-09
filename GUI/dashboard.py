@@ -4,17 +4,23 @@ from tkinter import messagebox
 from ttkthemes import ThemedStyle
 import csv
 import os
-import GUI.inventory_table
-import GUI.patients_table
-import GUI.users_table
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from GUI import new_user_window
+from GUI import inventory_table
+from GUI import patients_table
+from GUI import users_table
+from GUI import prescriptions_table
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
 patients_tree = None
 users_tree = None
+prescriptions_tree = None
 frame = None
 add_user_button = None
-
+add_patient_button = None
+add_prescription_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user_role):
@@ -23,12 +29,12 @@ def open_new_user_window(current_user_role):
         messagebox.showerror("Permission Denied", "Only managers can add new users.")
         return
 
-    os.system('python new_user_window.py')
+    new_user_window.create_new_user_window()
 
 
 # Create the dashboard window
 def create_dashboard(current_user_role):
-    global inventory_tree, patients_tree, users_tree, frame, add_user_button
+    global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
 
@@ -49,17 +55,20 @@ def create_dashboard(current_user_role):
     inventory_button = ttk.Button(button_frame, text="Inventory", command=show_inventory_table)
     patients_button = ttk.Button(button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(button_frame, text="Users", command=show_users_table)
-    settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_user_button(current_user_role))
+    prescriptions_button = ttk.Button(button_frame, text="Prescriptions", command=show_prescriptions_table)
+    settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_settings(current_user_role))
     exit_button = ttk.Button(frame, text="Exit", command=dashboard.quit)
 
     inventory_button.pack(side="left", padx=10)
     patients_button.pack(side="left", padx=10)
     users_button.pack(side="left", padx=10)
+    prescriptions_button.pack(side="left", padx=10)
     settings_button.pack(side="left", padx=10)
 
-    inventory_tree = GUI.inventory_table.create_inventory_table(frame)
-    patients_tree = GUI.patients_table.create_patients_table(frame)
-    users_tree = GUI.users_table.create_users_table(frame)
+    inventory_tree = inventory_table.create_inventory_table(frame)
+    patients_tree = patients_table.create_patients_table(frame)
+    users_tree = users_table.create_users_table(frame)
+    prescriptions_tree = prescriptions_table.create_prescriptions_table(frame)
 
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
 
@@ -67,31 +76,41 @@ def create_dashboard(current_user_role):
 
 
 def show_inventory_table():
-    GUI.inventory_table.show_inventory_table(inventory_tree)
-    GUI.patients_table.hide_patients_table(patients_tree)
-    GUI.users_table.hide_users_table(users_tree)
+    inventory_table.show_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
-
+    hide_add_patient_button()
+    hide_add_prescription_button()
 
 def show_patients_table():
-    GUI.inventory_table.hide_inventory_table(inventory_tree)
-    GUI.patients_table.show_patients_table(patients_tree)
-    GUI.users_table.hide_users_table(users_tree)
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.show_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
+    show_add_patient_button()
+    hide_add_prescription_button()
 
 
 def show_users_table():
-    GUI.inventory_table.hide_inventory_table(inventory_tree)
-    GUI.patients_table.hide_patients_table(patients_tree)
-    GUI.users_table.show_users_table(users_tree)
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.show_users_table(users_tree)
+    prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
+    hide_add_patient_button()
+    hide_add_prescription_button()
 
 
-def show_user_button(current_user_role):
-    GUI.inventory_table.hide_inventory_table(inventory_tree)
-    GUI.patients_table.hide_patients_table(patients_tree)
-    GUI.users_table.hide_users_table(users_tree)
+def show_settings(current_user_role):
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_add_user_button(current_user_role)
+    hide_add_prescription_button()
 
 
 def hide_add_user_button():
@@ -107,5 +126,39 @@ def show_add_user_button(current_user_role):
     add_user_button.pack(side="top", pady=10)
 
 
+def show_add_patient_button():
+    global add_patient_button
+    if add_patient_button is None:
+        add_patient_button = ttk.Button(frame, text="Add Patient", command=patients_table.add_patient)
+    add_patient_button.pack(pady=10)  # pad y provides a little vertical space between the tree and button
+
+
+def show_prescriptions_table():
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    prescriptions_table.show_prescriptions_table(prescriptions_tree)
+    hide_add_user_button()
+    hide_add_patient_button()
+    show_add_prescription_button()
+
+
+def hide_add_patient_button():
+    global add_patient_button
+    if add_patient_button is not None:
+        add_patient_button.pack_forget()
+
+def show_add_prescription_button():
+    global add_prescription_button
+    if add_prescription_button is None:
+        add_prescription_button = ttk.Button(frame, text="Add Prescription", command=prescriptions_table.add_prescription)
+    add_prescription_button.pack(pady=10)
+
+def hide_add_prescription_button():
+    global add_prescription_button
+    if add_prescription_button is not None:
+        add_prescription_button.pack_forget()
+
 if __name__ == "__main__":
-    create_dashboard()
+    create_dashboard("manager")
+

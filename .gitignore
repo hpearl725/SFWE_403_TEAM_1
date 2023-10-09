@@ -11,3 +11,5 @@ __pycache__
 .idea
 *.aider*
 .aider*
+*.orig
+logs/log.csv
