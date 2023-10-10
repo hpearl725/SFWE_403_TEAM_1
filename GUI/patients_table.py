@@ -1,6 +1,7 @@
 from tkinter import ttk, Tk, Button
 from GUI.Create_patients import PatientForm
-
+import os
+import csv
 # Declare the Add Patient button as a global variable
 add_patient_button = None
 
@@ -10,23 +11,33 @@ def create_patients_table(frame):
     patients_tree.heading("Name", text="Name")
     patients_tree.heading("Phone", text="Phone")
     
-    patients_tree.insert("", "end", values=("John Doe", "123-456-7890"))
-    patients_tree.insert("", "end", values=("Jane Smith", "987-654-3210"))
-    patients_tree.insert("", "end", values=("Alice Johnson", "555-123-4567"))
-    patients_tree.insert("", "end", values=("Bob Brown", "777-888-9999"))
-    patients_tree.insert("", "end", values=("Eve Wilson", "555-555-5555"))
+    # Load and insert patient data from CSV file
+    folder_name = "GUI"
+    csv_file = "patients.csv"
+    file_path = os.path.join(folder_name, csv_file)
+
+    # Check if the CSV file exists, if it does, read and insert data into the treeview
+    if os.path.exists(file_path):
+        with open(file_path, mode='r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                name = f"{row['First Name']} {row['Last Name']}"
+                phone = row["Phone Number"]
+                patients_tree.insert("", "end", values=(name, phone))
 
     return patients_tree
 
 
-# Function to show the Patients table and a button beneath it
+# Function to show the Patients table
 def show_patients_table(patients_tree):
     patients_tree.pack()
     
 
-def add_patient():
+def add_patient(frame):
     patient_form = PatientForm()
     patient_form.save_patient_info()
+    frame.destroy()
+
 
 
 # Function to hide the Patients table and the button

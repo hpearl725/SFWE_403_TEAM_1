@@ -58,16 +58,22 @@ class PatientForm(tk.Tk):
         }
 
         # Define the CSV file path
-        csv_file = "patient_info.csv"
+        folder_name = "GUI"
+        csv_file = "patients.csv"
+        file_path = os.path.join(folder_name, csv_file)
+
+        # Check if 'GUI' folder exists, if not, create it
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
 
         # Check if the CSV file exists, and if not, create it with a header row
-        if not os.path.exists(csv_file):
-            with open(csv_file, mode='w', newline='') as file:
+        if not os.path.exists(file_path):
+            with open(file_path, mode='w', newline='') as file:
                 writer = csv.DictWriter(file, fieldnames=patient_info.keys())
                 writer.writeheader()
 
         # Append the patient information to the CSV file
-        with open(csv_file, mode='a', newline='') as file:
+        with open(file_path, mode='a', newline='') as file:
             writer = csv.DictWriter(file, fieldnames=patient_info.keys())
             writer.writerow(patient_info)
 
@@ -78,6 +84,8 @@ class PatientForm(tk.Tk):
         self.address_entry.delete(0, 'end')
         self.phone_entry.delete(0, 'end')
         self.email_entry.delete(0, 'end')
+
+    
 
         # Provide a success message w/ okay button
         
