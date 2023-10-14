@@ -20,6 +20,7 @@ prescriptions_tree = None
 frame = None
 add_user_button = None
 add_patient_button = None
+update_patient_button = None
 add_prescription_button = None
 
 # Function to open the new user window
@@ -83,6 +84,7 @@ def show_inventory_table():
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
+    hide_update_patient_button()
 
 def show_patients_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -91,6 +93,7 @@ def show_patients_table():
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
     show_add_patient_button()
+    show_update_patient_button()
     hide_add_prescription_button()
 
 
@@ -101,6 +104,7 @@ def show_users_table():
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     hide_add_user_button()
     hide_add_patient_button()
+    hide_update_patient_button()
     hide_add_prescription_button()
 
 
@@ -111,7 +115,7 @@ def show_settings(current_user_role):
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_add_user_button(current_user_role)
     hide_add_prescription_button()
-
+    hide_add_patient_button()
 
 def hide_add_user_button():
     global add_user_button
@@ -132,6 +136,16 @@ def show_add_patient_button():
         add_patient_button = ttk.Button(frame, text="Add Patient", command=patients_table.add_patient)
     add_patient_button.pack(pady=10)  # pad y provides a little vertical space between the tree and button
 
+def show_update_patient_button():
+    global update_patient_button
+    if update_patient_button is None:
+        update_patient_button = ttk.Button(frame, text="Update Patient", command=patients_table.update_patient) 
+    update_patient_button.pack(pady=10)
+
+def hide_update_patient_button():
+    global update_patient_button
+    if update_patient_button is not None:
+        update_patient_button.pack_forget()
 
 def show_prescriptions_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -141,7 +155,7 @@ def show_prescriptions_table():
     hide_add_user_button()
     hide_add_patient_button()
     show_add_prescription_button()
-
+    hide_update_patient_button()
 
 def hide_add_patient_button():
     global add_patient_button
