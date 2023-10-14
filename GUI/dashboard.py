@@ -52,7 +52,7 @@ def create_dashboard(current_user_role):
     button_frame = ttk.Frame(frame)
     button_frame.pack(side="top", fill="x", padx=10, pady=10)
 
-    inventory_button = ttk.Button(button_frame, text="Inventory", command=show_inventory_table)
+    inventory_button = ttk.Button(button_frame, text="Inventory", command=lambda: show_inventory_table(current_user_role))
     patients_button = ttk.Button(button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(button_frame, text="Users", command=show_users_table)
     prescriptions_button = ttk.Button(button_frame, text="Prescriptions", command=show_prescriptions_table)
@@ -75,7 +75,12 @@ def create_dashboard(current_user_role):
     dashboard.mainloop()
 
 
-def show_inventory_table():
+def show_inventory_table(current_user_role):
+    # Check if the current user is a manager or pharmacist
+    if not (current_user_role=="manager" or current_user_role=="pharmacist"):
+        messagebox.showerror("Permission Denied", "Only pharmacists can view inventory.")
+        return
+
     inventory_table.show_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
