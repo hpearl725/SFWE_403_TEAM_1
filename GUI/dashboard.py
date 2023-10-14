@@ -11,6 +11,7 @@ from GUI import inventory_table
 from GUI import patients_table
 from GUI import users_table
 from GUI import prescriptions_table
+from GUI import check_inventory
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -22,6 +23,7 @@ add_user_button = None
 add_patient_button = None
 update_patient_button = None
 add_prescription_button = None
+check_inventory_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user_role):
@@ -53,7 +55,7 @@ def create_dashboard(current_user_role):
     button_frame = ttk.Frame(frame)
     button_frame.pack(side="top", fill="x", padx=10, pady=10)
 
-    inventory_button = ttk.Button(button_frame, text="Inventory", command=show_inventory_table)
+    inventory_button = ttk.Button(button_frame, text="Inventory", command=lambda: show_inventory_table(current_user_role))
     patients_button = ttk.Button(button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(button_frame, text="Users", command=show_users_table)
     prescriptions_button = ttk.Button(button_frame, text="Prescriptions", command=show_prescriptions_table)
@@ -76,11 +78,17 @@ def create_dashboard(current_user_role):
     dashboard.mainloop()
 
 
-def show_inventory_table():
+def show_inventory_table(current_user_role):
+    # Check if the current user is a manager or pharmacist
+    if not (current_user_role=="manager" or current_user_role=="pharmacist"):
+        messagebox.showerror("Permission Denied", "Only pharmacists can view inventory.")
+        return
+
     inventory_table.show_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+    show_check_inventory_button(current_user_role)
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -95,6 +103,7 @@ def show_patients_table():
     show_add_patient_button()
     show_update_patient_button()
     hide_add_prescription_button()
+    hide_check_inventory_button()
 
 
 def show_users_table():
@@ -106,6 +115,7 @@ def show_users_table():
     hide_add_patient_button()
     hide_update_patient_button()
     hide_add_prescription_button()
+    hide_check_inventory_button()
 
 
 def show_settings(current_user_role):
@@ -115,7 +125,23 @@ def show_settings(current_user_role):
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_add_user_button(current_user_role)
     hide_add_prescription_button()
+    hide_check_inventory_button()
     hide_add_patient_button()
+
+    
+def hide_check_inventory_button():
+    global check_inventory_button
+    if check_inventory_button is not None:
+        check_inventory_button.pack_forget()
+
+
+def show_check_inventory_button(current_user_role):
+    global check_inventory_button
+    if check_inventory_button is None:
+        check_inventory_button = ttk.Button(frame, text="Check inventory",
+                                            command=lambda: check_inventory.create_check_inventory_window(inventory_tree))
+    check_inventory_button.pack(side="top", pady=10)
+
 
 def hide_add_user_button():
     global add_user_button

@@ -36,7 +36,7 @@ def open_dashboard():
         for i, row in enumerate(rows):
 
             if row[0] == username:
-                if row[4] >= 5:
+                if int(row[4]) >= 5:
                     raise Exception("Too many failed attempts")
                 if row[1] == password:
                     current_user_role = row[3]
