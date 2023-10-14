@@ -97,7 +97,10 @@ def patient_found_popup(row):
         lbl.pack(side="left")
         
         ent = tk.Entry(row_frame)
-        ent.insert(0, row[field])
+        if row[field] is None:
+            ent.insert(0, "")
+        else:
+            ent.insert(0, row[field])
         ent.pack(fill="x", expand=True)
         
         entries[field] = ent
