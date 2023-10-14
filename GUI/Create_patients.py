@@ -62,7 +62,7 @@ class PatientForm:
         email = self.email_entry.get()
 
         # Construct a full name to validate against existing records.
-        full_name = f"{fname} {lname}"
+       
 
         # Validate the entries. (Optional: Add more validation as per requirement.)
         if not (fname and lname and dob and address and phone and email):
@@ -76,7 +76,7 @@ class PatientForm:
             with open(patients_filepath, mode='r', newline='', encoding='utf-8') as csv_file:
                 reader = csv.reader(csv_file)
                 for row in reader:
-                    if row and row[0] == full_name:  # Assuming name is the first column
+                    if row and row[0] + " " + row[1] == fname + " " + lname:  # Assuming name is the first column
                         tk.messagebox.showerror("Error", "Patient already exists.")
                         return
         except FileNotFoundError:
@@ -86,7 +86,7 @@ class PatientForm:
         # Add new patient info to the CSV file.
         with open(patients_filepath, mode='a', newline='', encoding='utf-8') as csv_file:
             writer = csv.writer(csv_file)
-            writer.writerow([full_name, dob, address, phone, email])
+            writer.writerow([fname,lname, dob, address, phone, email])
         # Clear the entry fields after saving
         self.fname_entry.delete(0, 'end')
         self.lname_entry.delete(0, 'end')
