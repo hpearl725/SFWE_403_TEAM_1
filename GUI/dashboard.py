@@ -11,6 +11,7 @@ from GUI import inventory_table
 from GUI import patients_table
 from GUI import users_table
 from GUI import prescriptions_table
+from GUI import check_inventory
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -21,6 +22,7 @@ frame = None
 add_user_button = None
 add_patient_button = None
 add_prescription_button = None
+check_inventory_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user_role):
@@ -85,6 +87,7 @@ def show_inventory_table(current_user_role):
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+    show_check_inventory_button(current_user_role)
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -97,6 +100,7 @@ def show_patients_table():
     hide_add_user_button()
     show_add_patient_button()
     hide_add_prescription_button()
+    hide_check_inventory_button()
 
 
 def show_users_table():
@@ -107,6 +111,7 @@ def show_users_table():
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
+    hide_check_inventory_button()
 
 
 def show_settings(current_user_role):
@@ -116,6 +121,21 @@ def show_settings(current_user_role):
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_add_user_button(current_user_role)
     hide_add_prescription_button()
+    hide_check_inventory_button()
+
+
+def hide_check_inventory_button():
+    global check_inventory_button
+    if check_inventory_button is not None:
+        check_inventory_button.pack_forget()
+
+
+def show_check_inventory_button(current_user_role):
+    global check_inventory_button
+    if check_inventory_button is None:
+        check_inventory_button = ttk.Button(frame, text="Check inventory",
+                                            command=lambda: check_inventory.create_check_inventory_window(inventory_tree))
+    check_inventory_button.pack(side="top", pady=10)
 
 
 def hide_add_user_button():
