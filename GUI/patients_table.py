@@ -28,7 +28,6 @@ def create_patients_table(frame):
                 phone = row["Phone Number"]
                 patients_tree.insert("", "end", values=(name, phone))
     
-
     return patients_tree
 
 def update_patient_data(patients_tree):
