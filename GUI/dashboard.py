@@ -90,7 +90,8 @@ def show_inventory_table(current_user_role):
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_check_inventory_button()
-    show_remove_expired_button(current_user_role)
+    if current_user_role=="manager": # only manager can see the remove-inventory button
+        show_remove_expired_button()
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -152,12 +153,12 @@ def hide_remove_expired_button():
         remove_expired_button.pack_forget()
 
 
-def show_remove_expired_button(current_user_role):
+def show_remove_expired_button():
     global remove_expired_button
-    if remove_expired_button is None and current_user_role=="manager":
+    if remove_expired_button is None:
         remove_expired_button = ttk.Button(frame, text="Remove expired medicine",
                                             command=lambda: check_inventory.create_check_inventory_window(inventory_tree))
-        remove_expired_button.pack(side="top", pady=10)
+    remove_expired_button.pack(side="top", pady=10)
 
 
 def hide_check_inventory_button():
