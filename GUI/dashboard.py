@@ -154,10 +154,10 @@ def hide_remove_expired_button():
 
 def show_remove_expired_button(current_user_role):
     global remove_expired_button
-    if remove_expired_button is None:
+    if remove_expired_button is None and current_user_role=="manager":
         remove_expired_button = ttk.Button(frame, text="Remove expired medicine",
                                             command=lambda: check_inventory.create_check_inventory_window(inventory_tree))
-    remove_expired_button.pack(side="top", pady=10)
+        remove_expired_button.pack(side="top", pady=10)
 
 
 def hide_check_inventory_button():
