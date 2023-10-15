@@ -8,7 +8,7 @@ def read_inventory(filename):
     with open(filename, mode='r', newline='', encoding='utf-8') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
-            inventory_dict[row["ID_number"]] = row
+            inventory_dict[row["product_name"]] = row
     return inventory_dict
 
 

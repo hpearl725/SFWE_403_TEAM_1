@@ -12,6 +12,7 @@ from GUI import patients_table
 from GUI import users_table
 from GUI import prescriptions_table
 from GUI import check_inventory
+from GUI import remove_expired
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -157,7 +158,7 @@ def show_remove_expired_button():
     global remove_expired_button
     if remove_expired_button is None:
         remove_expired_button = ttk.Button(frame, text="Remove expired medicine",
-                                            command=lambda: check_inventory.create_check_inventory_window(inventory_tree))
+                                            command=lambda: remove_expired.create_remove_expired_window(inventory_tree))
     remove_expired_button.pack(side="top", pady=10)
 
 
