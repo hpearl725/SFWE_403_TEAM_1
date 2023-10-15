@@ -94,6 +94,7 @@ def show_inventory_table(current_user_role):
     hide_add_patient_button()
     hide_add_prescription_button()
     hide_update_patient_button()
+    hide_change_password_button()
 
 def show_patients_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -105,7 +106,7 @@ def show_patients_table():
     show_update_patient_button()
     hide_add_prescription_button()
     hide_check_inventory_button()
-
+    hide_change_password_button()
 
 def show_users_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -117,7 +118,7 @@ def show_users_table():
     hide_update_patient_button()
     hide_add_prescription_button()
     hide_check_inventory_button()
-
+    hide_change_password_button()
 
 def show_settings(current_user_role):
     inventory_table.hide_inventory_table(inventory_tree)
@@ -125,10 +126,22 @@ def show_settings(current_user_role):
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_add_user_button(current_user_role)
+    show_change_password_button(current_user_role)
     hide_add_prescription_button()
     hide_check_inventory_button()
     hide_add_patient_button()
+    hide_update_patient_button()
 
+def show_change_password_button(current_user_role):
+    global change_password_button
+    if change_password_button is None:
+        change_password_button = ttk.Button(frame, text="Change Password", command=lambda: users_table.change_password(current_user_role))
+    change_password_button.pack(side="top", pady=10)
+
+def hide_change_password_button():
+    global change_password_button
+    if change_password_button is not None:
+        change_password_button.pack_forget()
     
 def hide_check_inventory_button():
     global check_inventory_button
@@ -183,6 +196,7 @@ def show_prescriptions_table():
     hide_add_patient_button()
     show_add_prescription_button()
     hide_update_patient_button()
+    hide_change_password_button()
 
 def hide_add_patient_button():
     global add_patient_button
