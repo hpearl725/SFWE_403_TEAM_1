@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 from GUI.inventory import read_inventory,write_inventory
+from logs.log import logger, event, events, log_obj
 
 # Function to handle the search button click event
 def remove_expired(this_entry,window,ttk_tree):
@@ -22,16 +23,21 @@ def remove_expired(this_entry,window,ttk_tree):
 
 
     if result is None: # no match in inventory tree
-         messagebox.showinfo("Product not found", f"Could not find {product_name} in inventory.")
+        messagebox.showinfo("Product not found", f"Could not find {product_name} in inventory.")
     elif result == "FALSE":
-         messagebox.showerror("Product not expired", f"Product {product_name} has not expired.")
+        messagebox.showerror("Product not expired", f"Product {product_name} has not expired.")
     else: # match found, remove it from inventory
-            inventory_path = os.path.join('GUI', 'inventory.csv')
-            inventory_dict = read_inventory(inventory_path) # read csv
-            del inventory_dict[product_name] # drop product
-            ttk_tree.delete(key)
-            write_inventory(inventory_path, inventory_dict) # write result to csv
-            messagebox.showinfo("Product removed", f"Expired product {product_name} successfully removed.")
+        inventory_path = os.path.join('GUI', 'inventory.csv')
+        inventory_dict = read_inventory(inventory_path) # read csv
+        del inventory_dict[product_name] # drop product
+        ttk_tree.delete(key)
+        write_inventory(inventory_path, inventory_dict) # write result to csv
+        messagebox.showinfo("Product removed", f"Expired product {product_name} successfully removed.")
+        
+        # Log the removal event
+        log = logger(os.path.join("GUI","log.csv"))
+        this_event = event("user_action", events.remove_meds.name, f"User removed expired medicine {product_name}")
+        log.log(log_obj(this_event, "placeholder username"))
 
     # Destroy the check inventory window
     window.destroy()
@@ -59,7 +65,8 @@ def create_remove_expired_window(inventory_tree):
     product_name_entry = ttk.Entry(frame)
 
     # Create a submit button
-    submit_button = ttk.Button(frame, text="remove from inventory", command=lambda: remove_expired(product_name_entry,entry_window,inventory_tree))
+    submit_button = ttk.Button(frame, text="remove from inventory", 
+                               command=lambda: remove_expired(product_name_entry,entry_window,inventory_tree))
 
     # Use grid layout to arrange the widgets
     product_name_label.grid(row=0, column=0, padx=10, pady=5, sticky="e")
