@@ -53,7 +53,7 @@ def open_dashboard():
                             root.destroy()
                             
                             # Open the dashboard window
-                            create_dashboard(current_user_role)
+                            create_dashboard(current_user_role, username)
 
                             # Log the login event
                             log = logger(os.path.join("GUI","log.csv"))

@@ -38,8 +38,11 @@ def open_new_user_window(current_user_role):
 
 
 # Create the dashboard window
-def create_dashboard(current_user_role):
+def create_dashboard(current_user_role, username):
     global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree
+    global current_username # global variable for username once user has logged in to the dash
+    current_username = username
+
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
 
@@ -92,7 +95,7 @@ def show_inventory_table(current_user_role):
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_check_inventory_button()
     if current_user_role=="manager": # only manager can see the remove-inventory button
-        show_remove_expired_button()
+        show_remove_expired_button(current_username)
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -154,11 +157,11 @@ def hide_remove_expired_button():
         remove_expired_button.pack_forget()
 
 
-def show_remove_expired_button():
+def show_remove_expired_button(current_username):
     global remove_expired_button
     if remove_expired_button is None:
         remove_expired_button = ttk.Button(frame, text="Remove expired medicine",
-                                            command=lambda: remove_expired.create_remove_expired_window(inventory_tree))
+                                            command=lambda: remove_expired.create_remove_expired_window(inventory_tree,current_username))
     remove_expired_button.pack(side="top", pady=10)
 
 
