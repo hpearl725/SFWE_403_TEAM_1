@@ -89,7 +89,7 @@ def show_inventory_table(current_user_role):
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    show_check_inventory_button(current_user_role)
+    show_check_inventory_button()
     show_remove_expired_button(current_user_role)
     hide_add_user_button()
     hide_add_patient_button()
@@ -166,7 +166,7 @@ def hide_check_inventory_button():
         check_inventory_button.pack_forget()
 
 
-def show_check_inventory_button(current_user_role):
+def show_check_inventory_button():
     global check_inventory_button
     if check_inventory_button is None:
         check_inventory_button = ttk.Button(frame, text="Check inventory",
