@@ -18,6 +18,7 @@ def remove_expired(this_entry,window,ttk_tree):
         # if name matches, display expiration status
         if ttk_tree.item(child)["values"][0]==product_name:
             result = ttk_tree.item(child)["values"][2]
+            key = child
 
 
     if result is None: # no match in inventory tree
@@ -28,6 +29,7 @@ def remove_expired(this_entry,window,ttk_tree):
             inventory_path = os.path.join('GUI', 'inventory.csv')
             inventory_dict = read_inventory(inventory_path) # read csv
             del inventory_dict[product_name] # drop product
+            ttk_tree.delete(key)
             write_inventory(inventory_path, inventory_dict) # write result to csv
             messagebox.showinfo("Product removed", f"Expired product {product_name} successfully removed.")
 
