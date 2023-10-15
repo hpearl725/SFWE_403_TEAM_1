@@ -24,6 +24,7 @@ add_patient_button = None
 update_patient_button = None
 add_prescription_button = None
 check_inventory_button = None
+remove_expired_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user_role):
@@ -89,6 +90,7 @@ def show_inventory_table(current_user_role):
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_check_inventory_button(current_user_role)
+    show_remove_expired_button(current_user_role)
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -104,6 +106,7 @@ def show_patients_table():
     hide_add_user_button()
     hide_add_prescription_button()
     hide_check_inventory_button()
+    hide_remove_expired_button()
 
 
 def show_users_table():
@@ -116,6 +119,7 @@ def show_users_table():
     hide_update_patient_button()
     hide_add_prescription_button()
     hide_check_inventory_button()
+    hide_remove_expired_button()
 
 
 def show_prescriptions_table():
@@ -127,6 +131,7 @@ def show_prescriptions_table():
     hide_add_user_button()
     hide_add_patient_button()
     hide_update_patient_button()
+    hide_remove_expired_button()
 
 
 def show_settings(current_user_role):
@@ -138,6 +143,21 @@ def show_settings(current_user_role):
     hide_add_prescription_button()
     hide_check_inventory_button()
     hide_add_patient_button()
+    hide_remove_expired_button()
+
+
+def hide_remove_expired_button():
+    global remove_expired_button
+    if remove_expired_button is not None:
+        remove_expired_button.pack_forget()
+
+
+def show_remove_expired_button(current_user_role):
+    global remove_expired_button
+    if remove_expired_button is None:
+        remove_expired_button = ttk.Button(frame, text="Remove expired medicine",
+                                            command=lambda: check_inventory.create_check_inventory_window(inventory_tree))
+    remove_expired_button.pack(side="top", pady=10)
 
 
 def hide_check_inventory_button():
