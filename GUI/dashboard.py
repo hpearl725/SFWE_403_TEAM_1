@@ -24,6 +24,7 @@ add_patient_button = None
 update_patient_button = None
 add_prescription_button = None
 check_inventory_button = None
+change_password_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user_role):
