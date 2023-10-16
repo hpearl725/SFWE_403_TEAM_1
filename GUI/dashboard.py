@@ -83,13 +83,12 @@ def create_dashboard(current_user_role, username):
 
     dashboard.mainloop()
 
-# different submenus 
+#define hide and show functions for tables
 def show_inventory_table(current_user_role):
     # Check if the current user is a manager or pharmacist
     if not (current_user_role=="manager" or current_user_role=="pharmacist"):
         messagebox.showerror("Permission Denied", "Only pharmacists can view inventory.")
         return
-
     inventory_table.show_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
@@ -140,6 +139,7 @@ def show_prescriptions_table():
     hide_add_patient_button()
     hide_update_patient_button()
     hide_remove_expired_button()
+    hide_remove_patient_button()
     
 
 def show_settings(current_user_role):
@@ -147,7 +147,7 @@ def show_settings(current_user_role):
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    if current_user_role == "manager":
+    if current_user_role == "manager": # only manager can add users
         show_add_user_button(current_user_role)
     hide_add_prescription_button()
     hide_check_inventory_button()
@@ -156,6 +156,7 @@ def show_settings(current_user_role):
     hide_remove_patient_button()
 
 
+#define hide and show functions for buttons
 def hide_remove_expired_button():
     global remove_expired_button
     if remove_expired_button is not None:
@@ -169,20 +170,7 @@ def show_remove_expired_button(current_username):
                                             command=lambda: remove_expired.create_remove_expired_window(inventory_tree,current_username))
     remove_expired_button.pack(side="top", pady=10)
 
-
-def show_prescriptions_table():
-    inventory_table.hide_inventory_table(inventory_tree)
-    patients_table.hide_patients_table(patients_tree)
-    users_table.hide_users_table(users_tree)
-    prescriptions_table.show_prescriptions_table(prescriptions_tree)
-    hide_add_user_button()
-    hide_add_patient_button()
-    show_add_prescription_button()
-    hide_update_patient_button()
-    hide_remove_patient_button()
-
-
-#different hide and show functions for buttons
+    
 def hide_check_inventory_button():
     global check_inventory_button
     if check_inventory_button is not None:
