@@ -98,6 +98,7 @@ def show_inventory_table(current_user_role):
     hide_add_patient_button()
     hide_add_prescription_button()
     hide_update_patient_button()
+    pharmacy_info.hide_welcome_screen()
 
 def show_patients_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -109,6 +110,8 @@ def show_patients_table():
     show_update_patient_button()
     hide_add_prescription_button()
     hide_check_inventory_button()
+    pharmacy_info.hide_welcome_screen()
+
 
 
 def show_users_table():
@@ -121,6 +124,8 @@ def show_users_table():
     hide_update_patient_button()
     hide_add_prescription_button()
     hide_check_inventory_button()
+    pharmacy_info.hide_welcome_screen()
+
 
 
 def show_settings(current_user_role):
@@ -132,6 +137,8 @@ def show_settings(current_user_role):
     hide_add_prescription_button()
     hide_check_inventory_button()
     hide_add_patient_button()
+    pharmacy_info.hide_welcome_screen()
+
 
 def show_pharmacy_info():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -141,6 +148,7 @@ def show_pharmacy_info():
     hide_add_prescription_button()
     hide_check_inventory_button()
     hide_add_patient_button()
+    hide_update_patient_button()
     pharmacy_info.show_welcome_screen()
 
 
