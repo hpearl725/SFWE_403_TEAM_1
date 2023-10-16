@@ -13,7 +13,7 @@ def create_authorization_page():
     # Use ThemedTk instead of tk.Tk to get access to extra themes
     window = ThemedTk(theme="equilux")
     window.title("2FA Authentication")
-    window.geometry("300x150")
+    window.geometry("300x160")
 
     # Manually set background color
     desired_background_color = "#2e2e2e"  # Example color

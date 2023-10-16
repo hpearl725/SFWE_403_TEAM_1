@@ -12,6 +12,7 @@ from GUI import patients_table
 from GUI import users_table
 from GUI import prescriptions_table
 from GUI import check_inventory
+from GUI import remove_expired
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -24,6 +25,7 @@ add_patient_button = None
 update_patient_button = None
 add_prescription_button = None
 check_inventory_button = None
+remove_expired_button = None
 remove_patient_button = None
 
 # Function to open the new user window
@@ -37,8 +39,11 @@ def open_new_user_window(current_user_role):
 
 
 # Create the dashboard window
-def create_dashboard(current_user_role):
+def create_dashboard(current_user_role, username):
     global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree
+    global current_username # global variable for username once user has logged in to the dashboard
+    current_username = username
+
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
 
@@ -78,35 +83,40 @@ def create_dashboard(current_user_role):
 
     dashboard.mainloop()
 
-# different submenus 
+
+# define hide and show functions for tables
 def show_inventory_table(current_user_role):
     # Check if the current user is a manager or pharmacist
     if not (current_user_role=="manager" or current_user_role=="pharmacist"):
         messagebox.showerror("Permission Denied", "Only pharmacists can view inventory.")
         return
-
     inventory_table.show_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    show_check_inventory_button(current_user_role)
+    show_check_inventory_button()
+    if current_user_role=="manager": # only manager can see the remove-inventory button
+        show_remove_expired_button(current_username)
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
     hide_update_patient_button()
     hide_remove_patient_button()
 
+
 def show_patients_table():
     inventory_table.hide_inventory_table(inventory_tree)
     patients_table.show_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    hide_add_user_button()
     show_add_patient_button()
     show_update_patient_button()
+    hide_add_user_button()
     hide_add_prescription_button()
     hide_check_inventory_button()
+    hide_remove_expired_button()
     show_remove_patient_button()
+
 
 def show_users_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -118,49 +128,71 @@ def show_users_table():
     hide_update_patient_button()
     hide_add_prescription_button()
     hide_check_inventory_button()
+    hide_remove_expired_button()
     hide_remove_patient_button()
 
-def show_settings(current_user_role):
-    inventory_table.hide_inventory_table(inventory_tree)
-    patients_table.hide_patients_table(patients_tree)
-    users_table.hide_users_table(users_tree)
-    prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    if current_user_role == "manager":
-        show_add_user_button(current_user_role)
-    hide_add_prescription_button()
-    hide_check_inventory_button()
-    hide_add_patient_button()
-    hide_remove_patient_button()
 
 def show_prescriptions_table():
     inventory_table.hide_inventory_table(inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.show_prescriptions_table(prescriptions_tree)
+    show_add_prescription_button()
     hide_add_user_button()
     hide_add_patient_button()
-    show_add_prescription_button()
     hide_update_patient_button()
+    hide_remove_expired_button()
+    hide_remove_patient_button()
+    
+
+def show_settings(current_user_role):
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+    if current_user_role == "manager": # only manager can add users
+        show_add_user_button(current_user_role)
+    hide_add_prescription_button()
+    hide_check_inventory_button()
+    hide_add_patient_button()
+    hide_remove_expired_button()
     hide_remove_patient_button()
 
 
-#different hide and show functions for buttons
+# define hide and show functions for buttons
+def hide_remove_expired_button():
+    global remove_expired_button
+    if remove_expired_button is not None:
+        remove_expired_button.pack_forget()
+
+
+def show_remove_expired_button(current_username):
+    global remove_expired_button
+    if remove_expired_button is None:
+        remove_expired_button = ttk.Button(frame, text="Remove expired medicine",
+                                            command=lambda: remove_expired.create_remove_expired_window(inventory_tree,current_username))
+    remove_expired_button.pack(side="top", pady=10)
+
+
 def hide_check_inventory_button():
     global check_inventory_button
     if check_inventory_button is not None:
         check_inventory_button.pack_forget()
 
-def show_check_inventory_button(current_user_role):
+
+def show_check_inventory_button():
     global check_inventory_button
     if check_inventory_button is None:
         check_inventory_button = ttk.Button(frame, text="Check inventory",
                                             command=lambda: check_inventory.create_check_inventory_window(inventory_tree))
     check_inventory_button.pack(side="top", pady=10)
 
+
 def hide_add_user_button():
     global add_user_button
     if add_user_button is not None:
         add_user_button.pack_forget()
+
 
 def show_add_user_button(current_user_role):
     global add_user_button
@@ -168,11 +200,25 @@ def show_add_user_button(current_user_role):
         add_user_button = ttk.Button(frame, text="Add User", command=lambda: open_new_user_window(current_user_role))
     add_user_button.pack(side="top", pady=10)
 
+
+def hide_add_patient_button():
+    global add_patient_button
+    if add_patient_button is not None:
+        add_patient_button.pack_forget()
+
+
 def show_add_patient_button():
     global add_patient_button
     if add_patient_button is None:
         add_patient_button = ttk.Button(frame, text="Add Patient", command=patients_table.add_patient)
     add_patient_button.pack(pady=10)  # pad y provides a little vertical space between the tree and button
+
+
+def hide_update_patient_button():
+    global update_patient_button
+    if update_patient_button is not None:
+        update_patient_button.pack_forget()
+
 
 def show_update_patient_button():
     global update_patient_button
@@ -180,15 +226,12 @@ def show_update_patient_button():
         update_patient_button = ttk.Button(frame, text="Update Patient", command=patients_table.update_patient) 
     update_patient_button.pack(pady=10)
 
-def hide_update_patient_button():
-    global update_patient_button
-    if update_patient_button is not None:
-        update_patient_button.pack_forget()
-
+        
 def hide_remove_patient_button():
     global remove_patient_button
     if remove_patient_button is not None:
         remove_patient_button.pack_forget()
+
 
 def show_remove_patient_button():
     global remove_patient_button
@@ -196,10 +239,12 @@ def show_remove_patient_button():
         remove_patient_button = ttk.Button(frame, text="Remove Patient", command=patients_table.remove_patient)
     remove_patient_button.pack(pady=10)
 
-def hide_add_patient_button():
-    global add_patient_button
-    if add_patient_button is not None:
-        add_patient_button.pack_forget()
+
+def hide_add_prescription_button():
+    global add_prescription_button
+    if add_prescription_button is not None:
+        add_prescription_button.pack_forget()
+
 
 def show_add_prescription_button():
     global add_prescription_button
@@ -207,11 +252,6 @@ def show_add_prescription_button():
         add_prescription_button = ttk.Button(frame, text="Add Prescription", command=prescriptions_table.add_prescription)
     add_prescription_button.pack(pady=10)
 
-def hide_add_prescription_button():
-    global add_prescription_button
-    if add_prescription_button is not None:
-        add_prescription_button.pack_forget()
 
 if __name__ == "__main__":
     create_dashboard("manager")
-
