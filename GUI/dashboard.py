@@ -12,6 +12,7 @@ from GUI import patients_table
 from GUI import users_table
 from GUI import prescriptions_table
 from GUI import check_inventory
+from GUI import pharmacy_info
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -60,6 +61,7 @@ def create_dashboard(current_user_role):
     users_button = ttk.Button(button_frame, text="Users", command=show_users_table)
     prescriptions_button = ttk.Button(button_frame, text="Prescriptions", command=show_prescriptions_table)
     settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_settings(current_user_role))
+    pharmacy_info_button = ttk.Button(button_frame, text="Pharmacy Home", command=lambda: show_pharmacy_info())
     exit_button = ttk.Button(frame, text="Exit", command=dashboard.quit)
 
     inventory_button.pack(side="left", padx=10)
@@ -67,11 +69,14 @@ def create_dashboard(current_user_role):
     users_button.pack(side="left", padx=10)
     prescriptions_button.pack(side="left", padx=10)
     settings_button.pack(side="left", padx=10)
+    pharmacy_info_button.pack(side="left", padx=10)
+
 
     inventory_tree = inventory_table.create_inventory_table(frame)
     patients_tree = patients_table.create_patients_table(frame)
     users_tree = users_table.create_users_table(frame)
     prescriptions_tree = prescriptions_table.create_prescriptions_table(frame)
+    pharmacy_info.create_welcome_screen(frame)
 
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
 
@@ -128,7 +133,17 @@ def show_settings(current_user_role):
     hide_check_inventory_button()
     hide_add_patient_button()
 
-    
+def show_pharmacy_info():
+    inventory_table.hide_inventory_table(inventory_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+    hide_add_prescription_button()
+    hide_check_inventory_button()
+    hide_add_patient_button()
+    pharmacy_info.show_welcome_screen()
+
+
 def hide_check_inventory_button():
     global check_inventory_button
     if check_inventory_button is not None:
