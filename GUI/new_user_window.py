@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -40,7 +41,7 @@ def submit_user(username_entry,window):
     password = generate_password(10)
 
     # Append the values to the CSV file with a newline character
-    with open("credentials.csv", "a", newline="") as file:
+    with open(os.path.join("GUI","credentials.csv"), "a", newline="") as file:
         writer = csv.writer(file)
         writer.writerow([username, password, True, "staff"])
 
