@@ -142,3 +142,36 @@ def save_edits(entries, original_data, popup):
     
     # Close the popup
     popup.destroy()
+
+def remove_patient():
+    root = tk.Tk()
+    root.withdraw()  # Hide the main window
+    
+    patient_name = simpledialog.askstring("Input", "Enter the patient's name:")
+    
+    if patient_name:  # If a name was entered
+        # Check and remove patient data from CSV
+        file_path = os.path.join("GUI", "patients.csv")
+        
+        rows = []
+        found = False
+        
+        with open(file_path, mode='r', newline='', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                # Check if the row matches the patient name
+                if f"{row['First Name']} {row['Last Name']}" == patient_name:
+                    found = True  # Don't add this row to `rows`, thereby "removing" it
+                else:
+                    rows.append(row)  # Add row to `rows`, preserving it
+        
+        # Check if patient was found and removed
+        if found:
+            # Write the modified data back to the CSV file
+            with open(file_path, mode='w', newline='', encoding='utf-8') as file:
+                writer = csv.DictWriter(file, fieldnames=rows[0].keys())
+                writer.writeheader()
+                writer.writerows(rows)
+            messagebox.showinfo("Success", "Patient removed")
+        else:
+            messagebox.showinfo("Failure", "Patient not found")
