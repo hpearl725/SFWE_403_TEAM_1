@@ -39,10 +39,10 @@ def open_new_user_window(current_user_role):
 
 
 # Create the dashboard window
-def create_dashboard(current_user_role, username):
+def create_dashboard(user):
     global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree
-    global current_username # global variable for username once user has logged in to the dashboard
-    current_username = username
+    global current_user
+    current_user = user
 
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
@@ -61,11 +61,11 @@ def create_dashboard(current_user_role, username):
     button_frame = ttk.Frame(frame)
     button_frame.pack(side="top", fill="x", padx=10, pady=10)
 
-    inventory_button = ttk.Button(button_frame, text="Inventory", command=lambda: show_inventory_table(current_user_role))
+    inventory_button = ttk.Button(button_frame, text="Inventory", command=lambda: show_inventory_table(current_user.role))
     patients_button = ttk.Button(button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(button_frame, text="Users", command=show_users_table)
     prescriptions_button = ttk.Button(button_frame, text="Prescriptions", command=show_prescriptions_table)
-    settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_settings(current_user_role))
+    settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_settings(current_user.role))
     exit_button = ttk.Button(frame, text="Exit", command=dashboard.quit)
 
     inventory_button.pack(side="left", padx=10)
@@ -96,7 +96,7 @@ def show_inventory_table(current_user_role):
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_check_inventory_button()
     if current_user_role=="manager": # only manager can see the remove-inventory button
-        show_remove_expired_button(current_username)
+        show_remove_expired_button(current_user.username)
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -151,7 +151,7 @@ def show_settings(current_user_role):
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     if current_user_role == "manager": # only manager can add users
-        show_add_user_button(current_user_role)
+        show_add_user_button(current_user.role)
     hide_add_prescription_button()
     hide_check_inventory_button()
     hide_add_patient_button()

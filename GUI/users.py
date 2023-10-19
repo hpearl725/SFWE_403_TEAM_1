@@ -1,5 +1,5 @@
 import csv
-
+import os
 """_summary_
     
     First digit of userID specifies user type
@@ -12,47 +12,28 @@ import csv
 
 def createUser(userID):
     """
-    Finds user in users.csv by userID and creates object of said user    
+    Finds user in users.csv by userID and creates an object of said user    
     """
-    with open("GUI/users.csv", "r") as file:
+    with open(os.path.join("GUI", "users.csv"), "r") as file:
         reader = csv.reader(file)
         for row in reader:
-            if(row[0] == userID):
-                print("found user " + userID)
-                if(userID[0] == 1):
-                    return Patient(row[1],row[2],row[3],row[4],row[5],row[6],row[7])
-                if(userID[0] == 2):
-                    return Cashier(row[1],row[2],row[3],row[4],row[5],row[6],row[7])
-                if(userID[0] == 3):
-                    return Technician(row[1],row[2],row[3],row[4],row[5],row[6],row[7])
-                if(userID[0] == 4):
-                    return PharmacyManager(row[1],row[2],row[3],row[4],row[5],row[6],row[7])
+            if row[0] == userID:
+                print("Found user " + userID)
+                return User(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
         raise Exception("The specified User DNE")
+
     
 class User():
-    def __init__(self,fname,lname,dob,address,phonenumber,emailaddress,insurance):
+    def __init__(self, userID, username, password, role, fname, lname, dob, phonenumber, emailaddress):
+        self.userID = userID
+        self.username = username
+        self.password = password
+        self.role = role
         self.fname = fname
         self.lname = lname
         self.dob = dob
-        self.address = address
         self.phonenumber = phonenumber
         self.emailaddress = emailaddress
-        self.insurance = insurance
 
-class PharmacyManager(User):
-    def __init__(self,fname,lname,dob,address,phonenumber,emailaddress,insurance):
-        User.__init__(self,fname,lname,dob,address,phonenumber,emailaddress,insurance)
-        
-class Technician(User):
-    def __init__(self,fname,lname,dob,address,phonenumber,emailaddress,insurance):
-        User.__init__(self,fname,lname,dob,address,phonenumber,emailaddress,insurance)
-        
-class Cashier(User):
-    def __init__(self, fname,lname,dob,address,phonenumber,emailaddress,insurance):
-        User.__init__(self,fname,lname,dob,address,phonenumber,emailaddress,insurance)
-        
-class Patient(User):
-    def __init__(self,fname,lname,dob,address,phonenumber,emailaddress,insurance):
-        User.__init__(self,fname,lname,dob,address,phonenumber,emailaddress,insurance)
-        
-createUser("09000")
+if __name__ == "__main__":
+    createUser("09000")
