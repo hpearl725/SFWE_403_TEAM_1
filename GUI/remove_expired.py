@@ -7,7 +7,7 @@ from GUI.inventory import read_inventory,write_inventory
 from logs.log import logger, event, events, log_obj
 
 # Function to handle the search button click event
-def remove_expired(this_entry,window,ttk_tree,current_username):
+def remove_expired(this_entry,window,ttk_tree,current_user):
     # Get the product name from the entry widget
     product_name = this_entry.get()
 
@@ -37,13 +37,13 @@ def remove_expired(this_entry,window,ttk_tree,current_username):
         # Log the removal event
         log = logger(os.path.join("GUI","log.csv"))
         this_event = event("user_action", events.remove_meds.name, f"User removed expired medicine {product_name}")
-        log.log(log_obj(this_event, current_username))
+        log.log(log_obj(this_event, current_user.username))
 
     # Destroy the check inventory window
     window.destroy()
 
 
-def create_remove_expired_window(inventory_tree,current_username):
+def create_remove_expired_window(inventory_tree,current_user):
     # Create the new user window
     entry_window = tk.Tk()
     entry_window.title("Remove expired product")
@@ -66,7 +66,7 @@ def create_remove_expired_window(inventory_tree,current_username):
 
     # Create a submit button
     submit_button = ttk.Button(frame, text="remove from inventory", 
-                               command=lambda: remove_expired(product_name_entry,entry_window,inventory_tree,current_username))
+                               command=lambda: remove_expired(product_name_entry,entry_window,inventory_tree,current_user))
 
     # Use grid layout to arrange the widgets
     product_name_label.grid(row=0, column=0, padx=10, pady=5, sticky="e")
