@@ -9,7 +9,7 @@ from GUI.authorization_page import create_authorization_page
 from GUI.dashboard import create_dashboard
 from GUI.authorization_page import create_authorization_page
 from logs.log import logger, event, events, log_obj
-
+from GUI.users import createUser
 
 def open_dashboard():
     """
@@ -29,43 +29,44 @@ def open_dashboard():
     global current_user_role
 
     # Open the .csv file and search for the username and password
-    credentials_file_path = os.path.join('GUI', 'credentials.csv')
+    credentials_file_path = os.path.join('GUI', 'users.csv')
     with open(credentials_file_path, "r") as file:
         reader = csv.reader(file)
         rows = list(reader)
         for i, row in enumerate(rows):
-            if row[0] == username and row[1] == password:
-                if create_authorization_page():
-                    if row[0] == username:
-                        if int(row[4]) >= 5:
-                            raise Exception("Too many failed attempts")
-                        if row[1] == password:
-                            current_user_role = row[3]
-                            if row[2] == 'True':
-                                new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
-
-                                rows[i] = [username, new_password, False, current_user_role]
-                                with open(os.path.join("GUI","credentials.csv"), "w", newline="") as file:
-                                    writer = csv.writer(file)
-                                    writer.writerows(rows)
-                            
-                            # Close the login window
-                            root.destroy()
-                            
-                            # Open the dashboard window
-                            create_dashboard(current_user_role, username)
-
-                            # Log the login event
-                            log = logger(os.path.join("GUI","log.csv"))
-                            login_event = event("user_action", events.login.name, "User logged in")
-                            log.log(log_obj(login_event, username))
-
-                            return
-                        else:
-                            with open(os.path.join("GUI","credentials.csv"), "w") as file:
-                                rows[i] = [row[0], row[1], row[2], row[3], int(row[4])+1]
+            if row[1] == username:
+                if int(row[9]) >= 5:
+                    #TODO: make this a popup window
+                    raise Exception("Too many failed attempts")
+                if row[2] == password:
+                    if create_authorization_page():
+                        current_user = createUser(row[0])
+                        if row[10] == 'True':
+                            new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
+                            row[2] = new_password
+                            row[10] = 'False'
+                            rows[i] = row
+                            with open(os.path.join("GUI","users.csv"), "w", newline="") as file:
                                 writer = csv.writer(file)
                                 writer.writerows(rows)
+                        
+                        # Close the login window
+                        root.destroy()
+                        
+                        # Open the dashboard window
+                        create_dashboard(current_user)
+
+                        # Log the login event
+                        log = logger(os.path.join("GUI","log.csv"))
+                        login_event = event("user_action", events.login.name, "User logged in")
+                        log.log(log_obj(login_event, username))
+
+                        return
+                    else:
+                        with open(os.path.join("GUI","users.csv"), "w") as file:
+                            rows[i][9] += 1 
+                            writer = csv.writer(file)
+                            writer.writerows(rows)
 
     messagebox.showerror("Login Failed", "Incorrect username or password")
 
