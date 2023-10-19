@@ -63,7 +63,7 @@ def open_dashboard():
 
                         return
                     else:
-                        with open(os.path.join("GUI","credential.csv"), "w") as file:
+                        with open(os.path.join("GUI","users.csv"), "w") as file:
                             rows[i][9] += 1 
                             writer = csv.writer(file)
                             writer.writerows(rows)
