@@ -75,9 +75,8 @@ def open_dashboard():
 root = tk.Tk()
 root.title("Login Page")
 
-# Configure the window to have no border and make it resizable
-root.overrideredirect(True)
-root.geometry("400x200")
+# Configure the login window to make it non-resizable
+root.geometry("400x180")
 root.resizable(False, False)
 
 # Create a ThemedStyle instance for the modern theme

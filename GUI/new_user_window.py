@@ -56,8 +56,7 @@ def create_new_user_window():
     new_user_window = tk.Tk()
     new_user_window.title("New User")
 
-    # Configure the window to have no border and make it resizable
-    new_user_window.overrideredirect(True)
+    # Configure the window to make it non-resizable
     new_user_window.geometry("400x400")  # Increased height to accommodate additional fields
     new_user_window.resizable(False, False)
 

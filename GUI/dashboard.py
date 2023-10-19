@@ -47,8 +47,7 @@ def create_dashboard(user):
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
 
-    # Configure the window to have no border and make it resizable
-    dashboard.overrideredirect(True)
+    # Configure the window to make it non-resizable
     dashboard.geometry("800x600")
     dashboard.resizable(False, False)
 
