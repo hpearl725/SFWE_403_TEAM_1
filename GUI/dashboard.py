@@ -145,9 +145,9 @@ def show_pharmacy_info():
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    hide_add_prescription_button()
-    hide_check_inventory_button()
+    hide_add_user_button()
     hide_add_patient_button()
+    hide_add_prescription_button()
     hide_update_patient_button()
     pharmacy_info.show_welcome_screen()
 
