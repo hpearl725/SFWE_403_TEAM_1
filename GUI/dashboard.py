@@ -148,6 +148,7 @@ def show_prescriptions_table():
     hide_add_user_button()
     hide_add_patient_button()
     hide_update_patient_button()
+    hide_check_inventory_button()
     hide_remove_expired_button()
     hide_remove_patient_button()
     
