@@ -72,12 +72,14 @@ def create_new_user_window():
     # need to get maxid from users.csv
     fields = [
         ("Username:", ttk.Entry(frame)),
-        ("Role:", ttk.Entry(frame)),
         ("First Name:", ttk.Entry(frame)),
         ("Last Name:", ttk.Entry(frame)),
         ("Date of Birth:", ttk.Entry(frame)),
         ("Phone Number:", ttk.Entry(frame)),
-        ("Email Address:", ttk.Entry(frame))
+        ("Email Address:", ttk.Entry(frame)),
+        ("Role:", ttk.Combobox(frame, width=18, 
+                               values=("manager","pharmacist","technician","cashier"), 
+                               state="readonly"))
     ]
 
     # Create a submit button
