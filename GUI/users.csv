@@ -1,8 +1,8 @@
 userID,username,password,role,fname,lname,dob,phonenumber,emailaddress,attempts,firstlogin,locked
 1,tstark,test,manager,tony,stark,01-01-2000,123-456-7890,iamironman@gmail.com,0,False,False
 2,srogers,test,cashier,steve,rogers,12-20-1940, 012-345-6789,firstavenger@aol.com,0,False,False
-7,hbanner,angry,pharmacist,Bruce,Banner,01/01/0001,123-456-7890,alwaysangry@yahoo.com,0,False,False
-3,a,1,manager,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
-4,b,2,pharmacist,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
-5,c,3,technician,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
-6,d,4,cashier,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
+3,hbanner,angry,pharmacist,Bruce,Banner,01/01/0001,123-456-7890,alwaysangry@yahoo.com,0,False,False
+4,a,1,manager,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
+5,b,2,pharmacist,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
+6,c,3,technician,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
+7,d,4,cashier,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
