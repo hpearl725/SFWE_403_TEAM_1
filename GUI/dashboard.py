@@ -47,8 +47,7 @@ def create_dashboard(user):
     dashboard = tk.Tk()
     dashboard.title("Dashboard")
 
-    # Configure the window to have no border and make it resizable
-    dashboard.overrideredirect(True)
+    # Configure the window to make it non-resizable
     dashboard.geometry("800x600")
     dashboard.resizable(False, False)
 
@@ -238,6 +237,3 @@ def show_add_prescription_button():
     if add_prescription_button is None:
         add_prescription_button = ttk.Button(frame, text="Add Prescription", command=prescriptions_table.add_prescription)
     add_prescription_button.pack(pady=10)
-
-if __name__ == "__main__":
-    create_dashboard("manager")

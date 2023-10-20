@@ -25,59 +25,63 @@ def open_dashboard():
     username = username_entry.get()
     password = password_entry.get()
 
-    # Global variable to store the role of the current user
-    global current_user_role
-
     # Open the .csv file and search for the username and password
     credentials_file_path = os.path.join('GUI', 'users.csv')
-    with open(credentials_file_path, "r") as file:
+
+    # flag to prevent additional login attempts after user is locked out
+    this_user_locked = False
+
+    with open(credentials_file_path, "r", newline='', encoding='utf-8') as file:
         reader = csv.reader(file)
         rows = list(reader)
         for i, row in enumerate(rows):
             if row[1] == username:
-                if int(row[9]) >= 5:
-                    #TODO: make this a popup window
-                    raise Exception("Too many failed attempts")
-                if row[2] == password:
-                    if create_authorization_page():
-                        current_user = createUser(row[0])
-                        if row[10] == 'True':
-                            new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
-                            row[2] = new_password
-                            row[10] = 'False'
-                            rows[i] = row
-                            with open(os.path.join("GUI","users.csv"), "w", newline="") as file:
-                                writer = csv.writer(file)
-                                writer.writerows(rows)
-                        
-                        # Close the login window
-                        root.destroy()
-                        
-                        # Open the dashboard window
-                        create_dashboard(current_user)
+                if int(row[9]) == 5: # failed attempts stop incrementing after 5
+                    messagebox.showerror("Login attempts", "Too many failed attempts")
+                    this_user_locked = True
+                else:
+                    if row[2] == password:
+                        if create_authorization_page():
+                            current_user = createUser(row[0])
+                            if row[10] == 'True':
+                                new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
+                                row[2] = new_password
+                                row[10] = 'False'
+                                rows[i] = row
+                                with open(credentials_file_path, "w", newline='', encoding='utf-8') as file:
+                                    writer = csv.writer(file)
+                                    writer.writerows(rows)
+                            
+                            # Close the login window
+                            root.destroy()
+                            
+                            # Open the dashboard window
+                            create_dashboard(current_user)
 
-                        # Log the login event
-                        log = logger(os.path.join("GUI","log.csv"))
-                        login_event = event("user_action", events.login.name, "User logged in")
-                        log.log(log_obj(login_event, username))
+                            # Log the login event
+                            log = logger(os.path.join("GUI","log.csv"))
+                            login_event = event("user_action", events.login.name, "User logged in")
+                            log.log(log_obj(login_event, username))
 
-                        return
+                            return
                     else:
-                        with open(os.path.join("GUI","users.csv"), "w") as file:
-                            rows[i][9] += 1 
+                        with open(credentials_file_path, "w", newline='', encoding='utf-8') as file:
+                            rows[i][9] =  str(int(rows[i][9]) + 1)
+                            if rows[i][9]=="5": # write locked status to csv if attempts reach 5
+                                rows[i][11] = "True"
                             writer = csv.writer(file)
                             writer.writerows(rows)
-
-    messagebox.showerror("Login Failed", "Incorrect username or password")
+    
+    if not this_user_locked:
+        messagebox.showerror("Login Failed", "Incorrect username or password")
 
 
 # Create the main login window
 root = tk.Tk()
 root.title("Login Page")
 
-# Configure the window to have no border and make it resizable
-root.overrideredirect(True)
-root.geometry("400x200")
+# Configure the login window to make it non-resizable
+root.geometry("400x180")
 root.resizable(False, False)
 
 # Create a ThemedStyle instance for the modern theme
@@ -109,15 +113,3 @@ root.geometry("+%d+%d" % ((root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
 
 # Start the Tkinter main loop for the login page
 root.mainloop()
-
-
-def current_user_role():
-    """
-    Get the role of the current user.
-
-    This function returns the role of the current user, which is stored in the
-    global variable `current_user_role`.
-
-    :return: The role of the current user.
-    """
-    return current_user_role

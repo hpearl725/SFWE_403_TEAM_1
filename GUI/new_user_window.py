@@ -56,8 +56,7 @@ def create_new_user_window():
     new_user_window = tk.Tk()
     new_user_window.title("New User")
 
-    # Configure the window to have no border and make it resizable
-    new_user_window.overrideredirect(True)
+    # Configure the window to make it non-resizable
     new_user_window.geometry("400x400")  # Increased height to accommodate additional fields
     new_user_window.resizable(False, False)
 
@@ -73,12 +72,14 @@ def create_new_user_window():
     # need to get maxid from users.csv
     fields = [
         ("Username:", ttk.Entry(frame)),
-        ("Role:", ttk.Entry(frame)),
         ("First Name:", ttk.Entry(frame)),
         ("Last Name:", ttk.Entry(frame)),
         ("Date of Birth:", ttk.Entry(frame)),
         ("Phone Number:", ttk.Entry(frame)),
-        ("Email Address:", ttk.Entry(frame))
+        ("Email Address:", ttk.Entry(frame)),
+        ("Role:", ttk.Combobox(frame, width=18, 
+                               values=("manager","pharmacist","technician","cashier"), 
+                               state="readonly"))
     ]
 
     # Create a submit button
