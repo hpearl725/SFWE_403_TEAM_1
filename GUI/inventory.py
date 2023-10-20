@@ -1,3 +1,4 @@
+import os
 import csv
 
 # define csv header to use to read/write/display inventory
@@ -40,3 +41,17 @@ def write_inventory(filename, inventory_dict):
 # write_inventory("products_output.csv", inventory)
 
 # print("done")
+import datetime
+
+def get_near_expiry_medicines():
+    inventory_path = os.path.join('GUI', 'inventory.csv')
+    inventory_dict = read_inventory(inventory_path)
+    near_expiry_medicines = []
+    today = datetime.date.today()
+
+    for row in inventory_dict.values():
+        expiry_date = datetime.datetime.strptime(row["date_expires"], "%m/%d/%Y").date()
+        if (expiry_date - today).days <= 30:
+            near_expiry_medicines.append(row)
+
+    return near_expiry_medicines

@@ -7,4 +7,4 @@ ID_number,product_name,in_stock,date_added,date_expires,is_expired,price
 9,product9,1,5/1/2023,6/23/2032,FALSE,3.99
 10,product10,12,5/1/2023,12/12/2023,FALSE,11.99
 11,product11,1,5/2/2023,1/1/2025,FALSE,9.99
-12,product12,15,2023/9/27,2024/9/24,FALSE,13.99
+12,product12,10,10/10/2023,3/10/2023,TRUE,12.99
