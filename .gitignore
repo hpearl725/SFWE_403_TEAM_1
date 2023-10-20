@@ -12,4 +12,4 @@ __pycache__
 *.aider*
 .aider*
 *.orig
-logs/log.csv
+GUI/log.csv
