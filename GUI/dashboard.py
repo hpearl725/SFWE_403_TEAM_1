@@ -247,3 +247,9 @@ def show_add_prescription_button():
     if add_prescription_button is None:
         add_prescription_button = ttk.Button(frame, text="Add Prescription", command=prescriptions_table.add_prescription)
     add_prescription_button.pack(pady=10)
+
+if __name__ == "__main__":
+    # Create a dummy user
+    dummy_user = User("dummy_id", "dummy_user", "dummy_password", "manager", "Dummy", "User", "01-01-1970", "1234567890", "dummy@user.com")
+    # Call the create_dashboard function with the dummy user
+    create_dashboard(dummy_user)
