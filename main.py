@@ -30,14 +30,13 @@ def open_dashboard():
 
     # Open the .csv file and search for the username and password
     credentials_file_path = os.path.join('GUI', 'users.csv')
-    with open(credentials_file_path, "r") as file:
+    with open(credentials_file_path, "r", newline='', encoding='utf-8') as file:
         reader = csv.reader(file)
         rows = list(reader)
         for i, row in enumerate(rows):
             if row[1] == username:
                 if int(row[9]) >= 5:
-                    #TODO: make this a popup window
-                    raise Exception("Too many failed attempts")
+                    messagebox.showerror("Login attempts", "Too many failed attempts")
                 if row[2] == password:
                     if create_authorization_page():
                         current_user = createUser(row[0])
@@ -62,11 +61,11 @@ def open_dashboard():
                         log.log(log_obj(login_event, username))
 
                         return
-                    else:
-                        with open(os.path.join("GUI","users.csv"), "w") as file:
-                            rows[i][9] += 1 
-                            writer = csv.writer(file)
-                            writer.writerows(rows)
+                else:
+                    with open(os.path.join("GUI","users.csv"), "w", newline='', encoding='utf-8') as file:
+                        rows[i][9] =  str(int(rows[i][9]) + 1) 
+                        writer = csv.writer(file)
+                        writer.writerows(rows)
 
     messagebox.showerror("Login Failed", "Incorrect username or password")
 
