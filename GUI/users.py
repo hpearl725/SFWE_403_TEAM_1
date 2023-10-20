@@ -18,7 +18,7 @@ def createUser(userID):
         reader = csv.reader(file)
         for row in reader:
             if row[0] == userID:
-                print("Found user " + userID)
+                # print("Found user " + userID)
                 return User(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
         raise Exception("The specified User DNE")
 
