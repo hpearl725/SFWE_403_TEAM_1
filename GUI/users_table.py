@@ -1,3 +1,5 @@
+import csv
+import os
 from tkinter import ttk
 
 
@@ -14,10 +16,20 @@ def create_users_table(frame):
 
 # Function to show the Users table
 def show_users_table(users_tree):
-    # Insert example data into the Users table (hidden initially)
-    users_tree.insert("", "end", values=("user1", "Admin"))
-    users_tree.insert("", "end", values=("user2", "User"))
-    users_tree.insert("", "end", values=("user3", "User"))
+    # Clear existing rows
+    users_tree.delete(*users_tree.get_children())
+
+    # Load and insert user data from CSV file
+    file_path = os.path.join("GUI", "users.csv")
+
+    # Check if the CSV file exists, if it does, read and insert user data into the treeview
+    if os.path.exists(file_path):
+        with open(file_path, mode='r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                users_tree.insert("", "end", values=(row["username"], row["role"]))
+    else:
+        pass # placeholder for error message
     users_tree.pack()
 
 
