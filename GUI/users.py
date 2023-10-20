@@ -34,6 +34,3 @@ class User():
         self.dob = dob
         self.phonenumber = phonenumber
         self.emailaddress = emailaddress
-
-if __name__ == "__main__":
-    createUser("09000")
