@@ -25,9 +25,6 @@ def open_dashboard():
     username = username_entry.get()
     password = password_entry.get()
 
-    # Global variable to store the role of the current user
-    global current_user_role
-
     # Open the .csv file and search for the username and password
     credentials_file_path = os.path.join('GUI', 'users.csv')
 
@@ -116,15 +113,3 @@ root.geometry("+%d+%d" % ((root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
 
 # Start the Tkinter main loop for the login page
 root.mainloop()
-
-
-def current_user_role():
-    """
-    Get the role of the current user.
-
-    This function returns the role of the current user, which is stored in the
-    global variable `current_user_role`.
-
-    :return: The role of the current user.
-    """
-    return current_user_role
