@@ -94,7 +94,10 @@ def show_inventory_table(current_user):
         messagebox.showerror("Permission Denied", "Only pharmacists can view inventory.")
         return
     inventory_table.show_inventory_table(inventory_tree)
-    inventory_table.show_near_expiry_table(near_expiry_tree)
+    if inventory_table.is_near_expiry():  # Only show the near expiry table if there are near expiry medicines
+        inventory_table.show_near_expiry_table(near_expiry_tree)
+    else:
+        inventory_table.hide_near_expiry_table(near_expiry_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)

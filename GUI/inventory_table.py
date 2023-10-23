@@ -65,14 +65,18 @@ def show_near_expiry_table(near_expiry_tree):
 
     near_expiry_medicines = get_near_expiry_medicines()
 
-    for medicine in near_expiry_medicines:
-        name = medicine["product_name"]
-        remaining_days = (datetime.datetime.strptime(medicine["date_expires"], "%m/%d/%Y").date() - datetime.date.today()).days
-        near_expiry_tree.insert("", tk.END, values=(name, remaining_days))
+    if near_expiry_medicines:  # Only show the table if there are near expiry medicines
+        for medicine in near_expiry_medicines:
+            name = medicine["product_name"]
+            remaining_days = (datetime.datetime.strptime(medicine["date_expires"], "%m/%d/%Y").date() - datetime.date.today()).days
+            near_expiry_tree.insert("", tk.END, values=(name, remaining_days))
 
-    near_expiry_tree.pack()
+        near_expiry_tree.pack()
 
 
 def hide_near_expiry_table(near_expiry_tree):
     if near_expiry_tree is not None:
         near_expiry_tree.pack_forget()
+def is_near_expiry():
+    near_expiry_medicines = get_near_expiry_medicines()
+    return bool(near_expiry_medicines)
