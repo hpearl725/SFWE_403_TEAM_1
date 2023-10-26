@@ -12,6 +12,7 @@ from GUI import users_table
 from GUI import prescriptions_table
 from GUI import check_inventory
 from GUI import remove_expired
+from GUI import pharmacy_info_window
 from GUI.users import User
 
 # Declare the Treeview widgets as global variables
@@ -198,7 +199,7 @@ def show_pharm_info_button(current_user):
     global pharm_info_button
     if pharm_info_button is None:
         pharm_info_button = ttk.Button(frame, text="About pharmacy...",
-                                            command=lambda: remove_expired.create_remove_expired_window(inventory_tree,current_user))
+                                            command=lambda: pharmacy_info_window.create_welcome_screen())
     pharm_info_button.pack(side="top", pady=10)
 
 
