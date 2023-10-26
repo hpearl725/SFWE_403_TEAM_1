@@ -158,7 +158,7 @@ def show_settings(current_user):
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     if current_user.role == "manager": # only manager can add users
         show_add_user_button(current_user)
-    show_pharm_info_button(current_user) # all users can access pharmacy info
+    show_pharm_info_button() # all users can access pharmacy info
     hide_add_prescription_button()
     hide_check_inventory_button()
     hide_add_patient_button()
@@ -195,11 +195,11 @@ def hide_pharm_info_button():
     if pharm_info_button is not None:
         pharm_info_button.pack_forget()
 
-def show_pharm_info_button(current_user):
+def show_pharm_info_button():
     global pharm_info_button
     if pharm_info_button is None:
         pharm_info_button = ttk.Button(frame, text="About pharmacy...",
-                                            command=lambda: pharmacy_info_window.create_welcome_screen())
+                                            command=lambda: pharmacy_info_window.create_info_window())
     pharm_info_button.pack(side="top", pady=10)
 
 
