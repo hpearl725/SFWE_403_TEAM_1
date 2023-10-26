@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from ttkthemes import ThemedStyle
-import csv
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -13,6 +12,7 @@ from GUI import users_table
 from GUI import prescriptions_table
 from GUI import check_inventory
 from GUI import remove_expired
+from GUI.users import User
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -30,19 +30,7 @@ remove_expired_button = None
 remove_patient_button = None
 pharm_info_button = None
 
-# Function to open the new user window
-def open_new_user_window(current_user):
-    # Check if the current user is a manager
-    if current_user.role != "manager":
-        messagebox.showerror("Permission Denied", "Only managers can add new users.")
-        return
-
-    new_user_window.create_new_user_window()
-
-
 # Create the dashboard window
-from GUI.users import User
-
 def create_dashboard(user):
     global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree, near_expiry_tree
     global current_user
@@ -175,6 +163,16 @@ def show_settings(current_user):
     hide_add_patient_button()
     hide_remove_expired_button()
     hide_remove_patient_button()
+
+
+# Function to open the new user window
+def open_new_user_window(current_user):
+    # Check if the current user is a manager
+    if current_user.role != "manager":
+        messagebox.showerror("Permission Denied", "Only managers can add new users.")
+        return
+
+    new_user_window.create_new_user_window()
 
 
 # define hide and show functions for buttons
