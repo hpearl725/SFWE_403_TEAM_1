@@ -28,6 +28,7 @@ add_prescription_button = None
 check_inventory_button = None
 remove_expired_button = None
 remove_patient_button = None
+pharm_info_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user):
@@ -109,6 +110,7 @@ def show_inventory_table(current_user):
     hide_add_prescription_button()
     hide_update_patient_button()
     hide_remove_patient_button()
+    hide_pharm_info_button()
 
 
 def show_patients_table():
@@ -124,6 +126,7 @@ def show_patients_table():
     hide_check_inventory_button()
     hide_remove_expired_button()
     show_remove_patient_button()
+    hide_pharm_info_button()
 
 
 def show_users_table():
@@ -139,6 +142,7 @@ def show_users_table():
     hide_check_inventory_button()
     hide_remove_expired_button()
     hide_remove_patient_button()
+    hide_pharm_info_button()
 
 
 def show_prescriptions_table():
@@ -154,6 +158,7 @@ def show_prescriptions_table():
     hide_check_inventory_button()
     hide_remove_expired_button()
     hide_remove_patient_button()
+    hide_pharm_info_button()
     
 
 def show_settings(current_user):
@@ -164,6 +169,7 @@ def show_settings(current_user):
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     if current_user.role == "manager": # only manager can add users
         show_add_user_button(current_user)
+    show_pharm_info_button(current_user) # all users can access pharmacy info
     hide_add_prescription_button()
     hide_check_inventory_button()
     hide_add_patient_button()
@@ -183,6 +189,20 @@ def show_remove_expired_button(current_user):
         remove_expired_button = ttk.Button(frame, text="Remove expired medicine",
                                             command=lambda: remove_expired.create_remove_expired_window(inventory_tree,current_user))
     remove_expired_button.pack(side="top", pady=10)
+
+
+def hide_pharm_info_button():
+    global pharm_info_button
+    if pharm_info_button is not None:
+        pharm_info_button.pack_forget()
+
+def show_pharm_info_button(current_user):
+    global pharm_info_button
+    if pharm_info_button is None:
+        pharm_info_button = ttk.Button(frame, text="About pharmacy...",
+                                            command=lambda: remove_expired.create_remove_expired_window(inventory_tree,current_user))
+    pharm_info_button.pack(side="top", pady=10)
+
 
 def hide_check_inventory_button():
     global check_inventory_button
