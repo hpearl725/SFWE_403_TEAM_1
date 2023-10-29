@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import ttk
 import csv
-from GUI.inventory import read_inventory, get_near_expiry_medicines
+from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory
 import datetime
 
 
@@ -80,3 +80,54 @@ def hide_near_expiry_table(near_expiry_tree):
 def is_near_expiry():
     near_expiry_medicines = get_near_expiry_medicines()
     return bool(near_expiry_medicines)
+
+
+def add_new_medicine_popup():
+    popup = tk.Tk()
+    popup.wm_title("Add New Medicine")
+
+    name_label = ttk.Label(popup, text="Name")
+    name_label.pack(side="top", fill="x", pady=10)
+    name_entry = ttk.Entry(popup)
+    name_entry.pack()
+
+    quantity_label = ttk.Label(popup, text="Quantity")
+    quantity_label.pack(side="top", fill="x", pady=10)
+    quantity_entry = ttk.Entry(popup)
+    quantity_entry.pack()
+
+    expiry_date_label = ttk.Label(popup, text="Expiry Date")
+    expiry_date_label.pack(side="top", fill="x", pady=10)
+    expiry_date_entry = ttk.Entry(popup)
+    expiry_date_entry.pack()
+
+    price_label = ttk.Label(popup, text="Price")
+    price_label.pack(side="top", fill="x", pady=10)
+    price_entry = ttk.Entry(popup)
+    price_entry.pack()
+
+    def update_inventory():
+        inventory_path = os.path.join('GUI', 'inventory.csv')
+        inventory_dict = read_inventory(inventory_path)
+        new_medicine = name_entry.get()
+        new_quantity = int(quantity_entry.get())
+        new_expiry_date = expiry_date_entry.get()
+        new_price = price_entry.get()
+
+        if new_medicine in inventory_dict:
+            inventory_dict[new_medicine]["in_stock"] = str(int(inventory_dict[new_medicine]["in_stock"]) + new_quantity)
+        else:
+            inventory_dict[new_medicine] = {"product_name" : new_medicine,
+                                            "ID_number" : str(len(inventory_dict) + 1),
+                                            "in_stock" : str(new_quantity),
+                                            "date_added" : str(datetime.date.today()),
+                                            "date_expires" : new_expiry_date,
+                                            "is_expired" : "false",
+                                            "price" : new_price}
+
+        write_inventory(inventory_path, inventory_dict)
+        popup.destroy()
+
+    B1 = ttk.Button(popup, text="Okay", command = update_inventory)
+    B1.pack()
+    popup.mainloop()
