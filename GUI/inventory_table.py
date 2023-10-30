@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import ttk
 import csv
-from GUI.inventory import read_inventory, get_near_expiry_medicines
+from GUI.inventory import read_inventory, get_near_expiry_medicines, get_low_inventory_items
 import datetime
 
 
@@ -80,3 +80,36 @@ def hide_near_expiry_table(near_expiry_tree):
 def is_near_expiry():
     near_expiry_medicines = get_near_expiry_medicines()
     return bool(near_expiry_medicines)
+
+
+def create_low_inventory_table(frame):
+    low_inventory_tree = ttk.Treeview(frame)
+    low_inventory_tree["columns"] = ("name", "quantity")
+
+    low_inventory_tree.column("#0", width=0, stretch=tk.NO)
+    low_inventory_tree.column("name", anchor=tk.W, width=150)
+    low_inventory_tree.column("quantity", anchor=tk.CENTER, width=100)
+
+    low_inventory_tree.heading("#0", text="", anchor=tk.W)
+    low_inventory_tree.heading("name", text="Name", anchor=tk.W)
+    low_inventory_tree.heading("quantity", text="Quantity", anchor=tk.CENTER)
+
+    return low_inventory_tree
+
+def show_low_inventory_table(low_inventory_tree):
+    low_inventory_tree.delete(*low_inventory_tree.get_children())  # Clear existing rows
+
+    low_inventory_items = get_low_inventory_items()
+
+    if low_inventory_items:  
+        for medicine in low_inventory_items:
+            name = medicine["product_name"]
+            stock_remaining = medicine["in_stock"]
+            low_inventory_tree.insert("", tk.END, values=(name, stock_remaining))
+
+        low_inventory_tree.pack()
+
+
+def hide_low_inventory_table(low_inventory_tree):
+    if low_inventory_tree is not None:
+        low_inventory_tree.pack_forget()

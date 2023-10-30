@@ -55,3 +55,20 @@ def get_near_expiry_medicines():
             near_expiry_medicines.append(row)
 
     return near_expiry_medicines
+
+
+def get_low_inventory_items():
+    inventory_path = os.path.join('GUI', 'inventory.csv')
+    inventory_dict = read_inventory(inventory_path)
+    low_inventory_items = []
+
+    for row in inventory_dict.values():
+        try:
+            in_stock = int(row["in_stock"])
+            if in_stock < 120:
+                low_inventory_items.append(row)
+        except ValueError:
+            pass  
+
+    #print(low_inventory_items)
+    return low_inventory_items

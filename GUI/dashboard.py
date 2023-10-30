@@ -20,6 +20,7 @@ patients_tree = None
 users_tree = None
 prescriptions_tree = None
 near_expiry_tree = None
+low_inventory_tree = None
 frame = None
 add_user_button = None
 add_patient_button = None
@@ -43,7 +44,7 @@ def open_new_user_window(current_user):
 from GUI.users import User
 
 def create_dashboard(user):
-    global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree, near_expiry_tree
+    global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree, near_expiry_tree, low_inventory_tree
     global current_user
     current_user = user
 
@@ -81,6 +82,7 @@ def create_dashboard(user):
     users_tree = users_table.create_users_table(frame)
     prescriptions_tree = prescriptions_table.create_prescriptions_table(frame)
     near_expiry_tree = inventory_table.create_near_expiry_table(frame)
+    low_inventory_tree = inventory_table.create_low_inventory_table(frame)
 
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
 
@@ -89,6 +91,7 @@ def create_dashboard(user):
 
 # define hide and show functions for tables
 def show_inventory_table(current_user):
+
     # Check if the current user is a manager or pharmacist
     if not (current_user.role=="manager" or current_user.role=="pharmacist"):
         messagebox.showerror("Permission Denied", "Only pharmacists can view inventory.")
@@ -98,6 +101,8 @@ def show_inventory_table(current_user):
         inventory_table.show_near_expiry_table(near_expiry_tree)
     else:
         inventory_table.hide_near_expiry_table(near_expiry_tree)
+
+    inventory_table.show_low_inventory_table(low_inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
@@ -114,6 +119,7 @@ def show_inventory_table(current_user):
 def show_patients_table():
     inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
+    inventory_table.hide_low_inventory_table(low_inventory_tree)
     patients_table.show_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
@@ -129,6 +135,7 @@ def show_patients_table():
 def show_users_table():
     inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
+    inventory_table.hide_low_inventory_table(low_inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.show_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
@@ -144,6 +151,7 @@ def show_users_table():
 def show_prescriptions_table():
     inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
+    inventory_table.hide_low_inventory_table(low_inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.show_prescriptions_table(prescriptions_tree)
@@ -159,6 +167,7 @@ def show_prescriptions_table():
 def show_settings(current_user):
     inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
+    inventory_table.hide_low_inventory_table(low_inventory_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
