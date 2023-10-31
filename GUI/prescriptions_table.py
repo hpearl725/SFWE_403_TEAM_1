@@ -61,18 +61,16 @@ def add_prescription():
 def fill_prescription(name, medicine_name):
 
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
-    prescriptions_dict = read_prescriptions(prescriptions_path)
+    prescriptions_list = read_prescriptions(prescriptions_path)
 
-    for key, row in list(prescriptions_dict.items()):
-        if row["patient_name"] == name and row["product_name"] == medicine_name:
-            del prescriptions_dict[key]
+    prescriptions_list = [row for row in prescriptions_list if not (row["patient_name"] == name and row["product_name"] == medicine_name)]
 
     with open(prescriptions_path, mode='w', newline='', encoding='utf-8') as csv_file:
         fieldnames = ["product_name", "qty", "patient_name"]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
         writer.writeheader()
-        for row in prescriptions_dict.values():
+        for row in prescriptions_list:
             writer.writerow(row)
 
 def create_fill_prescription_window():
