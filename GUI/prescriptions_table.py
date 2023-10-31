@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 import csv
 from GUI.prescriptions import read_prescriptions
+from GUI.inventory import read_inventory, write_inventory
 
 def read_patients(filename):
     patients_dict = {}
@@ -63,7 +64,11 @@ def fill_prescription(name, medicine_name):
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
     prescriptions_list = read_prescriptions(prescriptions_path)
 
-    prescriptions_list = [row for row in prescriptions_list if not (row["patient_name"] == name and row["product_name"] == medicine_name)]
+    prescription = next((row for row in prescriptions_list if row["patient_name"] == name and row["product_name"] == medicine_name), None)
+    if prescription is None:
+        return
+
+    prescriptions_list.remove(prescription)
 
     with open(prescriptions_path, mode='w', newline='', encoding='utf-8') as csv_file:
         fieldnames = ["product_name", "qty", "patient_name"]
@@ -72,6 +77,14 @@ def fill_prescription(name, medicine_name):
         writer.writeheader()
         for row in prescriptions_list:
             writer.writerow(row)
+
+    # Update the inventory
+    inventory_path = os.path.join('GUI', 'inventory.csv')
+    inventory_dict = read_inventory(inventory_path)
+
+    if medicine_name in inventory_dict:
+        inventory_dict[medicine_name]["in_stock"] = str(int(inventory_dict[medicine_name]["in_stock"]) - int(prescription["qty"]))
+        write_inventory(inventory_path, inventory_dict)
 
 def create_fill_prescription_window():
     window = tk.Toplevel()
