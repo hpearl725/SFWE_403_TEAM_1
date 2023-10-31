@@ -58,3 +58,19 @@ from GUI.create_prescription import PrescriptionForm
 def add_prescription():
     prescription_form = PrescriptionForm()
     prescription_form.window.mainloop()
+def create_fill_prescription_window():
+    window = tk.Toplevel()
+    window.title("Fill Prescription")
+
+    name_label = ttk.Label(window, text="Name:")
+    name_label.pack(side="left", padx=(10, 0))
+    name_entry = ttk.Entry(window)
+    name_entry.pack(side="left", padx=(0, 10))
+
+    medicine_label = ttk.Label(window, text="Medicine Name:")
+    medicine_label.pack(side="left", padx=(10, 0))
+    medicine_entry = ttk.Entry(window)
+    medicine_entry.pack(side="left", padx=(0, 10))
+
+    ok_button = ttk.Button(window, text="OK")
+    ok_button.pack(side="left", padx=(10, 0))
