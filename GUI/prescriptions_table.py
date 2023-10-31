@@ -58,6 +58,23 @@ from GUI.create_prescription import PrescriptionForm
 def add_prescription():
     prescription_form = PrescriptionForm()
     prescription_form.window.mainloop()
+def fill_prescription(name, medicine_name):
+
+    prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
+    prescriptions_dict = read_prescriptions(prescriptions_path)
+
+    for key, row in list(prescriptions_dict.items()):
+        if row["patient_name"] == name and row["product_name"] == medicine_name:
+            del prescriptions_dict[key]
+
+    with open(prescriptions_path, mode='w', newline='', encoding='utf-8') as csv_file:
+        fieldnames = ["product_name", "qty", "patient_name"]
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for row in prescriptions_dict.values():
+            writer.writerow(row)
+
 def create_fill_prescription_window():
     window = tk.Toplevel()
     window.title("Fill Prescription")
@@ -72,5 +89,5 @@ def create_fill_prescription_window():
     medicine_entry = ttk.Entry(window)
     medicine_entry.pack(side="left", padx=(0, 10))
 
-    ok_button = ttk.Button(window, text="OK")
+    ok_button = ttk.Button(window, text="OK", command=lambda: [fill_prescription(name_entry.get(), medicine_entry.get()), window.destroy()])
     ok_button.pack(side="left", padx=(10, 0))
