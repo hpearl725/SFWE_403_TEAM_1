@@ -33,7 +33,7 @@ def show_prescriptions_table(prescriptions_tree):
     prescriptions_tree.delete(*prescriptions_tree.get_children())  # Clear existing rows
 
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
-    prescriptions_dict = read_prescriptions(prescriptions_path)
+    prescriptions_list = read_prescriptions(prescriptions_path)
 
     patients_path = os.path.join('patient_info.csv')
     patients_dict = read_patients(patients_path)
@@ -42,7 +42,7 @@ def show_prescriptions_table(prescriptions_tree):
         patient_name = patient["First Name"] + " " + patient["Last Name"]
         patient_node = prescriptions_tree.insert("", 'end', text=patient_name, open=True)
 
-        for row in prescriptions_dict.values():
+        for row in prescriptions_list:
             if row["patient_name"] == patient_name:
                 name = row["product_name"]
                 quantity = row["qty"]
