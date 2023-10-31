@@ -29,6 +29,7 @@ check_inventory_button = None
 remove_expired_button = None
 remove_patient_button = None
 receive_inventory_button = None
+fill_prescription_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user):
@@ -90,6 +91,7 @@ def create_dashboard(user):
 
 # define hide and show functions for tables
 def show_inventory_table(current_user):
+    hide_fill_prescription_button()
     # Check if the current user is a manager or pharmacist
     if not (current_user.role=="manager" or current_user.role=="pharmacist"):
         messagebox.showerror("Permission Denied", "Only pharmacists can view inventory.")
@@ -114,6 +116,7 @@ def show_inventory_table(current_user):
 
 
 def show_patients_table():
+    hide_fill_prescription_button()
     inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
     patients_table.show_patients_table(patients_tree)
@@ -130,6 +133,7 @@ def show_patients_table():
 
 
 def show_users_table():
+    hide_fill_prescription_button()
     inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
     patients_table.hide_patients_table(patients_tree)
@@ -152,6 +156,7 @@ def show_prescriptions_table():
     users_table.hide_users_table(users_tree)
     prescriptions_table.show_prescriptions_table(prescriptions_tree)
     show_add_prescription_button()
+    show_fill_prescription_button()
     hide_add_user_button()
     hide_add_patient_button()
     hide_update_patient_button()
@@ -162,6 +167,7 @@ def show_prescriptions_table():
     
 
 def show_settings(current_user):
+    hide_fill_prescription_button()
     inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
     patients_table.hide_patients_table(patients_tree)
@@ -252,11 +258,22 @@ def hide_add_prescription_button():
     if add_prescription_button is not None:
         add_prescription_button.pack_forget()
 
+def hide_fill_prescription_button():
+    global fill_prescription_button
+    if fill_prescription_button is not None:
+        fill_prescription_button.pack_forget()
+
 def show_add_prescription_button():
     global add_prescription_button
     if add_prescription_button is None:
         add_prescription_button = ttk.Button(frame, text="Add Prescription", command=prescriptions_table.add_prescription)
     add_prescription_button.pack(pady=10)
+
+def show_fill_prescription_button():
+    global fill_prescription_button
+    if fill_prescription_button is None:
+        fill_prescription_button = ttk.Button(frame, text="Fill Prescription", command=create_fill_prescription_window)
+    fill_prescription_button.pack(pady=10)
 
 def show_receive_inventory_button():
     global receive_inventory_button
