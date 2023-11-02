@@ -8,12 +8,13 @@ from logs.log import logger, log_obj, event, events
 
 def change_password(current_user):
     # function that checks if the current password entered is correct
-    current_password = None
     window = tk.Tk()
     window.title('Change Password')
     window.geometry('400x150')
     window.resizable(False, False)
     # creating the labels and entries for the window
+    current_password_label = None
+    current_password = None
     if current_user.role != 'manager':
         current_password_label = tk.Label(window, text='Current Password: ')
         current_password = tk.Entry(window, show='*')
@@ -25,8 +26,9 @@ def change_password(current_user):
     change_password_button = tk.Button(window, text='Change Password', command=lambda: change_password_button_click(
         window, current_user, current_password, new_password, confirm_password, current_user.username))
 
-    current_password_label.grid(row=0, column=0, padx=10, pady=5, sticky='e')
-    current_password.grid(row=0, column=1, padx=10, pady=5, sticky='w')
+    if current_password_label is not None and current_password is not None:
+        current_password_label.grid(row=0, column=0, padx=10, pady=5, sticky='e')
+        current_password.grid(row=0, column=1, padx=10, pady=5, sticky='w')
     new_password_label.grid(row=1, column=0, padx=10, pady=5, sticky='e')
     new_password.grid(row=1, column=1, padx=10, pady=5, sticky='w')
     confirm_password_label.grid(row=2, column=0, padx=10, pady=5, sticky='e')
