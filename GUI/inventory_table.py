@@ -120,9 +120,9 @@ def add_new_medicine_popup():
             inventory_dict[new_medicine] = {"product_name" : new_medicine,
                                             "ID_number" : str(len(inventory_dict) + 1),
                                             "in_stock" : str(new_quantity),
-                                            "date_added" : str(datetime.date.today()),
+                                            "date_added" : datetime.date.today().strftime('%m/%d/%Y'),
                                             "date_expires" : new_expiry_date,
-                                            "is_expired" : "false",
+                                            "is_expired" : "FALSE",
                                             "price" : new_price}
 
         write_inventory(inventory_path, inventory_dict)
