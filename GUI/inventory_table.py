@@ -122,7 +122,7 @@ def add_new_medicine_popup():
                                             "in_stock" : str(new_quantity),
                                             "date_added" : datetime.date.today().strftime('%m/%d/%Y'),
                                             "date_expires" : new_expiry_date,
-                                            "is_expired" : "false",
+                                            "is_expired" : "FALSE",
                                             "price" : new_price}
 
         write_inventory(inventory_path, inventory_dict)
