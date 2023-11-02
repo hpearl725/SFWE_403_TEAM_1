@@ -15,7 +15,7 @@ from GUI import check_inventory
 from GUI import remove_expired
 from GUI import settings
 from GUI.users import User
-
+from GUI import pharmacy_info_window
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -33,6 +33,8 @@ remove_expired_button = None
 remove_patient_button = None
 change_user_settings_button = None
 change_password_button = None
+pharm_info_button = None
+receive_inventory_button = None
 
 # Function to open the new user window
 
@@ -48,8 +50,6 @@ def open_new_user_window(current_user):
 
 
 # Create the dashboard window
-
-
 def create_dashboard(user):
     global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree, near_expiry_tree
     global current_user
@@ -125,6 +125,8 @@ def show_inventory_table(current_user):
     hide_remove_patient_button()
     hide_change_user_settings_button()
     hide_change_password_button()
+    show_receive_inventory_button()
+    hide_pharm_info_button()
 
 
 def show_patients_table():
@@ -142,7 +144,8 @@ def show_patients_table():
     show_remove_patient_button()
     hide_change_user_settings_button()
     hide_change_password_button()
-
+    hide_pharm_info_button()
+    hide_receive_inventory_button()
 
 def show_users_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -159,7 +162,8 @@ def show_users_table():
     hide_remove_patient_button()
     hide_change_user_settings_button()
     hide_change_password_button()
-
+    hide_receive_inventory_button()
+    hide_pharm_info_button()
 
 def show_prescriptions_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -176,6 +180,8 @@ def show_prescriptions_table():
     hide_remove_patient_button()
     hide_change_user_settings_button()
     hide_change_password_button()
+    hide_pharm_info_button()
+    hide_receive_inventory_button()
 
 
 def show_settings(current_user):
@@ -189,11 +195,23 @@ def show_settings(current_user):
         show_change_user_settings_button(current_user)
     show_change_password_button(current_user)
     hide_update_patient_button()
+    show_pharm_info_button() # all users can access pharmacy info
     hide_add_prescription_button()
     hide_check_inventory_button()
     hide_add_patient_button()
     hide_remove_expired_button()
     hide_remove_patient_button()
+    hide_receive_inventory_button()
+
+
+# Function to open the new user window
+def open_new_user_window(current_user):
+    # Check if the current user is a manager
+    if current_user.role != "manager":
+        messagebox.showerror("Permission Denied", "Only managers can add new users.")
+        return
+
+    new_user_window.create_new_user_window()
 
 
 # define hide and show functions for buttons
@@ -210,6 +228,17 @@ def show_remove_expired_button(current_user):
                                            command=lambda: remove_expired.create_remove_expired_window(inventory_tree, current_user))
     remove_expired_button.pack(side="top", pady=10)
 
+def hide_pharm_info_button():
+    global pharm_info_button
+    if pharm_info_button is not None:
+        pharm_info_button.pack_forget()
+
+def show_pharm_info_button():
+    global pharm_info_button
+    if pharm_info_button is None:
+        pharm_info_button = ttk.Button(frame, text="About pharmacy...",
+                                            command=lambda: pharmacy_info_window.create_info_window())
+    pharm_info_button.pack(side="top", pady=10)
 
 def hide_check_inventory_button():
     global check_inventory_button
@@ -323,6 +352,16 @@ def hide_change_password_button():
     if change_password_button is not None:
         change_password_button.pack_forget()
 
+def show_receive_inventory_button():
+    global receive_inventory_button
+    if receive_inventory_button is None:
+        receive_inventory_button = ttk.Button(frame, text="Receive Inventory", command=inventory_table.add_new_medicine_popup)
+    receive_inventory_button.pack(side="top", pady=10)
+
+def hide_receive_inventory_button():
+    global receive_inventory_button
+    if receive_inventory_button is not None:
+        receive_inventory_button.pack_forget()
 
 if __name__ == "__main__":
     # Create a dummy user
