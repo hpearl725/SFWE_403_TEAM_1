@@ -36,8 +36,8 @@ class PrescriptionForm:
         with open(os.path.join('GUI', 'prescriptions.csv'), mode='r', newline='', encoding='utf-8') as csv_file:
             reader = csv.reader(csv_file)
             for row in reader:
-                if row[0] == product_name:
-                    tkinter.messagebox.showerror("Error", "Prescription for this product already exists.")
+                if row[0] == product_name and row[2] == patient_name:
+                    tkinter.messagebox.showerror("Error", "Prescription for this product already exists for this patient.")
                     return
 
         with open(os.path.join('GUI', 'prescriptions.csv'), mode='a', newline='', encoding='utf-8') as csv_file:

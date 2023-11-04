@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 import csv
 from GUI.prescriptions import read_prescriptions
+from GUI.inventory import read_inventory, write_inventory
 
 def read_patients(filename):
     patients_dict = {}
@@ -33,7 +34,7 @@ def show_prescriptions_table(prescriptions_tree):
     prescriptions_tree.delete(*prescriptions_tree.get_children())  # Clear existing rows
 
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
-    prescriptions_dict = read_prescriptions(prescriptions_path)
+    prescriptions_list = read_prescriptions(prescriptions_path)
 
     patients_path = os.path.join('patient_info.csv')
     patients_dict = read_patients(patients_path)
@@ -42,7 +43,7 @@ def show_prescriptions_table(prescriptions_tree):
         patient_name = patient["First Name"] + " " + patient["Last Name"]
         patient_node = prescriptions_tree.insert("", 'end', text=patient_name, open=True)
 
-        for row in prescriptions_dict.values():
+        for row in prescriptions_list:
             if row["patient_name"] == patient_name:
                 name = row["product_name"]
                 quantity = row["qty"]
@@ -58,3 +59,46 @@ from GUI.create_prescription import PrescriptionForm
 def add_prescription():
     prescription_form = PrescriptionForm()
     prescription_form.window.mainloop()
+def fill_prescription(name, medicine_name):
+
+    prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
+    prescriptions_list = read_prescriptions(prescriptions_path)
+
+    prescription = next((row for row in prescriptions_list if row["patient_name"] == name and row["product_name"] == medicine_name), None)
+    if prescription is None:
+        return
+
+    prescriptions_list.remove(prescription)
+
+    with open(prescriptions_path, mode='w', newline='', encoding='utf-8') as csv_file:
+        fieldnames = ["product_name", "qty", "patient_name"]
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for row in prescriptions_list:
+            writer.writerow(row)
+
+    # Update the inventory
+    inventory_path = os.path.join('GUI', 'inventory.csv')
+    inventory_dict = read_inventory(inventory_path)
+
+    if medicine_name in inventory_dict:
+        inventory_dict[medicine_name]["in_stock"] = str(int(inventory_dict[medicine_name]["in_stock"]) - int(prescription["qty"]))
+        write_inventory(inventory_path, inventory_dict)
+
+def create_fill_prescription_window():
+    window = tk.Toplevel()
+    window.title("Fill Prescription")
+
+    name_label = ttk.Label(window, text="Name:")
+    name_label.pack(side="left", padx=(10, 0))
+    name_entry = ttk.Entry(window)
+    name_entry.pack(side="left", padx=(0, 10))
+
+    medicine_label = ttk.Label(window, text="Medicine Name:")
+    medicine_label.pack(side="left", padx=(10, 0))
+    medicine_entry = ttk.Entry(window)
+    medicine_entry.pack(side="left", padx=(0, 10))
+
+    ok_button = ttk.Button(window, text="OK", command=lambda: [fill_prescription(name_entry.get(), medicine_entry.get()), window.destroy()])
+    ok_button.pack(side="left", padx=(10, 0))
