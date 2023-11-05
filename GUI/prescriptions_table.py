@@ -2,6 +2,7 @@ import os
 import tkinter as tk
 from tkinter import ttk
 import csv
+from tkinter import messagebox
 from GUI.prescriptions import read_prescriptions
 from GUI.inventory import read_inventory, write_inventory
 
@@ -68,6 +69,13 @@ def fill_prescription(name, medicine_name):
     if prescription is None:
         return
 
+    # Check if the medicine is expired
+    inventory_path = os.path.join('GUI', 'inventory.csv')
+    inventory_dict = read_inventory(inventory_path)
+    if medicine_name in inventory_dict and inventory_dict[medicine_name]["is_expired"] == "TRUE":
+        messagebox.showerror("Warning", "The medicine is expired.")
+        return
+
     prescriptions_list.remove(prescription)
 
     with open(prescriptions_path, mode='w', newline='', encoding='utf-8') as csv_file:
@@ -79,9 +87,6 @@ def fill_prescription(name, medicine_name):
             writer.writerow(row)
 
     # Update the inventory
-    inventory_path = os.path.join('GUI', 'inventory.csv')
-    inventory_dict = read_inventory(inventory_path)
-
     if medicine_name in inventory_dict:
         inventory_dict[medicine_name]["in_stock"] = str(int(inventory_dict[medicine_name]["in_stock"]) - int(prescription["qty"]))
         write_inventory(inventory_path, inventory_dict)
