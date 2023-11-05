@@ -76,6 +76,11 @@ def fill_prescription(name, medicine_name):
         messagebox.showerror("Warning", "The medicine is expired.")
         return
 
+    # Check if there is enough inventory
+    if int(inventory_dict[medicine_name]["in_stock"]) < int(prescription["qty"]):
+        messagebox.showerror("Warning", "Not enough inventory.")
+        return
+
     prescriptions_list.remove(prescription)
 
     with open(prescriptions_path, mode='w', newline='', encoding='utf-8') as csv_file:
