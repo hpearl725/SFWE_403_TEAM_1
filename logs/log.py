@@ -4,7 +4,7 @@
 from datetime import datetime
 from enum import Enum
 events = Enum('Events', ['login', 'logout', 'create_user', 'delete_user',
-              'add_meds', 'remove_meds', 'add_rx', "remove_rx", 'change_password'])
+              'add_meds', 'remove_meds', 'add_rx', "remove_rx", 'change_password', 'fill_rx'])
 
 
 class logger:

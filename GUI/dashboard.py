@@ -338,7 +338,7 @@ def show_add_prescription_button():
 def show_fill_prescription_button():
     global fill_prescription_button
     if fill_prescription_button is None:
-        fill_prescription_button = ttk.Button(frame, text="Fill Prescription", command=prescriptions_table.create_fill_prescription_window)
+        fill_prescription_button = ttk.Button(frame, text="Fill Prescription", command=lambda: prescriptions_table.create_fill_prescription_window(current_user))
     fill_prescription_button.pack(pady=10)
     
     

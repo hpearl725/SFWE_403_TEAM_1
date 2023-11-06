@@ -5,6 +5,7 @@ import csv
 from tkinter import messagebox
 from GUI.prescriptions import read_prescriptions
 from GUI.inventory import read_inventory, write_inventory
+from logs.log import logger, event, events, log_obj
 
 def read_patients(filename):
     patients_dict = {}
@@ -60,13 +61,16 @@ from GUI.create_prescription import PrescriptionForm
 def add_prescription():
     prescription_form = PrescriptionForm()
     prescription_form.window.mainloop()
-def fill_prescription(name, medicine_name):
+
+
+def fill_prescription(current_user, name, medicine_name):
 
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
     prescriptions_list = read_prescriptions(prescriptions_path)
 
     prescription = next((row for row in prescriptions_list if row["patient_name"] == name and row["product_name"] == medicine_name), None)
     if prescription is None:
+        messagebox.showerror("Error", "Prescription not found.")
         return
 
     # Check if the medicine is expired
@@ -91,12 +95,18 @@ def fill_prescription(name, medicine_name):
         for row in prescriptions_list:
             writer.writerow(row)
 
-    # Update the inventory
+    # Update the inventory and create a log entry
     if medicine_name in inventory_dict:
         inventory_dict[medicine_name]["in_stock"] = str(int(inventory_dict[medicine_name]["in_stock"]) - int(prescription["qty"]))
         write_inventory(inventory_path, inventory_dict)
+        
+        # Log the login event
+        log = logger(os.path.join("GUI","log.csv"))
+        price = inventory_dict[medicine_name]["price"]
+        fill_rx_event = event("user_action", events.fill_rx.name, f"{medicine_name} filled at ${price}")
+        log.log(log_obj(fill_rx_event, current_user.username))
 
-def create_fill_prescription_window():
+def create_fill_prescription_window(current_user):
     window = tk.Toplevel()
     window.title("Fill Prescription")
 
@@ -110,5 +120,5 @@ def create_fill_prescription_window():
     medicine_entry = ttk.Entry(window)
     medicine_entry.pack(side="left", padx=(0, 10))
 
-    ok_button = ttk.Button(window, text="OK", command=lambda: [fill_prescription(name_entry.get(), medicine_entry.get()), window.destroy()])
+    ok_button = ttk.Button(window, text="OK", command=lambda: [fill_prescription(current_user, name_entry.get(), medicine_entry.get()), window.destroy()])
     ok_button.pack(side="left", padx=(10, 0))
