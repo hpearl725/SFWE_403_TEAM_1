@@ -103,7 +103,8 @@ def fill_prescription(current_user, name, medicine_name):
         # Log the login event
         log = logger(os.path.join("GUI","log.csv"))
         price = inventory_dict[medicine_name]["price"]
-        fill_rx_event = event("user_action", events.fill_rx.name, f"{medicine_name} filled at ${price}")
+        qty = prescription["qty"]
+        fill_rx_event = event("user_action", events.fill_rx.name, f"{qty}x {medicine_name} filled at ${price}")
         log.log(log_obj(fill_rx_event, current_user.username))
 
 def create_fill_prescription_window(current_user):

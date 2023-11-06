@@ -1,5 +1,7 @@
 import csv
 import os
+import tkinter as tk
+from tkinter import messagebox
 
 def generate_financial_report():
     log_path = os.path.join('GUI', 'log.csv')
@@ -16,7 +18,9 @@ def generate_financial_report():
 
     for row in finance_rows:
         if len(row) >= 3 and '$' in row[4]:
-            price = float(row[4].split('$')[1])
-            total_revenue += price
-
-    print(f'Total revenue from filled prescriptions: ${total_revenue}')
+            qty_price = row[4].split(' ')
+            qty = int(qty_price[0].split('x')[0])
+            price = float(qty_price[4].split('$')[1])
+            total_revenue += price * qty
+    
+    messagebox.showinfo("Total Revenue", f"Total revenue from filled prescriptions: ${total_revenue}")
