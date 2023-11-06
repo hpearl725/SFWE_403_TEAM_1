@@ -14,6 +14,7 @@ from GUI import prescriptions_table
 from GUI import check_inventory
 from GUI import remove_expired
 from GUI import settings
+from GUI.reports import generate_financial_report
 from GUI.users import User
 from GUI import pharmacy_info_window
 
@@ -36,6 +37,7 @@ change_password_button = None
 pharm_info_button = None
 receive_inventory_button = None
 fill_prescription_button = None
+generate_financial_report_button = None
 
 # Function to open the new user window
 
@@ -129,6 +131,7 @@ def show_inventory_table(current_user):
     hide_change_password_button()
     show_receive_inventory_button()
     hide_pharm_info_button()
+    hide_generate_financial_report_button()
 
 
 def show_patients_table():
@@ -149,6 +152,7 @@ def show_patients_table():
     hide_change_password_button()
     hide_pharm_info_button()
     hide_receive_inventory_button()
+    hide_generate_financial_report_button()
 
 def show_users_table():
     hide_fill_prescription_button()
@@ -168,6 +172,7 @@ def show_users_table():
     hide_change_password_button()
     hide_receive_inventory_button()
     hide_pharm_info_button()
+    hide_generate_financial_report_button()
 
 def show_prescriptions_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -187,6 +192,8 @@ def show_prescriptions_table():
     hide_change_password_button()
     hide_pharm_info_button()
     hide_receive_inventory_button()
+    hide_generate_financial_report_button()
+
 
 
 def show_settings(current_user):
@@ -199,6 +206,7 @@ def show_settings(current_user):
     if current_user.role == "manager":  # only manager can add users
         show_add_user_button(current_user)
         show_change_user_settings_button(current_user)
+        show_generate_financial_report_button()
     show_change_password_button(current_user)
     hide_update_patient_button()
     show_pharm_info_button() # all users can access pharmacy info
@@ -363,6 +371,17 @@ def show_change_password_button(current_user):
             frame, text="Change Password", command=lambda: settings.change_password(current_user))
     change_password_button.pack(side="top", pady=10)
 
+
+def show_generate_financial_report_button():
+    global generate_financial_report_button
+    if generate_financial_report_button is None:
+        generate_financial_report_button = ttk.Button(frame, text="Generate Financial Report", command=generate_financial_report)
+    generate_financial_report_button.pack(side="top", pady=10)
+
+def hide_generate_financial_report_button():
+    global generate_financial_report_button
+    if generate_financial_report_button is not None:
+        generate_financial_report_button.pack_forget()
 
 def hide_change_password_button():
     global change_password_button
