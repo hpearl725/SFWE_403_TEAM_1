@@ -2,7 +2,6 @@ import os
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from ttkthemes import ThemedStyle
 from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory
 import datetime
 
@@ -91,10 +90,6 @@ def place_order_popup():
     # Configure the window to make it non-resizable
     place_order_popup.geometry("400x180")
     place_order_popup.resizable(False, False)
-
-    # Create a ThemedStyle instance for the modern theme
-    style = ThemedStyle(place_order_popup)
-    style.set_theme("equilux")  # Use the "equilux" theme
 
     # Create a frame to hold the content
     frame = ttk.Frame(place_order_popup)

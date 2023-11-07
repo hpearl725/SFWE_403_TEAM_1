@@ -10,26 +10,23 @@ def on_submit():
 def create_authorization_page():
     global window, entry_2fa, is_submitted  
 
-    # Use ThemedTk instead of tk.Tk to get access to extra themes
-    window = ThemedTk(theme="equilux")
+    window = tk.Toplevel()
     window.title("2FA Authentication")
     window.geometry("300x160")
 
-    # Manually set background color
-    desired_background_color = "#2e2e2e"  # Example color
-    window.configure(bg=desired_background_color)
+    frame = ttk.Frame(window)
+    frame.pack(expand=True, fill="both")
 
-    label = ttk.Label(window, text="Enter your 2FA code:", background=desired_background_color)
+    label = ttk.Label(frame, text="Enter your 2FA code:")
     label.pack(pady=15)
 
-    entry_2fa = ttk.Entry(window)
+    entry_2fa = ttk.Entry(frame)
     entry_2fa.pack(pady=15, padx=15, fill=tk.X)
     
-    submit_button = ttk.Button(window, text="Submit", command=on_submit)
+    submit_button = ttk.Button(frame, text="Submit", command=on_submit)
     submit_button.pack(pady=15)
     
-
-    is_submitted = tk.BooleanVar(window, value=False)  
+    is_submitted = tk.BooleanVar(frame, value=False)  
     window.wait_window()  
     
     return is_submitted.get()

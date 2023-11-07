@@ -3,8 +3,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import csv
-from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
-
 import secrets
 import string
 
@@ -53,16 +51,12 @@ def submit_user(user_entry,window):
 
 def create_new_user_window():
     # Create the new user window
-    new_user_window = tk.Tk()
+    new_user_window = tk.Toplevel()
     new_user_window.title("New User")
 
     # Configure the window to make it non-resizable
     new_user_window.geometry("400x400")  # Increased height to accommodate additional fields
     new_user_window.resizable(False, False)
-
-    # Create a ThemedStyle instance for the modern theme
-    style = ThemedStyle(new_user_window)
-    style.set_theme("equilux")  # Use the "equilux" theme or choose another theme
 
     # Create a frame to hold the content
     frame = ttk.Frame(new_user_window)
