@@ -397,7 +397,7 @@ def hide_receive_inventory_button():
 def show_place_order_button():
     global place_order_button
     if place_order_button is None:
-        place_order_button = ttk.Button(frame, text="Place Order", command=inventory_table.add_new_medicine_popup)
+        place_order_button = ttk.Button(frame, text="Place Order", command=inventory_table.place_order_popup)
     place_order_button.pack(side="top", pady=10)
 
 def hide_place_order_button():

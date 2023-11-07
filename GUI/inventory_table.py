@@ -1,7 +1,8 @@
 import os
 import tkinter as tk
 from tkinter import ttk
-import csv
+from tkinter import messagebox
+from ttkthemes import ThemedStyle
 from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory
 import datetime
 
@@ -80,6 +81,40 @@ def hide_near_expiry_table(near_expiry_tree):
 def is_near_expiry():
     near_expiry_medicines = get_near_expiry_medicines()
     return bool(near_expiry_medicines)
+
+
+def place_order_popup():
+    # Create the window
+    pharm_info_window = tk.Toplevel()
+    pharm_info_window.title("Order information")
+
+    # Configure the window to make it non-resizable
+    pharm_info_window.geometry("600x400")
+    pharm_info_window.resizable(False, False)
+
+    # Create a ThemedStyle instance for the modern theme
+    style = ThemedStyle(pharm_info_window)
+    style.set_theme("equilux")  # Use the "equilux" theme
+
+    # Create a frame to hold the content
+    frame = ttk.Frame(pharm_info_window)
+    frame.pack(expand=True, fill="both")
+
+    name_label = ttk.Label(frame, text="Name")
+    name_label.pack(side="top", fill="x", pady=10)
+    name_entry = ttk.Entry(frame)
+    name_entry.pack()
+
+    quantity_label = ttk.Label(frame, text="Quantity")
+    quantity_label.pack(side="top", fill="x", pady=10)
+    quantity_entry = ttk.Entry(frame)
+    quantity_entry.pack()
+
+    place_order_button = ttk.Button(
+        frame, text="Place Order", command=lambda: messagebox.showinfo(
+            "Order confirmation", f"Your order of {quantity_entry.get()} {name_entry.get()} has been placed.\n\n"
+            "When the order arrives, use the Receive Inventory button to add the medicine to the pharmacy database."))
+    place_order_button.pack()
 
 
 def add_new_medicine_popup():
