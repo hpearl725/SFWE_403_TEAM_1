@@ -100,12 +100,12 @@ def place_order_popup():
     frame = ttk.Frame(place_order_popup)
     frame.pack(expand=True, fill="both")
 
-    name_label = ttk.Label(frame, text="Name")
+    name_label = ttk.Label(frame, text="Name:")
     name_label.pack()
     name_entry = ttk.Entry(frame)
     name_entry.pack()
 
-    quantity_label = ttk.Label(frame, text="Quantity")
+    quantity_label = ttk.Label(frame, text="Quantity:")
     quantity_label.pack()
     quantity_entry = ttk.Entry(frame)
     quantity_entry.pack()
@@ -125,23 +125,27 @@ def add_new_medicine_popup():
     frame = ttk.Frame(new_medicine_popup)
     frame.pack(expand=True, fill="both")
 
-    name_label = ttk.Label(frame, text="Name")
-    name_label.pack(side="top", fill="x", pady=10)
+    # Configure the window to make it non-resizable
+    new_medicine_popup.geometry("200x300")
+    new_medicine_popup.resizable(False, False)
+
+    name_label = ttk.Label(frame, text="Name:")
+    name_label.pack(pady=10)
     name_entry = ttk.Entry(frame)
     name_entry.pack()
 
-    quantity_label = ttk.Label(frame, text="Quantity")
-    quantity_label.pack(side="top", fill="x", pady=10)
+    quantity_label = ttk.Label(frame, text="Quantity:")
+    quantity_label.pack(pady=10)
     quantity_entry = ttk.Entry(frame)
     quantity_entry.pack()
 
-    expiry_date_label = ttk.Label(frame, text="Expiry Date")
-    expiry_date_label.pack(side="top", fill="x", pady=10)
+    expiry_date_label = ttk.Label(frame, text="Expiry Date: (MM/DD/YYYY)")
+    expiry_date_label.pack(pady=10)
     expiry_date_entry = ttk.Entry(frame)
     expiry_date_entry.pack()
 
-    price_label = ttk.Label(frame, text="Price")
-    price_label.pack(side="top", fill="x", pady=10)
+    price_label = ttk.Label(frame, text="Price: (USD)")
+    price_label.pack(pady=10)
     price_entry = ttk.Entry(frame)
     price_entry.pack()
 
@@ -167,6 +171,5 @@ def add_new_medicine_popup():
         write_inventory(inventory_path, inventory_dict)
         new_medicine_popup.destroy()
 
-    B1 = ttk.Button(frame, text="Okay", command = update_inventory)
-    B1.pack()
-    new_medicine_popup.mainloop()
+    add_medicine_button = ttk.Button(frame, text="Confirm", command = update_inventory)
+    add_medicine_button.pack(pady=10)
