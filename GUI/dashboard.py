@@ -36,6 +36,7 @@ change_password_button = None
 pharm_info_button = None
 receive_inventory_button = None
 fill_prescription_button = None
+place_order_button = None
 
 # Function to open the new user window
 
@@ -118,6 +119,8 @@ def show_inventory_table(current_user):
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_check_inventory_button()
+    show_receive_inventory_button()
+    show_place_order_button()
     if current_user.role == "manager":  # only manager can see the remove-inventory button
         show_remove_expired_button(current_user)
     hide_add_user_button()
@@ -127,7 +130,6 @@ def show_inventory_table(current_user):
     hide_remove_patient_button()
     hide_change_user_settings_button()
     hide_change_password_button()
-    show_receive_inventory_button()
     hide_pharm_info_button()
 
 
@@ -139,16 +141,17 @@ def show_patients_table():
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
     show_add_patient_button()
+    show_remove_patient_button()
     show_update_patient_button()
     hide_add_user_button()
     hide_add_prescription_button()
     hide_check_inventory_button()
     hide_remove_expired_button()
-    show_remove_patient_button()
     hide_change_user_settings_button()
     hide_change_password_button()
     hide_pharm_info_button()
     hide_receive_inventory_button()
+    hide_place_order_button()
 
 def show_users_table():
     hide_fill_prescription_button()
@@ -168,6 +171,7 @@ def show_users_table():
     hide_change_password_button()
     hide_receive_inventory_button()
     hide_pharm_info_button()
+    hide_place_order_button()
 
 def show_prescriptions_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -187,6 +191,7 @@ def show_prescriptions_table():
     hide_change_password_button()
     hide_pharm_info_button()
     hide_receive_inventory_button()
+    hide_place_order_button()
 
 
 def show_settings(current_user):
@@ -208,6 +213,7 @@ def show_settings(current_user):
     hide_remove_expired_button()
     hide_remove_patient_button()
     hide_receive_inventory_button()
+    hide_place_order_button()
 
 
 # Function to open the new user window
@@ -234,10 +240,12 @@ def show_remove_expired_button(current_user):
                                            command=lambda: remove_expired.create_remove_expired_window(inventory_tree, current_user))
     remove_expired_button.pack(side="top", pady=10)
 
+
 def hide_pharm_info_button():
     global pharm_info_button
     if pharm_info_button is not None:
         pharm_info_button.pack_forget()
+
 
 def show_pharm_info_button():
     global pharm_info_button
@@ -245,6 +253,7 @@ def show_pharm_info_button():
         pharm_info_button = ttk.Button(frame, text="About pharmacy...",
                                             command=lambda: pharmacy_info_window.create_info_window())
     pharm_info_button.pack(side="top", pady=10)
+
 
 def hide_check_inventory_button():
     global check_inventory_button
@@ -322,10 +331,12 @@ def hide_add_prescription_button():
     if add_prescription_button is not None:
         add_prescription_button.pack_forget()
 
+
 def hide_fill_prescription_button():
     global fill_prescription_button
     if fill_prescription_button is not None:
         fill_prescription_button.pack_forget()
+
 
 def show_add_prescription_button():
     global add_prescription_button
@@ -369,16 +380,31 @@ def hide_change_password_button():
     if change_password_button is not None:
         change_password_button.pack_forget()
 
+
 def show_receive_inventory_button():
     global receive_inventory_button
     if receive_inventory_button is None:
         receive_inventory_button = ttk.Button(frame, text="Receive Inventory", command=inventory_table.add_new_medicine_popup)
     receive_inventory_button.pack(side="top", pady=10)
 
+
 def hide_receive_inventory_button():
     global receive_inventory_button
     if receive_inventory_button is not None:
         receive_inventory_button.pack_forget()
+
+
+def show_place_order_button():
+    global place_order_button
+    if place_order_button is None:
+        place_order_button = ttk.Button(frame, text="Place Order", command=inventory_table.add_new_medicine_popup)
+    place_order_button.pack(side="top", pady=10)
+
+def hide_place_order_button():
+    global place_order_button
+    if place_order_button is not None:
+        place_order_button.pack_forget()
+
 
 if __name__ == "__main__":
     # Create a dummy user
