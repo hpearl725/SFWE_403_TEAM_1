@@ -118,27 +118,31 @@ def place_order_popup():
 
 
 def add_new_medicine_popup():
-    popup = tk.Tk()
-    popup.wm_title("Add New Medicine")
+    new_medicine_popup = tk.Toplevel()
+    new_medicine_popup.title("Add New Medicine")
 
-    name_label = ttk.Label(popup, text="Name")
+    # Create a frame to hold the content
+    frame = ttk.Frame(new_medicine_popup)
+    frame.pack(expand=True, fill="both")
+
+    name_label = ttk.Label(frame, text="Name")
     name_label.pack(side="top", fill="x", pady=10)
-    name_entry = ttk.Entry(popup)
+    name_entry = ttk.Entry(frame)
     name_entry.pack()
 
-    quantity_label = ttk.Label(popup, text="Quantity")
+    quantity_label = ttk.Label(frame, text="Quantity")
     quantity_label.pack(side="top", fill="x", pady=10)
-    quantity_entry = ttk.Entry(popup)
+    quantity_entry = ttk.Entry(frame)
     quantity_entry.pack()
 
-    expiry_date_label = ttk.Label(popup, text="Expiry Date")
+    expiry_date_label = ttk.Label(frame, text="Expiry Date")
     expiry_date_label.pack(side="top", fill="x", pady=10)
-    expiry_date_entry = ttk.Entry(popup)
+    expiry_date_entry = ttk.Entry(frame)
     expiry_date_entry.pack()
 
-    price_label = ttk.Label(popup, text="Price")
+    price_label = ttk.Label(frame, text="Price")
     price_label.pack(side="top", fill="x", pady=10)
-    price_entry = ttk.Entry(popup)
+    price_entry = ttk.Entry(frame)
     price_entry.pack()
 
     def update_inventory():
@@ -161,8 +165,8 @@ def add_new_medicine_popup():
                                             "price" : new_price}
 
         write_inventory(inventory_path, inventory_dict)
-        popup.destroy()
+        new_medicine_popup.destroy()
 
-    B1 = ttk.Button(popup, text="Okay", command = update_inventory)
+    B1 = ttk.Button(frame, text="Okay", command = update_inventory)
     B1.pack()
-    popup.mainloop()
+    new_medicine_popup.mainloop()
