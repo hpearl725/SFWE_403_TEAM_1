@@ -89,7 +89,7 @@ def place_order_popup():
     pharm_info_window.title("Order information")
 
     # Configure the window to make it non-resizable
-    pharm_info_window.geometry("600x400")
+    pharm_info_window.geometry("280x120")
     pharm_info_window.resizable(False, False)
 
     # Create a ThemedStyle instance for the modern theme
@@ -101,12 +101,12 @@ def place_order_popup():
     frame.pack(expand=True, fill="both")
 
     name_label = ttk.Label(frame, text="Name")
-    name_label.pack(side="top", fill="x", pady=10)
+    name_label.pack()
     name_entry = ttk.Entry(frame)
     name_entry.pack()
 
     quantity_label = ttk.Label(frame, text="Quantity")
-    quantity_label.pack(side="top", fill="x", pady=10)
+    quantity_label.pack()
     quantity_entry = ttk.Entry(frame)
     quantity_entry.pack()
 
