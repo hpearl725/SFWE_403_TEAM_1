@@ -89,7 +89,7 @@ def place_order_popup():
     place_order_popup.title("Order information")
 
     # Configure the window to make it non-resizable
-    place_order_popup.geometry("280x120")
+    place_order_popup.geometry("400x180")
     place_order_popup.resizable(False, False)
 
     # Create a ThemedStyle instance for the modern theme
@@ -101,20 +101,20 @@ def place_order_popup():
     frame.pack(expand=True, fill="both")
 
     name_label = ttk.Label(frame, text="Name:")
-    name_label.pack()
+    name_label.pack(pady=10)
     name_entry = ttk.Entry(frame)
-    name_entry.pack()
+    name_entry.pack(pady=5)
 
     quantity_label = ttk.Label(frame, text="Quantity:")
-    quantity_label.pack()
+    quantity_label.pack(pady=5)
     quantity_entry = ttk.Entry(frame)
-    quantity_entry.pack()
+    quantity_entry.pack(pady=5)
 
     place_order_button = ttk.Button(
         frame, text="Place Order", command=lambda: messagebox.showinfo(
             "Order confirmation", f"Your order of {quantity_entry.get()} {name_entry.get()} has been placed.\n\n"
             "When the order arrives, use the Receive Inventory button to add the medicine to the pharmacy database."))
-    place_order_button.pack()
+    place_order_button.pack(pady=5)
 
 
 def add_new_medicine_popup():
