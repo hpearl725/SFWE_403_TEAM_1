@@ -85,19 +85,19 @@ def is_near_expiry():
 
 def place_order_popup():
     # Create the window
-    pharm_info_window = tk.Toplevel()
-    pharm_info_window.title("Order information")
+    place_order_popup = tk.Toplevel()
+    place_order_popup.title("Order information")
 
     # Configure the window to make it non-resizable
-    pharm_info_window.geometry("280x120")
-    pharm_info_window.resizable(False, False)
+    place_order_popup.geometry("280x120")
+    place_order_popup.resizable(False, False)
 
     # Create a ThemedStyle instance for the modern theme
-    style = ThemedStyle(pharm_info_window)
+    style = ThemedStyle(place_order_popup)
     style.set_theme("equilux")  # Use the "equilux" theme
 
     # Create a frame to hold the content
-    frame = ttk.Frame(pharm_info_window)
+    frame = ttk.Frame(place_order_popup)
     frame.pack(expand=True, fill="both")
 
     name_label = ttk.Label(frame, text="Name")
