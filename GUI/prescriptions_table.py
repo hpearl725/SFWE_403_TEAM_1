@@ -73,9 +73,15 @@ def fill_prescription(current_user, name, medicine_name):
         messagebox.showerror("Error", "Prescription not found.")
         return
 
-    # Check if the medicine is expired
     inventory_path = os.path.join('GUI', 'inventory.csv')
     inventory_dict = read_inventory(inventory_path)
+    
+    # Check if the medicine exists in inventory
+    if medicine_name not in inventory_dict:
+        messagebox.showerror("Warning", "Medicine not found in inventory.")
+        return
+    
+    # Check if the medicine is expired
     if medicine_name in inventory_dict and inventory_dict[medicine_name]["is_expired"] == "TRUE":
         messagebox.showerror("Warning", "The medicine is expired.")
         return
