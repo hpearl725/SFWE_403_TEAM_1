@@ -6,19 +6,22 @@ import os
 
 class PrescriptionForm:
     def __init__(self):
-        self.window = tk.Tk()
+        self.window = tk.Toplevel()
         self.window.title("Add Prescription")
 
-        self.patient_name_label = ttk.Label(self.window, text="Patient Name:")
-        self.patient_name_entry = ttk.Entry(self.window)
+        self.frame = ttk.Frame(self.window)
+        self.frame.pack(expand=True, fill="both")
 
-        self.product_name_label = ttk.Label(self.window, text="Product Name:")
-        self.product_name_entry = ttk.Entry(self.window)
+        self.patient_name_label = ttk.Label(self.frame, text="Patient Name:")
+        self.patient_name_entry = ttk.Entry(self.frame)
 
-        self.qty_label = ttk.Label(self.window, text="Qty:")
-        self.qty_entry = ttk.Entry(self.window)
+        self.product_name_label = ttk.Label(self.frame, text="Product Name:")
+        self.product_name_entry = ttk.Entry(self.frame)
 
-        self.submit_button = ttk.Button(self.window, text="Submit", command=self.save_prescription_info)
+        self.qty_label = ttk.Label(self.frame, text="Qty:")
+        self.qty_entry = ttk.Entry(self.frame)
+
+        self.submit_button = ttk.Button(self.frame, text="Submit", command=self.save_prescription_info)
 
         self.patient_name_label.pack()
         self.patient_name_entry.pack()

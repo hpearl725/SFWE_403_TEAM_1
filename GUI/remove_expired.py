@@ -2,7 +2,6 @@ import os
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 from GUI.inventory import read_inventory,write_inventory
 from logs.log import logger, event, events, log_obj
 
@@ -45,16 +44,12 @@ def remove_expired(this_entry,window,ttk_tree,current_user):
 
 def create_remove_expired_window(inventory_tree,current_user):
     # Create the new user window
-    entry_window = tk.Tk()
+    entry_window = tk.Toplevel()
     entry_window.title("Remove expired product")
 
     # Configure the window to make it non-resizable
     entry_window.geometry("400x200")
     entry_window.resizable(False, False)
-
-    # Create a ThemedStyle instance for the modern theme
-    style = ThemedStyle(entry_window)
-    style.set_theme("equilux")  # Use the "equilux" theme or choose another theme
 
     # Create a frame to hold the content
     frame = ttk.Frame(entry_window)
