@@ -1,7 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import ttk
-import csv
+from tkinter import messagebox
 from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory
 import datetime
 
@@ -82,28 +82,66 @@ def is_near_expiry():
     return bool(near_expiry_medicines)
 
 
-def add_new_medicine_popup():
-    popup = tk.Tk()
-    popup.wm_title("Add New Medicine")
+def place_order_popup():
+    # Create the window
+    place_order_popup = tk.Toplevel()
+    place_order_popup.title("Order information")
 
-    name_label = ttk.Label(popup, text="Name")
-    name_label.pack(side="top", fill="x", pady=10)
-    name_entry = ttk.Entry(popup)
+    # Configure the window to make it non-resizable
+    place_order_popup.geometry("400x180")
+    place_order_popup.resizable(False, False)
+
+    # Create a frame to hold the content
+    frame = ttk.Frame(place_order_popup)
+    frame.pack(expand=True, fill="both")
+
+    name_label = ttk.Label(frame, text="Name:")
+    name_label.pack(pady=10)
+    name_entry = ttk.Entry(frame)
+    name_entry.pack(pady=5)
+
+    quantity_label = ttk.Label(frame, text="Quantity:")
+    quantity_label.pack(pady=5)
+    quantity_entry = ttk.Entry(frame)
+    quantity_entry.pack(pady=5)
+
+    place_order_button = ttk.Button(
+        frame, text="Place Order", command=lambda: messagebox.showinfo(
+            "Order confirmation", f"Your order of {quantity_entry.get()} {name_entry.get()} has been placed.\n\n"
+            "When the order arrives, use the Receive Inventory button to add the medicine to the pharmacy database."))
+    place_order_button.pack(pady=5)
+
+
+def add_new_medicine_popup():
+    new_medicine_popup = tk.Toplevel()
+    new_medicine_popup.title("Add New Medicine")
+
+    # Create a frame to hold the content
+    frame = ttk.Frame(new_medicine_popup)
+    frame.pack(expand=True, fill="both")
+
+    # Configure the window to make it non-resizable
+    new_medicine_popup.geometry("200x300")
+    new_medicine_popup.resizable(False, False)
+
+    name_label = ttk.Label(frame, text="Name:")
+    name_label.pack(pady=10)
+    name_entry = ttk.Entry(frame)
     name_entry.pack()
 
-    quantity_label = ttk.Label(popup, text="Quantity")
-    quantity_label.pack(side="top", fill="x", pady=10)
-    quantity_entry = ttk.Entry(popup)
+    quantity_label = ttk.Label(frame, text="Quantity:")
+    quantity_label.pack(pady=10)
+    quantity_entry = ttk.Entry(frame)
     quantity_entry.pack()
 
-    expiry_date_label = ttk.Label(popup, text="Expiry Date")
-    expiry_date_label.pack(side="top", fill="x", pady=10)
-    expiry_date_entry = ttk.Entry(popup)
+    expiry_date_label = ttk.Label(frame, text="Expiry Date: (MM/DD/YYYY)")
+    expiry_date_label.pack(pady=10)
+    expiry_date_entry = ttk.Entry(frame)
     expiry_date_entry.pack()
 
-    price_label = ttk.Label(popup, text="Price")
-    price_label.pack(side="top", fill="x", pady=10)
-    price_entry = ttk.Entry(popup)
+    price_label = ttk.Label(frame, text="Price: (USD)")
+    price_label.pack(pady=10)
+    price_entry = ttk.Entry(frame)
     price_entry.pack()
 
     def update_inventory():
@@ -126,8 +164,7 @@ def add_new_medicine_popup():
                                             "price" : new_price}
 
         write_inventory(inventory_path, inventory_dict)
-        popup.destroy()
+        new_medicine_popup.destroy()
 
-    B1 = ttk.Button(popup, text="Okay", command = update_inventory)
-    B1.pack()
-    popup.mainloop()
+    add_medicine_button = ttk.Button(frame, text="Confirm", command = update_inventory)
+    add_medicine_button.pack(pady=10)

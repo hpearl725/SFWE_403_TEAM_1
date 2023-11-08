@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 
 # Function to handle the search button click event
 def check_inventory(this_entry,window,ttk_tree):
@@ -30,16 +29,12 @@ def check_inventory(this_entry,window,ttk_tree):
 
 def create_check_inventory_window(inventory_tree):
     # Create the new user window
-    entry_window = tk.Tk()
+    entry_window = tk.Toplevel()
     entry_window.title("Check inventory")
 
     # Configure the window to make it non-resizable
     entry_window.geometry("400x200")
     entry_window.resizable(False, False)
-
-    # Create a ThemedStyle instance for the modern theme
-    style = ThemedStyle(entry_window)
-    style.set_theme("equilux")  # Use the "equilux" theme or choose another theme
 
     # Create a frame to hold the content
     frame = ttk.Frame(entry_window)

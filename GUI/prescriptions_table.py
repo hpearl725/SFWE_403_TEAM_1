@@ -109,17 +109,22 @@ def fill_prescription(current_user, name, medicine_name):
 
 def create_fill_prescription_window(current_user):
     window = tk.Toplevel()
+
+    # Create a frame to hold the content
+    frame = ttk.Frame(window)
+    frame.pack(expand=True, fill="both")
     window.title("Fill Prescription")
 
-    name_label = ttk.Label(window, text="Name:")
+    name_label = ttk.Label(frame, text="Name:")
     name_label.pack(side="left", padx=(10, 0))
-    name_entry = ttk.Entry(window)
+    name_entry = ttk.Entry(frame)
     name_entry.pack(side="left", padx=(0, 10))
 
-    medicine_label = ttk.Label(window, text="Medicine Name:")
+    medicine_label = ttk.Label(frame, text="Medicine Name:")
     medicine_label.pack(side="left", padx=(10, 0))
-    medicine_entry = ttk.Entry(window)
+    medicine_entry = ttk.Entry(frame)
     medicine_entry.pack(side="left", padx=(0, 10))
 
-    ok_button = ttk.Button(window, text="OK", command=lambda: [fill_prescription(current_user, name_entry.get(), medicine_entry.get()), window.destroy()])
+    ok_button = ttk.Button(window, text="OK", command=lambda: 
+                           [fill_prescription(current_user, name_entry.get(), medicine_entry.get()), window.destroy()])
     ok_button.pack(side="left", padx=(10, 0))

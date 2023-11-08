@@ -2,7 +2,7 @@ from tkinter import ttk
 import tkinter as tk
 import os
 from PIL import Image, ImageTk
-from ttkthemes import ThemedStyle
+
 
 # Function to create the pharmacy info window 
 def create_info_window():
@@ -13,10 +13,6 @@ def create_info_window():
     # Configure the window to make it non-resizable
     pharm_info_window.geometry("500x260")
     pharm_info_window.resizable(False, False)
-
-    # Create a ThemedStyle instance for the modern theme
-    style = ThemedStyle(pharm_info_window)
-    style.set_theme("equilux")  # Use the "equilux" theme
 
     # Create a frame to hold the content
     frame = ttk.Frame(pharm_info_window)
