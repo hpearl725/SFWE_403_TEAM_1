@@ -85,7 +85,9 @@ def low_inventory_popup():
 
     low_inventory_items = get_low_inventory_items()
 
-    if low_inventory_items is not None:
+    if not low_inventory_items:
+        return
+    else:
 
         # Create the window
         place_order_popup = tk.Toplevel()
