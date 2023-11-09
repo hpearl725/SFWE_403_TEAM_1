@@ -104,6 +104,7 @@ def create_dashboard(user):
 
 # define hide and show functions for tables
 def show_inventory_table(current_user):
+
     hide_fill_prescription_button()
     # Check if the current user is a manager or pharmacist
     if not (current_user.role == "manager" or current_user.role == "pharmacist"):
@@ -121,6 +122,9 @@ def show_inventory_table(current_user):
     show_check_inventory_button()
     show_receive_inventory_button()
     show_place_order_button()
+
+    inventory_table.low_inventory_popup()
+    
     if current_user.role == "manager":  # only manager can see the remove-inventory button
         show_remove_expired_button(current_user)
     hide_add_user_button()

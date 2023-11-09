@@ -1,8 +1,8 @@
 import os
 import tkinter as tk
 from tkinter import ttk
-from tkinter import messagebox
-from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory
+from tkinter import messagebox, scrolledtext
+from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory,get_low_inventory_items
 import datetime
 
 
@@ -80,6 +80,40 @@ def hide_near_expiry_table(near_expiry_tree):
 def is_near_expiry():
     near_expiry_medicines = get_near_expiry_medicines()
     return bool(near_expiry_medicines)
+
+def low_inventory_popup():
+
+    low_inventory_items = get_low_inventory_items()
+
+    if low_inventory_items is not None:
+
+        # Create the window
+        place_order_popup = tk.Toplevel()
+        place_order_popup.title("Warning! Low inventory")
+
+        # Configure the window to make it non-resizable
+        place_order_popup.geometry("400x150")
+        place_order_popup.resizable(False, False)
+
+        # Create a frame to hold the content
+        frame = ttk.Frame(place_order_popup)
+        frame.pack(expand=True, fill="both")
+
+       # Create a scrolled text widget to display the list of low inventory items
+        scroll_text = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=40, height=10)
+        scroll_text.pack(expand=True, fill="both")
+
+        # Create a message with the names of low inventory items
+        message = "\n".join([f"Low Inventory Item: {item['product_name']}" for item in low_inventory_items])
+
+        # Insert the message into the scrolled text widget
+        scroll_text.insert(tk.END, message)
+
+        # Disable editing for the scrolled text widget
+        scroll_text.config(state=tk.DISABLED)
+
+
+
 
 
 def place_order_popup():
