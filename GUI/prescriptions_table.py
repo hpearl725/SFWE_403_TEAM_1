@@ -2,8 +2,10 @@ import os
 import tkinter as tk
 from tkinter import ttk
 import csv
+from tkinter import messagebox
 from GUI.prescriptions import read_prescriptions
 from GUI.inventory import read_inventory, write_inventory
+from logs.log import logger, event, events, log_obj
 
 def read_patients(filename):
     patients_dict = {}
@@ -59,13 +61,34 @@ from GUI.create_prescription import PrescriptionForm
 def add_prescription():
     prescription_form = PrescriptionForm()
     prescription_form.window.mainloop()
-def fill_prescription(name, medicine_name):
+
+
+def fill_prescription(current_user, name, medicine_name):
 
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
     prescriptions_list = read_prescriptions(prescriptions_path)
 
     prescription = next((row for row in prescriptions_list if row["patient_name"] == name and row["product_name"] == medicine_name), None)
     if prescription is None:
+        messagebox.showerror("Error", "Prescription not found.")
+        return
+
+    inventory_path = os.path.join('GUI', 'inventory.csv')
+    inventory_dict = read_inventory(inventory_path)
+    
+    # Check if the medicine exists in inventory
+    if medicine_name not in inventory_dict:
+        messagebox.showerror("Warning", "Medicine not found in inventory.")
+        return
+    
+    # Check if the medicine is expired
+    if medicine_name in inventory_dict and inventory_dict[medicine_name]["is_expired"] == "TRUE":
+        messagebox.showerror("Warning", "The medicine is expired.")
+        return
+
+    # Check if there is enough inventory
+    if int(inventory_dict[medicine_name]["in_stock"]) < int(prescription["qty"]):
+        messagebox.showerror("Warning", "Not enough inventory.")
         return
 
     prescriptions_list.remove(prescription)
@@ -78,15 +101,19 @@ def fill_prescription(name, medicine_name):
         for row in prescriptions_list:
             writer.writerow(row)
 
-    # Update the inventory
-    inventory_path = os.path.join('GUI', 'inventory.csv')
-    inventory_dict = read_inventory(inventory_path)
-
+    # Update the inventory and create a log entry
     if medicine_name in inventory_dict:
         inventory_dict[medicine_name]["in_stock"] = str(int(inventory_dict[medicine_name]["in_stock"]) - int(prescription["qty"]))
         write_inventory(inventory_path, inventory_dict)
+        
+        # Log the login event
+        log = logger(os.path.join("GUI","log.csv"))
+        price = inventory_dict[medicine_name]["price"]
+        qty = prescription["qty"]
+        fill_rx_event = event("user_action", events.fill_rx.name, f"{qty}x {medicine_name} filled at ${price}")
+        log.log(log_obj(fill_rx_event, current_user.username))
 
-def create_fill_prescription_window():
+def create_fill_prescription_window(current_user):
     window = tk.Toplevel()
 
     # Create a frame to hold the content
@@ -104,6 +131,6 @@ def create_fill_prescription_window():
     medicine_entry = ttk.Entry(frame)
     medicine_entry.pack(side="left", padx=(0, 10))
 
-    ok_button = ttk.Button(frame, text="OK", command=lambda: 
-                           [fill_prescription(name_entry.get(), medicine_entry.get()), window.destroy()])
+    ok_button = ttk.Button(window, text="OK", command=lambda: 
+                           [fill_prescription(current_user, name_entry.get(), medicine_entry.get()), window.destroy()])
     ok_button.pack(side="left", padx=(10, 0))
