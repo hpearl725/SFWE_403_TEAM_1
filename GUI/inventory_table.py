@@ -88,34 +88,7 @@ def low_inventory_popup():
     if not low_inventory_items:
         return
     else:
-
-        # Create the window
-        place_order_popup = tk.Toplevel()
-        place_order_popup.title("Warning! Low inventory")
-
-        # Configure the window to make it non-resizable
-        place_order_popup.geometry("400x150")
-        place_order_popup.resizable(False, False)
-
-        # Create a frame to hold the content
-        frame = ttk.Frame(place_order_popup)
-        frame.pack(expand=True, fill="both")
-
-       # Create a scrolled text widget to display the list of low inventory items
-        scroll_text = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=40, height=10)
-        scroll_text.pack(expand=True, fill="both")
-
-        # Create a message with the names of low inventory items
-        message = "\n".join([f"Low Inventory Item: {item['product_name']}" for item in low_inventory_items])
-
-        # Insert the message into the scrolled text widget
-        scroll_text.insert(tk.END, message)
-
-        # Disable editing for the scrolled text widget
-        scroll_text.config(state=tk.DISABLED)
-
-
-
+        messagebox.showwarning("Low inventory","\n".join([f"Low Inventory Item: {item['product_name']}" for item in low_inventory_items]))
 
 
 def place_order_popup():
