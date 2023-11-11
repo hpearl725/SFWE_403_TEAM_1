@@ -1,8 +1,8 @@
 import os
 import tkinter as tk
 from tkinter import ttk
-from tkinter import messagebox
-from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory
+from tkinter import messagebox, scrolledtext
+from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory,get_low_inventory_items
 import datetime
 
 
@@ -80,6 +80,15 @@ def hide_near_expiry_table(near_expiry_tree):
 def is_near_expiry():
     near_expiry_medicines = get_near_expiry_medicines()
     return bool(near_expiry_medicines)
+
+def low_inventory_popup():
+
+    low_inventory_items = get_low_inventory_items()
+
+    if not low_inventory_items:
+        return
+    else:
+        messagebox.showwarning("Low inventory","\n".join([f"Low Inventory Item: {item['product_name']}" for item in low_inventory_items]))
 
 
 def place_order_popup():
