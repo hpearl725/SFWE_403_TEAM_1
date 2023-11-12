@@ -6,6 +6,7 @@ from tkinter import messagebox
 from GUI.prescriptions import read_prescriptions
 from GUI.inventory import read_inventory, write_inventory
 from logs.log import logger, event, events, log_obj
+from GUI.signature_pad import SignaturePad
 
 def read_patients(filename):
     patients_dict = {}
@@ -64,6 +65,8 @@ def add_prescription():
 
 
 def fill_prescription(current_user, name, medicine_name):
+    signature_window = tk.Toplevel()
+    signature_pad = SignaturePad(signature_window)
 
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
     prescriptions_list = read_prescriptions(prescriptions_path)
