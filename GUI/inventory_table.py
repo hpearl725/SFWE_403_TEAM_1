@@ -177,3 +177,33 @@ def add_new_medicine_popup():
 
     add_medicine_button = ttk.Button(frame, text="Confirm", command = update_inventory)
     add_medicine_button.pack(pady=10)
+
+def inventory_report_popup():
+    # Create the window
+    inventory_report_popup = tk.Toplevel()
+    inventory_report_popup.title("Inventory Report Period")
+
+    # Configure the window to make it non-resizable
+    inventory_report_popup.geometry("400x180")
+    inventory_report_popup.resizable(False, False)
+
+    # Create a frame to hold the content
+    frame = ttk.Frame(inventory_report_popup)
+    frame.pack(expand=True, fill="both")
+
+    starting_label = ttk.Label(frame, text="Start date:")
+    starting_label.pack(pady=10)
+    starting_entry = ttk.Entry(frame)
+    starting_entry.pack(pady=5)
+
+    ending_label = ttk.Label(frame, text="End date:")
+    ending_label.pack(pady=5)
+    ending_entry = ttk.Entry(frame)
+    ending_entry.pack(pady=5)
+    
+
+    generate_inventory_report_button = ttk.Button(
+        frame, text="Generate Report", command=lambda: messagebox.showinfo(
+            "Inventory Report Generated!", 
+            f"The inventory report for the time period: {starting_entry.get()} to {ending_entry.get()} has been generated.\n"))
+    generate_inventory_report_button.pack(pady=5)

@@ -39,10 +39,9 @@ receive_inventory_button = None
 fill_prescription_button = None
 place_order_button = None
 generate_financial_report_button = None
+inventory_report_button = None
 
 # Function to open the new user window
-
-
 def open_new_user_window(current_user):
     # Check if the current user is a manager
     if current_user.role != "manager":
@@ -129,6 +128,8 @@ def show_inventory_table(current_user):
     
     if current_user.role == "manager":  # only manager can see the remove-inventory button
         show_remove_expired_button(current_user)
+        # only managers should be allowed to generate reports 
+        show_inventory_report_button()
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -160,6 +161,7 @@ def show_patients_table():
     hide_receive_inventory_button()
     hide_place_order_button()
     hide_generate_financial_report_button()
+    hide_inventory_report_button()
 
 def show_users_table():
     hide_fill_prescription_button()
@@ -181,6 +183,8 @@ def show_users_table():
     hide_pharm_info_button()
     hide_generate_financial_report_button()
     hide_place_order_button()
+    hide_inventory_report_button()
+
 
 def show_prescriptions_table():
     inventory_table.hide_inventory_table(inventory_tree)
@@ -202,6 +206,7 @@ def show_prescriptions_table():
     hide_receive_inventory_button()
     hide_generate_financial_report_button()
     hide_place_order_button()
+    hide_inventory_report_button()
 
 
 def show_settings(current_user):
@@ -225,6 +230,7 @@ def show_settings(current_user):
     hide_remove_patient_button()
     hide_receive_inventory_button()
     hide_place_order_button()
+    hide_inventory_report_button()
 
 
 # Function to open the new user window
@@ -396,6 +402,17 @@ def hide_generate_financial_report_button():
     global generate_financial_report_button
     if generate_financial_report_button is not None:
         generate_financial_report_button.pack_forget()
+
+def show_inventory_report_button():
+    global inventory_report_button
+    if inventory_report_button is None:
+        inventory_report_button = ttk.Button(frame, text="Generate Inventory Report", command=inventory_table.inventory_report_popup)
+    inventory_report_button.pack(side="top", pady=10)
+
+def hide_inventory_report_button():
+    global inventory_report_button
+    if inventory_report_button is not None:
+        inventory_report_button.pack_forget()
 
 def hide_change_password_button():
     global change_password_button
