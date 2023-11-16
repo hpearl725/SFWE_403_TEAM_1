@@ -9,7 +9,6 @@ import csv
 
 
 def create_inventory_table(frame):
-    global inventory_tree
     inventory_tree = ttk.Treeview(frame)
     inventory_tree["columns"] = ("name", "quantity", "expired", "price")
 
@@ -26,17 +25,21 @@ def create_inventory_table(frame):
     inventory_tree.heading("price", text="Price", anchor=tk.E)
     
     inventory_tree.tag_bind("row","<Button-2>", lambda event: postPopUpMenu(event))
+    
+    return inventory_tree
 
 
-def postPopUpMenu(event):
+def postPopUpMenu(event, inventory_tree):
+    print("Creating popup")
     row_id = inventory_tree.identify_row(event.y)
     inventory_tree.selection_set(row_id)
     row_values = inventory_tree.item(row_id)['values']
     popUpMenu = tk.Menu(inventory_tree, tearoff=0,font=("Verdana", 11))
-    popUpMenu.add_command(label="Edit/Update", command=lambda: edit_inventory(row_values,row_id))
+    popUpMenu.add_command(label="Edit/Update", command=lambda: edit_inventory(row_values,row_id, inventory_tree))
     popUpMenu.post(event.x_root,event.y_root)
+    print("done creating popup")
 
-def edit_inventory(data_array, item_index):
+def edit_inventory(data_array, item_index, inventory_tree):
     item_index = item_index[1:]
     item_index = int(item_index)
     edit_inventory_window = tk.Toplevel()
@@ -44,6 +47,7 @@ def edit_inventory(data_array, item_index):
     
     frame = ttk.Frame(edit_inventory_window)
     frame.pack(expand=True, fill="both")
+    
     
     entries = []
     for i, value in enumerate(data_array):
@@ -56,11 +60,13 @@ def edit_inventory(data_array, item_index):
 
         entries.append(entry_var)
     
-    def save_changes():
+    print("Defining save changes")
+    def save_changes(inventory_tree):
         # Retrieve the edited values from entry widgets
         edited_values = [entry.get() for entry in entries]
         
         #update the csv with new values
+        print("opening csv to read")
         with open("GUI/inventory.csv", 'r') as csvfile:
             csv_reader = csv.reader(csvfile)
             lines = list(csv_reader)
@@ -74,17 +80,21 @@ def edit_inventory(data_array, item_index):
         lines[item_index][6] = edited_values[4]      
 
         # Write the updated content back to the CSV file
+        print("opening csv to write")
         with open("GUI/inventory.csv", 'w', newline='') as csvfile:
             csv_writer = csv.writer(csvfile)
             csv_writer.writerows(lines)
+        print("done writing")
             
-        show_inventory_table()
+        show_inventory_table(inventory_tree)
         edit_inventory_window.destroy()
+        print("destroying window")
+    print("Done defining save changes")
         
     save_button = tk.Button(frame, text="Save Changes", command=save_changes)
     save_button.grid(row=len(data_array), column=0, columnspan=2, pady=10)
 
-def show_inventory_table():
+def show_inventory_table(inventory_tree):
     inventory_tree.delete(*inventory_tree.get_children()
                           )  # Clear existing rows
 
@@ -102,7 +112,7 @@ def show_inventory_table():
 
 
 
-def hide_inventory_table():
+def hide_inventory_table(inventory_tree):
     inventory_tree.pack_forget()
 
     

@@ -38,11 +38,6 @@ receive_inventory_button = None
 fill_prescription_button = None
 place_order_button = None
 
-
-
-    
-
-
 # Function to open the new user window
 
 
@@ -96,7 +91,7 @@ def create_dashboard(user):
     prescriptions_button.pack(side="left", padx=10)
     settings_button.pack(side="left", padx=10)
 
-    inventory_tree = inventory_table.create_inventory_table(frame)
+    inventory_tree = inventory_table.create_inventory_table(frame, inventory_tree)
     patients_tree = patients_table.create_patients_table(frame)
     users_tree = users_table.create_users_table(frame)
     prescriptions_tree = prescriptions_table.create_prescriptions_table(frame)
@@ -115,7 +110,7 @@ def show_inventory_table(current_user):
         messagebox.showerror("Permission Denied",
                              "Only pharmacists can view inventory.")
         return
-    inventory_table.show_inventory_table()
+    inventory_table.show_inventory_table(current_user)
     if inventory_table.is_near_expiry():  # Only show the near expiry table if there are near expiry medicines
         inventory_table.show_near_expiry_table(near_expiry_tree)
     else:
