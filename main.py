@@ -8,7 +8,6 @@ from ttkthemes import ThemedStyle  # Import ThemedStyle from ttkthemes
 from GUI.authorization_page import create_authorization_page
 from GUI.dashboard import create_dashboard
 from GUI.authorization_page import create_authorization_page
-from logs.log import logger, event, events, log_obj
 from GUI.users import createUser
 
 def open_dashboard():

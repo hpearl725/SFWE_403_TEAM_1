@@ -105,29 +105,28 @@ def create_dashboard(user):
 
 # define hide and show functions for tables
 def show_inventory_table(current_user):
-
-    hide_fill_prescription_button()
     # Check if the current user is a manager or pharmacist
     if not (current_user.role == "manager" or current_user.role == "pharmacist"):
         messagebox.showerror("Permission Denied",
                              "Only pharmacists can view inventory.")
         return
-    inventory_table.show_inventory_table()
     if inventory_table.is_near_expiry():  # Only show the near expiry table if there are near expiry medicines
         inventory_table.show_near_expiry_table(near_expiry_tree)
     else:
         inventory_table.hide_near_expiry_table(near_expiry_tree)
+
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+
+    inventory_table.show_inventory_table()
     show_check_inventory_button()
     show_receive_inventory_button()
-    show_place_order_button()
-
-    inventory_table.low_inventory_popup()
-    
+    show_place_order_button()    
     if current_user.role == "manager":  # only manager can see the remove-inventory button
         show_remove_expired_button(current_user)
+
+    hide_fill_prescription_button()
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -137,6 +136,9 @@ def show_inventory_table(current_user):
     hide_change_password_button()
     hide_pharm_info_button()
     hide_generate_financial_report_button()
+
+    # this should display after other all other GUI operations are complete
+    inventory_table.low_inventory_popup()
 
 
 def show_patients_table():
