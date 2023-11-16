@@ -74,8 +74,10 @@ def create_dashboard(user):
     button_frame = ttk.Frame(frame)
     button_frame.pack(side="top", fill="x", padx=10, pady=10)
 
+    shown_window = tk.BooleanVar(value=False) # use tk variable with getters and setters
+
     inventory_button = ttk.Button(
-        button_frame, text="Inventory", command=lambda: show_inventory_table(current_user))
+        button_frame, text="Inventory", command=lambda: show_inventory_table(current_user, shown_window))
     patients_button = ttk.Button(
         button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(
@@ -104,12 +106,13 @@ def create_dashboard(user):
 
 
 # define hide and show functions for tables
-def show_inventory_table(current_user):
+def show_inventory_table(current_user, shown_window):
     # Check if the current user is a manager or pharmacist
     if not (current_user.role == "manager" or current_user.role == "pharmacist"):
         messagebox.showerror("Permission Denied",
                              "Only pharmacists can view inventory.")
         return
+    inventory_table.show_inventory_table() # show inventory above near expiry
     if inventory_table.is_near_expiry():  # Only show the near expiry table if there are near expiry medicines
         inventory_table.show_near_expiry_table(near_expiry_tree)
     else:
@@ -119,7 +122,6 @@ def show_inventory_table(current_user):
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
 
-    inventory_table.show_inventory_table()
     show_check_inventory_button()
     show_receive_inventory_button()
     show_place_order_button()    
@@ -138,7 +140,9 @@ def show_inventory_table(current_user):
     hide_generate_financial_report_button()
 
     # this should display after other all other GUI operations are complete
-    inventory_table.low_inventory_popup()
+    if shown_window.get() == False: # only show popup once
+        inventory_table.low_inventory_popup()
+        shown_window.set(value=True)
 
 
 def show_patients_table():
