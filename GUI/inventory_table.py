@@ -4,9 +4,12 @@ from tkinter import ttk
 from tkinter import messagebox, scrolledtext
 from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory,get_low_inventory_items
 import datetime
+import csv
+
 
 
 def create_inventory_table(frame):
+    global inventory_tree
     inventory_tree = ttk.Treeview(frame)
     inventory_tree["columns"] = ("name", "quantity", "expired", "price")
 
@@ -21,11 +24,67 @@ def create_inventory_table(frame):
     inventory_tree.heading("quantity", text="Quantity", anchor=tk.CENTER)
     inventory_tree.heading("expired", text="Expired", anchor=tk.CENTER)
     inventory_tree.heading("price", text="Price", anchor=tk.E)
+    
+    inventory_tree.tag_bind("row","<Button-2>", lambda event: postPopUpMenu(event))
 
-    return inventory_tree
 
+def postPopUpMenu(event):
+    row_id = inventory_tree.identify_row(event.y)
+    inventory_tree.selection_set(row_id)
+    row_values = inventory_tree.item(row_id)['values']
+    popUpMenu = tk.Menu(inventory_tree, tearoff=0,font=("Verdana", 11))
+    popUpMenu.add_command(label="Edit/Update", command=lambda: edit_inventory(row_values,row_id))
+    popUpMenu.post(event.x_root,event.y_root)
 
-def show_inventory_table(inventory_tree):
+def edit_inventory(data_array, item_index):
+    item_index = item_index[1:]
+    item_index = int(item_index)
+    edit_inventory_window = tk.Toplevel()
+    edit_inventory_window.title("Edit/Update Inventory")
+    
+    frame = ttk.Frame(edit_inventory_window)
+    frame.pack(expand=True, fill="both")
+    
+    entries = []
+    for i, value in enumerate(data_array):
+        label = tk.Label(frame, text=f"Element {i + 1}:")
+        label.grid(row=i, column=0, padx=5, pady=5)
+
+        entry_var = tk.StringVar(value=str(value))
+        entry = tk.Entry(frame, textvariable=entry_var)
+        entry.grid(row=i, column=1, padx=5, pady=5)
+
+        entries.append(entry_var)
+    
+    def save_changes():
+        # Retrieve the edited values from entry widgets
+        edited_values = [entry.get() for entry in entries]
+        
+        #update the csv with new values
+        with open("GUI/inventory.csv", 'r') as csvfile:
+            csv_reader = csv.reader(csvfile)
+            lines = list(csv_reader)
+
+        # Update the specific row with the edited values
+        edited_values.insert(0,item_index)
+        lines[item_index][0] = edited_values[0]
+        lines[item_index][1] = edited_values[1]
+        lines[item_index][2] = edited_values[2]
+        lines[item_index][5] = edited_values[3]
+        lines[item_index][6] = edited_values[4]      
+
+        # Write the updated content back to the CSV file
+        with open("GUI/inventory.csv", 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerows(lines)
+            
+        show_inventory_table()
+        edit_inventory_window.destroy()
+        
+    save_button = tk.Button(frame, text="Save Changes", command=save_changes)
+    save_button.grid(row=len(data_array), column=0, columnspan=2, pady=10)
+
+def show_inventory_table():
     inventory_tree.delete(*inventory_tree.get_children()
                           )  # Clear existing rows
 
@@ -37,12 +96,13 @@ def show_inventory_table(inventory_tree):
         quantity = row["in_stock"]
         expired = row["is_expired"]
         price = row["price"]
-        inventory_tree.insert("", tk.END, values=(name, quantity, expired, price))
+        inventory_tree.insert("", tk.END, values=(name, quantity, expired, price),tags=("row"))
 
     inventory_tree.pack()
 
 
-def hide_inventory_table(inventory_tree):
+
+def hide_inventory_table():
     inventory_tree.pack_forget()
 
     
