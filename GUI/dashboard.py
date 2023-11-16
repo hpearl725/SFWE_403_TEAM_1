@@ -40,11 +40,6 @@ fill_prescription_button = None
 place_order_button = None
 generate_financial_report_button = None
 
-
-
-    
-
-
 # Function to open the new user window
 
 
@@ -118,7 +113,7 @@ def show_inventory_table(current_user):
         messagebox.showerror("Permission Denied",
                              "Only pharmacists can view inventory.")
         return
-    inventory_table.show_inventory_table()
+    inventory_table.show_inventory_table(inventory_tree)
     if inventory_table.is_near_expiry():  # Only show the near expiry table if there are near expiry medicines
         inventory_table.show_near_expiry_table(near_expiry_tree)
     else:
@@ -147,7 +142,7 @@ def show_inventory_table(current_user):
 
 def show_patients_table():
     hide_fill_prescription_button()
-    inventory_table.hide_inventory_table()
+    inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
     patients_table.show_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
@@ -168,7 +163,7 @@ def show_patients_table():
 
 def show_users_table():
     hide_fill_prescription_button()
-    inventory_table.hide_inventory_table()
+    inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.show_users_table(users_tree)
@@ -188,7 +183,7 @@ def show_users_table():
     hide_place_order_button()
 
 def show_prescriptions_table():
-    inventory_table.hide_inventory_table()
+    inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
@@ -211,7 +206,7 @@ def show_prescriptions_table():
 
 def show_settings(current_user):
     hide_fill_prescription_button()
-    inventory_table.hide_inventory_table()
+    inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
@@ -281,7 +276,7 @@ def show_check_inventory_button():
     global check_inventory_button
     if check_inventory_button is None:
         check_inventory_button = ttk.Button(frame, text="Check inventory",
-                                            command=lambda: check_inventory.create_check_inventory_window())
+                                            command=lambda: check_inventory.create_check_inventory_window(inventory_tree))
     check_inventory_button.pack(side="top", pady=10)
 
 
