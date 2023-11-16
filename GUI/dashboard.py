@@ -41,13 +41,7 @@ place_order_button = None
 generate_financial_report_button = None
 
 
-
-    
-
-
 # Function to open the new user window
-
-
 def open_new_user_window(current_user):
     # Check if the current user is a manager
     if current_user.role != "manager":

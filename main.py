@@ -41,7 +41,7 @@ def open_dashboard():
                     this_user_locked = True
                 else:
                     if row[2] == password:
-                        if create_authorization_page():
+                        if create_authorization_page(username):
                             current_user = createUser(row[0])
                             if row[10] == 'True':
                                 new_password = simpledialog.askstring("New Password", "Enter new password:", show='*')
@@ -57,11 +57,6 @@ def open_dashboard():
                             
                             # Open the dashboard window
                             create_dashboard(current_user)
-
-                            # Log the login event
-                            log = logger(os.path.join("GUI","log.csv"))
-                            login_event = event("user_action", events.login.name, "User logged in")
-                            log.log(log_obj(login_event, username))
 
                             return
                     else:
