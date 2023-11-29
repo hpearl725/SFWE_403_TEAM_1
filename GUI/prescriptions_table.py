@@ -66,9 +66,14 @@ def add_prescription():
 from reportlab.pdfgen import canvas
 from datetime import datetime
 
-def create_blank_pdf(patient_name, date):
+def create_blank_pdf(patient_name, date, medicine_name, quantity):
     filename = f"{patient_name}_{date}.pdf"
     c = canvas.Canvas(filename)
+    c.setFont("Helvetica", 18)
+    c.drawString(100, 750, f"Patient Name: {patient_name}")
+    c.drawString(100, 725, f"Date: {date}")
+    c.drawString(100, 700, f"Medicine Name: {medicine_name}")
+    c.drawString(100, 675, f"Quantity: {quantity}")
     c.showPage()
     c.save()
 
@@ -124,7 +129,7 @@ def fill_prescription(current_user, name, medicine_name):
 
         # Generate a receipt
         date = datetime.now().strftime("%Y-%m-%d")
-        create_blank_pdf(name, date)
+        create_blank_pdf(name, date, medicine_name, prescription["qty"])
 
 def create_fill_prescription_window(current_user):
     window = tk.Toplevel()
