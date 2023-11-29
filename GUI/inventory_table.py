@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox, scrolledtext
 from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory,get_low_inventory_items
 import datetime
+from logs.log import logger, event, events, log_obj
 
 
 def create_inventory_table(frame):
@@ -121,7 +122,7 @@ def place_order_popup():
     place_order_button.pack(pady=5)
 
 
-def add_new_medicine_popup():
+def add_new_medicine_popup(current_user):
     new_medicine_popup = tk.Toplevel()
     new_medicine_popup.title("Add New Medicine")
 
@@ -153,7 +154,7 @@ def add_new_medicine_popup():
     price_entry = ttk.Entry(frame)
     price_entry.pack()
 
-    def update_inventory():
+    def update_inventory(current_user):
         inventory_path = os.path.join('GUI', 'inventory.csv')
         inventory_dict = read_inventory(inventory_path)
         new_medicine = name_entry.get()
@@ -173,7 +174,10 @@ def add_new_medicine_popup():
                                             "price" : new_price}
 
         write_inventory(inventory_path, inventory_dict)
+        log = logger(os.path.join("GUI","log.csv"))
+        login_event = event("user_action", events.add_meds.name, f"User added {new_quantity}x {new_medicine} priced at ${new_price} to inventory with expiry date {new_expiry_date}")
+        log.log(log_obj(login_event, current_user.username))
         new_medicine_popup.destroy()
 
-    add_medicine_button = ttk.Button(frame, text="Confirm", command = update_inventory)
+    add_medicine_button = ttk.Button(frame, text="Confirm", command = lambda:update_inventory(current_user))
     add_medicine_button.pack(pady=10)

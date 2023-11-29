@@ -3,9 +3,11 @@ import tkinter.messagebox
 from tkinter import ttk
 import csv
 import os
+from logs.log import logger, event, events, log_obj
 
 class PrescriptionForm:
-    def __init__(self):
+    def __init__(self,current_user):
+        self.current_user = current_user
         self.window = tk.Toplevel()
         self.window.title("Add Prescription")
 
@@ -52,5 +54,8 @@ class PrescriptionForm:
         with open(os.path.join('GUI', 'prescriptions.csv'), mode='a', newline='', encoding='utf-8') as csv_file:
             writer = csv.writer(csv_file)
             writer.writerow([product_name, qty, patient_name, rx_number])
+            log = logger(os.path.join("GUI","log.csv"))
+            login_event = event("user_action", events.add_rx.name, f"User added prescription of {qty}x {product_name} for {patient_name}, RX#: {rx_number}")
+            log.log(log_obj(login_event, self.current_user.username))
 
         self.window.destroy()

@@ -355,7 +355,7 @@ def show_add_prescription_button():
     global add_prescription_button
     if add_prescription_button is None:
         add_prescription_button = ttk.Button(
-            frame, text="Add Prescription", command=prescriptions_table.add_prescription)
+            frame, text="Add Prescription", command=lambda: prescriptions_table.add_prescription(current_user))
     add_prescription_button.pack(pady=10)
 
 
@@ -408,7 +408,7 @@ def hide_change_password_button():
 def show_receive_inventory_button():
     global receive_inventory_button
     if receive_inventory_button is None:
-        receive_inventory_button = ttk.Button(frame, text="Receive Inventory", command=inventory_table.add_new_medicine_popup)
+        receive_inventory_button = ttk.Button(frame, text="Receive Inventory", command=lambda: inventory_table.add_new_medicine_popup(current_user))
     receive_inventory_button.pack(side="top", pady=10)
 
 

@@ -58,8 +58,8 @@ def hide_prescriptions_table(prescriptions_tree):
     prescriptions_tree.pack_forget()
 from GUI.create_prescription import PrescriptionForm
 
-def add_prescription():
-    prescription_form = PrescriptionForm()
+def add_prescription(current_user):
+    prescription_form = PrescriptionForm(current_user)
     prescription_form.window.mainloop()
 
 
@@ -112,8 +112,9 @@ def fill_prescription(current_user, name, medicine_name):
         qty = prescription["qty"]
         patient_name = prescription["patient_name"]
         rx_number = prescription["rx_number"]
-        fill_rx_event = event("user_action", events.fill_rx.name, f"{qty}x {medicine_name} filled at ${price} for ${patient_name}, RX#: ${rx_number}")
+        fill_rx_event = event("user_action", events.fill_rx.name, f"{qty}x {medicine_name} filled at ${price} for {patient_name}, RX#: {rx_number}")
         log.log(log_obj(fill_rx_event, current_user.username))
+
 
 def create_fill_prescription_window(current_user):
     window = tk.Toplevel()
