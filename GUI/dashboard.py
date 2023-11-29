@@ -41,6 +41,7 @@ fill_prescription_button = None
 place_order_button = None
 generate_financial_report_button = None
 inventory_report_button = None
+inventory_report_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user):
@@ -170,6 +171,7 @@ def show_patients_table():
     hide_place_order_button()
     hide_generate_financial_report_button()
     hide_inventory_report_button()
+    hide_inventory_report_button()
 
 def show_users_table():
     hide_fill_prescription_button()
@@ -213,6 +215,7 @@ def show_prescriptions_table():
     hide_receive_inventory_button()
     hide_generate_financial_report_button()
     hide_place_order_button()
+    hide_inventory_report_button()
     hide_inventory_report_button()
 
 
@@ -408,6 +411,17 @@ def hide_generate_financial_report_button():
     global generate_financial_report_button
     if generate_financial_report_button is not None:
         generate_financial_report_button.pack_forget()
+
+def show_inventory_report_button():
+    global inventory_report_button
+    if inventory_report_button is None:
+        inventory_report_button = ttk.Button(frame, text="Generate Inventory Report", command=inventory_table.inventory_report_popup)
+    inventory_report_button.pack(side="top", pady=10)
+
+def hide_inventory_report_button():
+    global inventory_report_button
+    if inventory_report_button is not None:
+        inventory_report_button.pack_forget()
 
 def hide_change_password_button():
     global change_password_button
