@@ -409,17 +409,6 @@ def hide_generate_financial_report_button():
     if generate_financial_report_button is not None:
         generate_financial_report_button.pack_forget()
 
-def show_inventory_report_button():
-    global inventory_report_button
-    if inventory_report_button is None:
-        inventory_report_button = ttk.Button(frame, text="Generate Inventory Report", command=inventory_table.inventory_report_popup)
-    inventory_report_button.pack(side="top", pady=10)
-
-def hide_inventory_report_button():
-    global inventory_report_button
-    if inventory_report_button is not None:
-        inventory_report_button.pack_forget()
-
 def hide_change_password_button():
     global change_password_button
     if change_password_button is not None:
@@ -438,6 +427,16 @@ def hide_receive_inventory_button():
     if receive_inventory_button is not None:
         receive_inventory_button.pack_forget()
 
+def show_inventory_report_button():
+    global inventory_report_button
+    if inventory_report_button is None:
+        inventory_report_button = ttk.Button(frame, text="Generate Inventory Report", command=inventory_table.inventory_report_popup)
+    inventory_report_button.pack(side="top", pady=10)
+
+def hide_inventory_report_button():
+    global inventory_report_button
+    if inventory_report_button is not None:
+        inventory_report_button.pack_forget()
 
 def show_place_order_button():
     global place_order_button
