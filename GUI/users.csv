@@ -6,3 +6,4 @@ userID,username,password,role,fname,lname,dob,phonenumber,emailaddress,attempts,
 5,b,2,pharmacist,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
 6,c,3,technician,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
 7,d,4,cashier,Harrison,Pearl,01-01-2000,123-456-7890,hpearl@arizona.edu,0,False,False
+8,atest,xZ1f9R3Eqo,add,test,11/11/2011,1234567890,no@thankyou.com,pharmacist,0,True,False
