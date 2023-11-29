@@ -63,6 +63,15 @@ def add_prescription():
     prescription_form.window.mainloop()
 
 
+from reportlab.pdfgen import canvas
+from datetime import datetime
+
+def create_blank_pdf(patient_name, date):
+    filename = f"{patient_name}_{date}.pdf"
+    c = canvas.Canvas(filename)
+    c.showPage()
+    c.save()
+
 def fill_prescription(current_user, name, medicine_name):
 
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
@@ -112,6 +121,10 @@ def fill_prescription(current_user, name, medicine_name):
         qty = prescription["qty"]
         fill_rx_event = event("user_action", events.fill_rx.name, f"{qty}x {medicine_name} filled at ${price}")
         log.log(log_obj(fill_rx_event, current_user.username))
+
+        # Generate a receipt
+        date = datetime.now().strftime("%Y-%m-%d")
+        create_blank_pdf(name, date)
 
 def create_fill_prescription_window(current_user):
     window = tk.Toplevel()
