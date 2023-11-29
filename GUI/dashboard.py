@@ -40,9 +40,8 @@ fill_prescription_button = None
 place_order_button = None
 generate_financial_report_button = None
 
+
 # Function to open the new user window
-
-
 def open_new_user_window(current_user):
     # Check if the current user is a manager
     if current_user.role != "manager":
@@ -75,8 +74,10 @@ def create_dashboard(user):
     button_frame = ttk.Frame(frame)
     button_frame.pack(side="top", fill="x", padx=10, pady=10)
 
+    shown_window = tk.BooleanVar(value=False) # use tk variable with getters and setters
+
     inventory_button = ttk.Button(
-        button_frame, text="Inventory", command=lambda: show_inventory_table(current_user))
+        button_frame, text="Inventory", command=lambda: show_inventory_table(current_user, shown_window))
     patients_button = ttk.Button(
         button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(
@@ -105,9 +106,7 @@ def create_dashboard(user):
 
 
 # define hide and show functions for tables
-def show_inventory_table(current_user):
-
-    hide_fill_prescription_button()
+def show_inventory_table(current_user, shown_window):
     # Check if the current user is a manager or pharmacist
     if not (current_user.role == "manager" or current_user.role == "pharmacist"):
         messagebox.showerror("Permission Denied",
@@ -118,17 +117,18 @@ def show_inventory_table(current_user):
         inventory_table.show_near_expiry_table(near_expiry_tree)
     else:
         inventory_table.hide_near_expiry_table(near_expiry_tree)
+
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+
     show_check_inventory_button()
     show_receive_inventory_button()
-    show_place_order_button()
-
-    inventory_table.low_inventory_popup()
-    
+    show_place_order_button()    
     if current_user.role == "manager":  # only manager can see the remove-inventory button
         show_remove_expired_button(current_user)
+
+    hide_fill_prescription_button()
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -138,6 +138,11 @@ def show_inventory_table(current_user):
     hide_change_password_button()
     hide_pharm_info_button()
     hide_generate_financial_report_button()
+
+    # this should display after other all other GUI operations are complete
+    if shown_window.get() == False: # only show popup once
+        inventory_table.low_inventory_popup()
+        shown_window.set(value=True)
 
 
 def show_patients_table():
