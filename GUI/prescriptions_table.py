@@ -94,7 +94,7 @@ def fill_prescription(current_user, name, medicine_name):
     prescriptions_list.remove(prescription)
 
     with open(prescriptions_path, mode='w', newline='', encoding='utf-8') as csv_file:
-        fieldnames = ["product_name", "qty", "patient_name"]
+        fieldnames = ["product_name", "qty", "patient_name", "rx_number"]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
         writer.writeheader()
@@ -110,7 +110,9 @@ def fill_prescription(current_user, name, medicine_name):
         log = logger(os.path.join("GUI","log.csv"))
         price = inventory_dict[medicine_name]["price"]
         qty = prescription["qty"]
-        fill_rx_event = event("user_action", events.fill_rx.name, f"{qty}x {medicine_name} filled at ${price}")
+        patient_name = prescription["patient_name"]
+        rx_number = prescription["rx_number"]
+        fill_rx_event = event("user_action", events.fill_rx.name, f"{qty}x {medicine_name} filled at ${price} for ${patient_name}, RX#: ${rx_number}")
         log.log(log_obj(fill_rx_event, current_user.username))
 
 def create_fill_prescription_window(current_user):

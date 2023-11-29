@@ -17,6 +17,7 @@ from GUI import settings
 from GUI.reports import generate_financial_report
 from GUI.users import User
 from GUI import pharmacy_info_window
+from logs.log import logger, event, events, log_obj
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -85,7 +86,8 @@ def create_dashboard(user):
         button_frame, text="Prescriptions", command=show_prescriptions_table)
     settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_settings(
         current_user))  # do we want to pass whole user object here, or just role?
-    exit_button = ttk.Button(frame, text="Exit", command=dashboard.quit)
+    exit_button = ttk.Button(frame, text="Exit", command=lambda: logout(dashboard))
+
 
     inventory_button.pack(side="left", padx=10)
     patients_button.pack(side="left", padx=10)
@@ -427,6 +429,12 @@ def hide_place_order_button():
     if place_order_button is not None:
         place_order_button.pack_forget()
 
+def logout(dashboard):
+    log = logger(os.path.join("GUI","log.csv"))
+    this_event = event("user_action", events.logout.name, f"User logged out")
+    log.log(log_obj(this_event, current_user.username))
+    dashboard.destroy()
+    
 
 if __name__ == "__main__":
     # Create a dummy user

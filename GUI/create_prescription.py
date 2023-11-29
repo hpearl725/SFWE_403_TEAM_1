@@ -21,6 +21,9 @@ class PrescriptionForm:
         self.qty_label = ttk.Label(self.frame, text="Qty:")
         self.qty_entry = ttk.Entry(self.frame)
 
+        self.rx_number_label = ttk.Label(self.frame, text="Rx Number:")
+        self.rx_number_entry = ttk.Entry(self.frame)
+
         self.submit_button = ttk.Button(self.frame, text="Submit", command=self.save_prescription_info)
 
         self.patient_name_label.pack()
@@ -29,12 +32,15 @@ class PrescriptionForm:
         self.product_name_entry.pack()
         self.qty_label.pack()
         self.qty_entry.pack()
+        self.rx_number_label.pack()
+        self.rx_number_entry.pack()
         self.submit_button.pack()
 
     def save_prescription_info(self):
         patient_name = self.patient_name_entry.get()
         product_name = self.product_name_entry.get()
         qty = self.qty_entry.get()
+        rx_number = self.rx_number_entry.get()
 
         with open(os.path.join('GUI', 'prescriptions.csv'), mode='r', newline='', encoding='utf-8') as csv_file:
             reader = csv.reader(csv_file)
@@ -45,6 +51,6 @@ class PrescriptionForm:
 
         with open(os.path.join('GUI', 'prescriptions.csv'), mode='a', newline='', encoding='utf-8') as csv_file:
             writer = csv.writer(csv_file)
-            writer.writerow([product_name, qty, patient_name])
+            writer.writerow([product_name, qty, patient_name, rx_number])
 
         self.window.destroy()
