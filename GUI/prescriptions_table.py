@@ -67,6 +67,8 @@ def add_prescription():
 def fill_prescription(current_user, name, medicine_name):
     signature_window = tk.Toplevel()
     signature_pad = SignaturePad(signature_window)
+    confirm_button = tk.Button(signature_window, text="Confirm", command=signature_pad.save_and_close)
+    confirm_button.pack()
 
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
     prescriptions_list = read_prescriptions(prescriptions_path)

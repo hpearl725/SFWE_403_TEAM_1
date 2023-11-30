@@ -11,6 +11,10 @@ class SignaturePad:
         self.canvas.bind('<Button-1>', self.start_draw)
         self.canvas.bind('<B1-Motion>', self.draw)
         self.canvas.bind('<ButtonRelease-1>', self.stop_draw)
+
+    def save_and_close(self):
+        self.save_signature("signature.png")
+        self.window.destroy()
         self.window.bind('<Return>', self.save_and_close)
 
     def start_draw(self, event):
