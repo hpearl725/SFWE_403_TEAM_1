@@ -1,13 +1,21 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 from ttkthemes import ThemedTk
+from logs.log import logger, event, events, log_obj
 
-def on_submit():
+def on_submit(username):
 
-    is_submitted.set(True)  
+    is_submitted.set(True) 
+
+    # Log the login event
+    log = logger(os.path.join("GUI","log.csv"))
+    login_event = event("user_action", events.login.name, "User logged in")
+    log.log(log_obj(login_event, username))
+
     window.destroy()  
 
-def create_authorization_page():
+def create_authorization_page(username):
     global window, entry_2fa, is_submitted  
 
     window = tk.Toplevel()
@@ -23,7 +31,7 @@ def create_authorization_page():
     entry_2fa = ttk.Entry(frame)
     entry_2fa.pack(pady=15, padx=15, fill=tk.X)
     
-    submit_button = ttk.Button(frame, text="Submit", command=on_submit)
+    submit_button = ttk.Button(frame, text="Submit", command=lambda: on_submit(username))
     submit_button.pack(pady=15)
     
     is_submitted = tk.BooleanVar(frame, value=False)  

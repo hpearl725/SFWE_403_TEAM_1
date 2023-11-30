@@ -17,6 +17,7 @@ from GUI import settings
 from GUI.reports import generate_financial_report
 from GUI.users import User
 from GUI import pharmacy_info_window
+from logs.log import logger, event, events, log_obj
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -40,9 +41,8 @@ fill_prescription_button = None
 place_order_button = None
 generate_financial_report_button = None
 
+
 # Function to open the new user window
-
-
 def open_new_user_window(current_user):
     # Check if the current user is a manager
     if current_user.role != "manager":
@@ -75,8 +75,10 @@ def create_dashboard(user):
     button_frame = ttk.Frame(frame)
     button_frame.pack(side="top", fill="x", padx=10, pady=10)
 
+    shown_window = tk.BooleanVar(value=False) # use tk variable with getters and setters
+
     inventory_button = ttk.Button(
-        button_frame, text="Inventory", command=lambda: show_inventory_table(current_user))
+        button_frame, text="Inventory", command=lambda: show_inventory_table(current_user, shown_window))
     patients_button = ttk.Button(
         button_frame, text="Patients", command=show_patients_table)
     users_button = ttk.Button(
@@ -85,7 +87,8 @@ def create_dashboard(user):
         button_frame, text="Prescriptions", command=show_prescriptions_table)
     settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_settings(
         current_user))  # do we want to pass whole user object here, or just role?
-    exit_button = ttk.Button(frame, text="Exit", command=dashboard.quit)
+    exit_button = ttk.Button(frame, text="Exit", command=lambda: logout(dashboard))
+
 
     inventory_button.pack(side="left", padx=10)
     patients_button.pack(side="left", padx=10)
@@ -105,9 +108,7 @@ def create_dashboard(user):
 
 
 # define hide and show functions for tables
-def show_inventory_table(current_user):
-
-    hide_fill_prescription_button()
+def show_inventory_table(current_user, shown_window):
     # Check if the current user is a manager or pharmacist
     if not (current_user.role == "manager" or current_user.role == "pharmacist"):
         messagebox.showerror("Permission Denied",
@@ -118,17 +119,18 @@ def show_inventory_table(current_user):
         inventory_table.show_near_expiry_table(near_expiry_tree)
     else:
         inventory_table.hide_near_expiry_table(near_expiry_tree)
+
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+
     show_check_inventory_button()
     show_receive_inventory_button()
-    show_place_order_button()
-
-    inventory_table.low_inventory_popup()
-    
+    show_place_order_button()    
     if current_user.role == "manager":  # only manager can see the remove-inventory button
         show_remove_expired_button(current_user)
+
+    hide_fill_prescription_button()
     hide_add_user_button()
     hide_add_patient_button()
     hide_add_prescription_button()
@@ -138,6 +140,11 @@ def show_inventory_table(current_user):
     hide_change_password_button()
     hide_pharm_info_button()
     hide_generate_financial_report_button()
+
+    # this should display after other all other GUI operations are complete
+    if shown_window.get() == False: # only show popup once
+        inventory_table.low_inventory_popup()
+        shown_window.set(value=True)
 
 
 def show_patients_table():
@@ -353,7 +360,7 @@ def show_add_prescription_button():
     global add_prescription_button
     if add_prescription_button is None:
         add_prescription_button = ttk.Button(
-            frame, text="Add Prescription", command=prescriptions_table.add_prescription)
+            frame, text="Add Prescription", command=lambda: prescriptions_table.add_prescription(current_user))
     add_prescription_button.pack(pady=10)
 
 
@@ -406,7 +413,7 @@ def hide_change_password_button():
 def show_receive_inventory_button():
     global receive_inventory_button
     if receive_inventory_button is None:
-        receive_inventory_button = ttk.Button(frame, text="Receive Inventory", command=inventory_table.add_new_medicine_popup)
+        receive_inventory_button = ttk.Button(frame, text="Receive Inventory", command=lambda: inventory_table.add_new_medicine_popup(current_user))
     receive_inventory_button.pack(side="top", pady=10)
 
 
@@ -427,6 +434,12 @@ def hide_place_order_button():
     if place_order_button is not None:
         place_order_button.pack_forget()
 
+def logout(dashboard):
+    log = logger(os.path.join("GUI","log.csv"))
+    this_event = event("user_action", events.logout.name, f"User logged out")
+    log.log(log_obj(this_event, current_user.username))
+    dashboard.destroy()
+    
 
 if __name__ == "__main__":
     # Create a dummy user
