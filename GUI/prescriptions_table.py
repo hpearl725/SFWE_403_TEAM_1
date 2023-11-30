@@ -65,11 +65,6 @@ def add_prescription():
 
 
 def fill_prescription(current_user, name, medicine_name):
-    signature_window = tk.Toplevel()
-    signature_pad = SignaturePad(signature_window)
-    confirm_button = tk.Button(signature_window, text="Confirm", command=signature_pad.save_and_close)
-    confirm_button.pack()
-
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
     prescriptions_list = read_prescriptions(prescriptions_path)
 
@@ -95,6 +90,11 @@ def fill_prescription(current_user, name, medicine_name):
     if int(inventory_dict[medicine_name]["in_stock"]) < int(prescription["qty"]):
         messagebox.showerror("Warning", "Not enough inventory.")
         return
+
+    signature_window = tk.Toplevel()
+    signature_pad = SignaturePad(signature_window)
+    confirm_button = tk.Button(signature_window, text="Confirm", command=signature_pad.save_and_close)
+    confirm_button.pack()
 
     prescriptions_list.remove(prescription)
 

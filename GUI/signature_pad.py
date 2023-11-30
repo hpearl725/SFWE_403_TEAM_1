@@ -37,6 +37,6 @@ class SignaturePad:
         y1 = y + self.canvas.winfo_height()
         ImageGrab.grab().crop((x, y, x1, y1)).save(filename)
 
-    def save_and_close(self, event):
+    def save_and_close(self, event=None):
         self.save_signature('signature.png')
         self.window.destroy()
