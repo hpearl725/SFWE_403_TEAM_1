@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox, scrolledtext
 from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory,get_low_inventory_items
+from GUI.reports import generate_inventory_report
 import datetime
 from logs.log import logger, event, events, log_obj
 import re  # For input validation with regular expression matching
@@ -183,7 +184,7 @@ def add_new_medicine_popup(current_user):
     add_medicine_button.pack(pady=10)
 
 def validate_date_format(date_str):
-    # Regular expression for matching DD/MM/YYYY format
+    # Regular expression for matching MM/DD/YYYY format
     if not re.match(r'\d{1,2}/\d{1,2}/\d{4}', date_str):
         return False
     return True
@@ -194,12 +195,11 @@ def check_and_generate_report():
 
     # Validate dates
     if not validate_date_format(start_date) or not validate_date_format(end_date):
-        messagebox.showerror("Invalid Date", "Please enter dates in DD/MM/YYYY format.")
+        messagebox.showerror("Invalid Date", "Please enter dates in MM/DD/YYYY format.")
         return
 
     # If dates are valid, generate the report
-    messagebox.showinfo("Inventory Report Generated!",
-                        f"The inventory report for the time period: {start_date} to {end_date} has been generated.\n")
+    generate_inventory_report(start_date, end_date)
 
 def inventory_report_popup():
     # Create the window
@@ -215,13 +215,13 @@ def inventory_report_popup():
     frame.pack(expand=True, fill="both")
 
     # Update labels to indicate the expected date format
-    starting_label = ttk.Label(frame, text="Start date (DD/MM/YYYY):")
+    starting_label = ttk.Label(frame, text="Start date (MM/DD/YYYY):")
     starting_label.pack(pady=10)
     global starting_entry
     starting_entry = ttk.Entry(frame)
     starting_entry.pack(pady=5)
 
-    ending_label = ttk.Label(frame, text="End date (DD/MM/YYYY):")
+    ending_label = ttk.Label(frame, text="End date (MM/DD/YYYY):")
     ending_label.pack(pady=5)
     global ending_entry
     ending_entry = ttk.Entry(frame)
