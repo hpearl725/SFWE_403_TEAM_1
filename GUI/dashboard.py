@@ -18,6 +18,7 @@ from GUI.reports import generate_financial_report
 from GUI.users import User
 from GUI import pharmacy_info_window
 from logs.log import logger, event, events, log_obj
+from GUI import POS_table
 
 # Declare the Treeview widgets as global variables
 inventory_tree = None
@@ -25,6 +26,7 @@ patients_tree = None
 users_tree = None
 prescriptions_tree = None
 near_expiry_tree = None
+pos_tree = None
 frame = None
 add_user_button = None
 add_patient_button = None
@@ -40,7 +42,8 @@ receive_inventory_button = None
 fill_prescription_button = None
 place_order_button = None
 generate_financial_report_button = None
-
+process_sale_button = None
+add_item_button = None
 
 # Function to open the new user window
 def open_new_user_window(current_user):
@@ -55,7 +58,7 @@ def open_new_user_window(current_user):
 
 # Create the dashboard window
 def create_dashboard(user):
-    global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree, near_expiry_tree
+    global inventory_tree, patients_tree, users_tree, frame, add_user_button, prescriptions_tree, near_expiry_tree, pos_tree
     global current_user
     current_user = user
 
@@ -85,6 +88,7 @@ def create_dashboard(user):
         button_frame, text="Users", command=show_users_table)
     prescriptions_button = ttk.Button(
         button_frame, text="Prescriptions", command=show_prescriptions_table)
+    pos_button = ttk.Button(button_frame, text="POS", command= show_POS_table)
     settings_button = ttk.Button(button_frame, text="Settings", command=lambda: show_settings(
         current_user))  # do we want to pass whole user object here, or just role?
     exit_button = ttk.Button(frame, text="Exit", command=lambda: logout(dashboard))
@@ -94,6 +98,7 @@ def create_dashboard(user):
     patients_button.pack(side="left", padx=10)
     users_button.pack(side="left", padx=10)
     prescriptions_button.pack(side="left", padx=10)
+    pos_button.pack(side="left", padx=10)
     settings_button.pack(side="left", padx=10)
 
     inventory_tree = inventory_table.create_inventory_table(frame)
@@ -101,7 +106,7 @@ def create_dashboard(user):
     users_tree = users_table.create_users_table(frame)
     prescriptions_tree = prescriptions_table.create_prescriptions_table(frame)
     near_expiry_tree = inventory_table.create_near_expiry_table(frame)
-
+    pos_tree = POS_table.create_POS_table(frame)
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
 
     dashboard.mainloop()
@@ -123,7 +128,7 @@ def show_inventory_table(current_user, shown_window):
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-
+    POS_table.hide_POS_table(pos_tree)
     show_check_inventory_button()
     show_receive_inventory_button()
     show_place_order_button()    
@@ -140,7 +145,6 @@ def show_inventory_table(current_user, shown_window):
     hide_change_password_button()
     hide_pharm_info_button()
     hide_generate_financial_report_button()
-
     # this should display after other all other GUI operations are complete
     if shown_window.get() == False: # only show popup once
         inventory_table.low_inventory_popup()
@@ -154,6 +158,7 @@ def show_patients_table():
     patients_table.show_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+    POS_table.hide_POS_table(pos_tree)
     show_add_patient_button()
     show_remove_patient_button()
     show_update_patient_button()
@@ -168,6 +173,7 @@ def show_patients_table():
     hide_place_order_button()
     hide_generate_financial_report_button()
 
+
 def show_users_table():
     hide_fill_prescription_button()
     inventory_table.hide_inventory_table(inventory_tree)
@@ -175,6 +181,7 @@ def show_users_table():
     patients_table.hide_patients_table(patients_tree)
     users_table.show_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+    POS_table.hide_POS_table(pos_tree)
     hide_add_user_button()
     hide_add_patient_button()
     hide_update_patient_button()
@@ -195,6 +202,7 @@ def show_prescriptions_table():
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.show_prescriptions_table(prescriptions_tree)
+    POS_table.hide_POS_table(pos_tree)
     show_add_prescription_button()
     show_fill_prescription_button()
     hide_add_user_button()
@@ -218,6 +226,7 @@ def show_settings(current_user):
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+    POS_table.hide_POS_table(pos_tree)
     if current_user.role == "manager":  # only manager can add users
         show_add_user_button(current_user)
         show_change_user_settings_button(current_user)
@@ -230,6 +239,29 @@ def show_settings(current_user):
     hide_add_patient_button()
     hide_remove_expired_button()
     hide_remove_patient_button()
+    hide_receive_inventory_button()
+    hide_place_order_button()
+
+
+def show_POS_table():
+    POS_table.show_pos_table(pos_tree)
+    hide_fill_prescription_button()
+    inventory_table.hide_inventory_table(inventory_tree)
+    inventory_table.hide_near_expiry_table(near_expiry_tree)
+    patients_table.hide_patients_table(patients_tree)
+    users_table.hide_users_table(users_tree)
+    prescriptions_table.hide_prescriptions_table(prescriptions_tree)
+    hide_add_prescription_button()
+    hide_add_user_button()
+    hide_add_patient_button()
+    hide_update_patient_button()
+    hide_remove_patient_button()
+    hide_change_user_settings_button()
+    hide_change_password_button()
+    hide_pharm_info_button()
+    hide_generate_financial_report_button()
+    hide_check_inventory_button()
+    hide_remove_expired_button()
     hide_receive_inventory_button()
     hide_place_order_button()
 
@@ -439,7 +471,8 @@ def logout(dashboard):
     this_event = event("user_action", events.logout.name, f"User logged out")
     log.log(log_obj(this_event, current_user.username))
     dashboard.destroy()
-    
+
+
 
 if __name__ == "__main__":
     # Create a dummy user
