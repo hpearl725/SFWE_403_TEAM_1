@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+import csv
 
 # Function to handle the search button click event
 def check_inventory(this_entry,window,ttk_tree):
@@ -60,3 +61,48 @@ def create_check_inventory_window(inventory_tree):
 
     # Start the Tkinter main loop for the new user window
     entry_window.mainloop()
+    
+def edit_inventory(product, quantity, window):
+    print(product)
+    print(quantity)
+    with open("GUI/inventory.csv", 'r') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        lines = list(csv_reader)
+    for i in range(0,len(lines)):
+        if lines[i][1] == product:
+            break
+    
+    lines[i][2] = quantity
+
+    with open("GUI/inventory.csv", 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        csv_writer.writerows(lines)
+    
+    window.destroy()
+    
+def create_edit_inventory_window(inventory_tree):
+# Create the window
+    edit_inventory_popup = tk.Toplevel()
+    edit_inventory_popup.title("Edit Inventory")
+
+    # Configure the window to make it non-resizable
+    edit_inventory_popup.geometry("400x180")
+    edit_inventory_popup.resizable(False, False)
+
+    # Create a frame to hold the content
+    frame = ttk.Frame(edit_inventory_popup)
+    frame.pack(expand=True, fill="both")
+
+    name_label = ttk.Label(frame, text="Product:")
+    name_label.pack(pady=10)
+    name_entry = ttk.Entry(frame)
+    name_entry.pack(pady=5)
+
+    quantity_label = ttk.Label(frame, text="Quantity:")
+    quantity_label.pack(pady=5)
+    quantity_entry = ttk.Entry(frame)
+    quantity_entry.pack(pady=5)
+
+    save = ttk.Button(
+        frame, text="Save", command=lambda: edit_inventory(name_entry.get(), quantity_entry.get(), edit_inventory_popup))
+    save.pack(pady=5)
