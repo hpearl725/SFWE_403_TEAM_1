@@ -98,11 +98,70 @@ def add_product(product_entry, quantity_entry, price_entry, pos_tree, total_amou
     quantity_entry.delete(0, tk.END)
     price_entry.delete(0, tk.END)
 
+def card_payment_popup(payment_window):
+    card_payment_window = tk.Toplevel()
+    card_payment_window.title("Card Payment")
+
+    card_number_label = ttk.Label(card_payment_window, text="Card Number:")
+    card_number_label.pack(side="left", padx=5)
+    card_number_entry = ttk.Entry(card_payment_window)
+    card_number_entry.pack(side="left", fill="x", expand=True, padx=5)
+
+    expiration_label = ttk.Label(card_payment_window, text="Expiration:")
+    expiration_label.pack(side="left", padx=5)
+    expiration_entry = ttk.Entry(card_payment_window)
+    expiration_entry.pack(side="left", fill="x", expand=True, padx=5)
+
+    enter_button = ttk.Button(card_payment_window, text="Enter", command=lambda: [card_payment_window.destroy(), payment_window.destroy()])
+    enter_button.pack(side="left", padx=5)
+
+def cash_payment_popup(payment_window, total_amount):
+    cash_payment_window = tk.Toplevel()
+    cash_payment_window.title("Cash Payment")
+
+    cash_received_label = ttk.Label(cash_payment_window, text="Cash Received:")
+    cash_received_label.pack(side="left", padx=5)
+    cash_received_entry = ttk.Entry(cash_payment_window)
+    cash_received_entry.pack(side="left", fill="x", expand=True, padx=5)
+
+    change_label = ttk.Label(cash_payment_window, text="Change: $0.00")
+    change_label.pack(side="left", padx=5)
+
+    enter_button = ttk.Button(cash_payment_window, text="Enter", command=lambda: calculate_change(cash_received_entry, change_label, cash_payment_window, payment_window, total_amount))
+    enter_button.pack(side="left", padx=5)
+
+def calculate_change(cash_received_entry, change_label, cash_payment_window, payment_window, total_amount):
+    try:
+        cash_received = float(cash_received_entry.get())
+        change = cash_received - total_amount
+        change_label.config(text=f"Change: ${change:.2f}")
+        if change >= 0:
+            cash_payment_window.after(2000, cash_payment_window.destroy)
+            payment_window.after(2000, payment_window.destroy)
+        else:
+            messagebox.showerror(title="Insufficient Cash", message="The cash received is less than the total amount.")
+    except ValueError:
+        messagebox.showerror(title="Invalid Entry", message="Please enter a valid number for the cash received.")
+
+def payment_popup(total_amount):
+    payment_window = tk.Toplevel()
+    payment_window.title("Payment Options")
+
+    cash_button = ttk.Button(payment_window, text="Cash", command=lambda: cash_payment_popup(payment_window, total_amount))
+    cash_button.pack(side="left", padx=5)
+
+    credit_button = ttk.Button(payment_window, text="Credit", command=lambda: card_payment_popup(payment_window))
+    credit_button.pack(side="left", padx=5)
+
+    debit_button = ttk.Button(payment_window, text="Debit", command=lambda: card_payment_popup(payment_window))
+    debit_button.pack(side="left", padx=5)
+
 def process_sale(pos_tree, total_amount_label,product_entry, quantity_entry, price_entry):
     global total_amount
     product_entry.delete(0, tk.END)
     quantity_entry.delete(0, tk.END)
     price_entry.delete(0, tk.END)
+    payment_popup(total_amount)
     total_amount = 0.00
     total_amount_label.config(text=f"Total Amount: ${total_amount:.2f}")
     pos_tree.delete(*pos_tree.get_children())
