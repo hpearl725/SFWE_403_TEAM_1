@@ -98,6 +98,23 @@ def add_product(product_entry, quantity_entry, price_entry, pos_tree, total_amou
     quantity_entry.delete(0, tk.END)
     price_entry.delete(0, tk.END)
 
+def card_payment_popup(payment_window):
+    card_payment_window = tk.Toplevel()
+    card_payment_window.title("Card Payment")
+
+    card_number_label = ttk.Label(card_payment_window, text="Card Number:")
+    card_number_label.pack(side="left", padx=5)
+    card_number_entry = ttk.Entry(card_payment_window)
+    card_number_entry.pack(side="left", fill="x", expand=True, padx=5)
+
+    expiration_label = ttk.Label(card_payment_window, text="Expiration:")
+    expiration_label.pack(side="left", padx=5)
+    expiration_entry = ttk.Entry(card_payment_window)
+    expiration_entry.pack(side="left", fill="x", expand=True, padx=5)
+
+    enter_button = ttk.Button(card_payment_window, text="Enter", command=lambda: [card_payment_window.destroy(), payment_window.destroy()])
+    enter_button.pack(side="left", padx=5)
+
 def payment_popup():
     payment_window = tk.Toplevel()
     payment_window.title("Payment Options")
@@ -105,10 +122,10 @@ def payment_popup():
     cash_button = ttk.Button(payment_window, text="Cash")
     cash_button.pack(side="left", padx=5)
 
-    credit_button = ttk.Button(payment_window, text="Credit")
+    credit_button = ttk.Button(payment_window, text="Credit", command=lambda: card_payment_popup(payment_window))
     credit_button.pack(side="left", padx=5)
 
-    debit_button = ttk.Button(payment_window, text="Debit")
+    debit_button = ttk.Button(payment_window, text="Debit", command=lambda: card_payment_popup(payment_window))
     debit_button.pack(side="left", padx=5)
 
 def process_sale(pos_tree, total_amount_label,product_entry, quantity_entry, price_entry):
