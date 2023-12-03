@@ -98,6 +98,19 @@ def add_product(product_entry, quantity_entry, price_entry, pos_tree, total_amou
     quantity_entry.delete(0, tk.END)
     price_entry.delete(0, tk.END)
 
+def payment_popup():
+    payment_window = tk.Toplevel()
+    payment_window.title("Payment Options")
+
+    cash_button = ttk.Button(payment_window, text="Cash")
+    cash_button.pack(side="left", padx=5)
+
+    credit_button = ttk.Button(payment_window, text="Credit")
+    credit_button.pack(side="left", padx=5)
+
+    debit_button = ttk.Button(payment_window, text="Debit")
+    debit_button.pack(side="left", padx=5)
+
 def process_sale(pos_tree, total_amount_label,product_entry, quantity_entry, price_entry):
     global total_amount
     product_entry.delete(0, tk.END)
@@ -106,6 +119,8 @@ def process_sale(pos_tree, total_amount_label,product_entry, quantity_entry, pri
     total_amount = 0.00
     total_amount_label.config(text=f"Total Amount: ${total_amount:.2f}")
     pos_tree.delete(*pos_tree.get_children())
+
+    payment_popup()
 
 def hide_POS_table(pos_tree,buttons_container):
     try:
