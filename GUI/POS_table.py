@@ -11,9 +11,10 @@ price_entry = None
 POS_tree = None
 total_amount_label = None
 
-def create_POS_table(frame):
+def create_pos_table(frame):
     # Initialize Treeview with the correct column names
-    pos_tree = ttk.Treeview(frame, columns=("Product", "Quantity", "Price"))
+    pos_tree = ttk.Treeview(frame)
+    pos_tree["columns"] = ("Product", "Quantity", "Price")
 
     # Configure the columns
     pos_tree.column("#0", width=0, stretch=tk.NO)  # This is the invisible first column
@@ -31,12 +32,13 @@ def create_POS_table(frame):
 
 
 def show_pos_table(parent):
-    pos_tree = create_POS_table(parent)
-    pos_tree.pack(pady=10, fill="both", expand=True)
+    global product_entry, quantity_entry, price_entry, POS_tree, total_amount_label
 
-    # Create a container for the POS entry fields and buttons
+    # Create a container for the labels, entries, and buttons
     pos_container = ttk.Frame(parent)
-    pos_container.pack(padx=10, pady=10, fill='x', expand=True)
+
+    pos_tree = create_pos_table(pos_container)
+    pos_tree.pack(pady=10, fill="both", expand=True)
 
     # Product Label and Entry
     product_label = ttk.Label(pos_container, text="Product:")
@@ -60,15 +62,22 @@ def show_pos_table(parent):
     add_product_button = ttk.Button(pos_container, text="Add Product", command=lambda: add_product(product_entry, quantity_entry, price_entry, pos_tree, total_amount_label))
     add_product_button.pack(side="left", padx=5)
 
+    # Pack the container with labels and entries
+    pos_container.pack(padx=10, pady=10, fill='x', expand=True)
+
+    
+
     # Process Sale Button and Total Amount Label
-    process_sale_button = ttk.Button(parent, text="Process Sale", command=lambda: process_sale(pos_tree, total_amount_label))
+    process_sale_button = ttk.Button(pos_container, text="Process Sale", command=lambda: process_sale(pos_tree, total_amount_label, product_entry, quantity_entry, price_entry))
     process_sale_button.pack(pady=5)
 
     total_amount_label = ttk.Label(parent, text=f"Total Amount: ${total_amount:.2f}")
     total_amount_label.pack(pady=5)
 
+    # Return the container widget to allow hiding it later
+    return pos_container
 
-def add_product():
+def add_product(product_entry, quantity_entry, price_entry, pos_tree, total_amount_label):
     global total_amount
     try:
         quantity = float(quantity_entry.get())
@@ -77,7 +86,7 @@ def add_product():
         total_amount += quantity * price
 
         # Add product details to the list
-        POS_tree.insert('', tk.END, values=(product_name, quantity, price))
+        pos_tree.insert('', tk.END, values=(product_name, quantity, price))
 
         # Update total label
         total_amount_label.config(text=f"Total Amount: ${total_amount:.2f}")
@@ -89,21 +98,22 @@ def add_product():
     quantity_entry.delete(0, tk.END)
     price_entry.delete(0, tk.END)
 
-def process_sale():
+def process_sale(pos_tree, total_amount_label,product_entry, quantity_entry, price_entry):
     global total_amount
     product_entry.delete(0, tk.END)
     quantity_entry.delete(0, tk.END)
     price_entry.delete(0, tk.END)
     total_amount = 0.00
     total_amount_label.config(text=f"Total Amount: ${total_amount:.2f}")
+    pos_tree.delete(*pos_tree.get_children())
 
-def hide_POS_table(pos_tree):
-    # global product_entry, quantity_entry, price_entry, total_amount_label
-    # product_entry.pack_forget()
-    # quantity_entry.pack_forget()
-    # price_entry.pack_forget()
-    # pos_tree.pack_forget()
-    # total_amount_label.pack_forget()
+def hide_POS_table(pos_tree,buttons_container):
+    try:
+        buttons_container.pack_forget()
+        pos_tree.pack_forget()
+        total_amount_label.pack_forget()
+    except AttributeError:
+        print("throwing error in hide_POS_table")
     return None
 
 # Example usage

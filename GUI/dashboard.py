@@ -44,7 +44,11 @@ place_order_button = None
 generate_financial_report_button = None
 process_sale_button = None
 add_item_button = None
-
+product_entry = None
+quantity_entry= None
+price_entry = None
+total_amount_label = None
+buttons_container = None
 # Function to open the new user window
 def open_new_user_window(current_user):
     # Check if the current user is a manager
@@ -106,7 +110,7 @@ def create_dashboard(user):
     users_tree = users_table.create_users_table(frame)
     prescriptions_tree = prescriptions_table.create_prescriptions_table(frame)
     near_expiry_tree = inventory_table.create_near_expiry_table(frame)
-    pos_tree = POS_table.create_POS_table(frame)
+    pos_tree = POS_table.create_pos_table(frame)
     exit_button.pack(side="bottom", anchor="se", padx=10, pady=10)
 
     dashboard.mainloop()
@@ -128,7 +132,7 @@ def show_inventory_table(current_user, shown_window):
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    POS_table.hide_POS_table(pos_tree)
+    POS_table.hide_POS_table(pos_tree, buttons_container)
     show_check_inventory_button()
     show_receive_inventory_button()
     show_place_order_button()    
@@ -158,7 +162,7 @@ def show_patients_table():
     patients_table.show_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    POS_table.hide_POS_table(pos_tree)
+    POS_table.hide_POS_table(pos_tree, buttons_container)
     show_add_patient_button()
     show_remove_patient_button()
     show_update_patient_button()
@@ -181,7 +185,7 @@ def show_users_table():
     patients_table.hide_patients_table(patients_tree)
     users_table.show_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    POS_table.hide_POS_table(pos_tree)
+    POS_table.hide_POS_table(pos_tree, buttons_container)
     hide_add_user_button()
     hide_add_patient_button()
     hide_update_patient_button()
@@ -202,7 +206,7 @@ def show_prescriptions_table():
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.show_prescriptions_table(prescriptions_tree)
-    POS_table.hide_POS_table(pos_tree)
+    POS_table.hide_POS_table(pos_tree, buttons_container)
     show_add_prescription_button()
     show_fill_prescription_button()
     hide_add_user_button()
@@ -226,7 +230,7 @@ def show_settings(current_user):
     patients_table.hide_patients_table(patients_tree)
     users_table.hide_users_table(users_tree)
     prescriptions_table.hide_prescriptions_table(prescriptions_tree)
-    POS_table.hide_POS_table(pos_tree)
+    POS_table.hide_POS_table(pos_tree, buttons_container)
     if current_user.role == "manager":  # only manager can add users
         show_add_user_button(current_user)
         show_change_user_settings_button(current_user)
@@ -242,9 +246,9 @@ def show_settings(current_user):
     hide_receive_inventory_button()
     hide_place_order_button()
 
-
 def show_POS_table():
-    POS_table.show_pos_table(pos_tree)
+    global buttons_container
+    buttons_container = POS_table.show_pos_table(frame)
     hide_fill_prescription_button()
     inventory_table.hide_inventory_table(inventory_tree)
     inventory_table.hide_near_expiry_table(near_expiry_tree)
