@@ -6,6 +6,7 @@ from tkinter import messagebox
 from GUI.prescriptions import read_prescriptions
 from GUI.inventory import read_inventory, write_inventory
 from logs.log import logger, event, events, log_obj
+from GUI.signature_pad import SignaturePad
 
 def read_patients(filename):
     patients_dict = {}
@@ -64,7 +65,6 @@ def add_prescription(current_user):
 
 
 def fill_prescription(current_user, name, medicine_name):
-
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
     prescriptions_list = read_prescriptions(prescriptions_path)
 
@@ -90,6 +90,11 @@ def fill_prescription(current_user, name, medicine_name):
     if int(inventory_dict[medicine_name]["in_stock"]) < int(prescription["qty"]):
         messagebox.showerror("Warning", "Not enough inventory.")
         return
+
+    signature_window = tk.Toplevel()
+    signature_pad = SignaturePad(signature_window)
+    confirm_button = tk.Button(signature_window, text="Confirm", command=signature_pad.save_and_close)
+    confirm_button.pack()
 
     prescriptions_list.remove(prescription)
 
