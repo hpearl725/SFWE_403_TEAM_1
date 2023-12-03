@@ -6,6 +6,7 @@ from tkinter import messagebox
 from GUI.prescriptions import read_prescriptions
 from GUI.inventory import read_inventory, write_inventory
 from logs.log import logger, event, events, log_obj
+from GUI.signature_pad import SignaturePad
 
 def read_patients(filename):
     patients_dict = {}
@@ -58,8 +59,8 @@ def hide_prescriptions_table(prescriptions_tree):
     prescriptions_tree.pack_forget()
 from GUI.create_prescription import PrescriptionForm
 
-def add_prescription():
-    prescription_form = PrescriptionForm()
+def add_prescription(current_user):
+    prescription_form = PrescriptionForm(current_user)
     prescription_form.window.mainloop()
 
 
@@ -80,7 +81,6 @@ def create_blank_pdf(patient_name, date, medicine_name, quantity, price_per_unit
     c.save()
 
 def fill_prescription(current_user, name, medicine_name):
-
     prescriptions_path = os.path.join('GUI', 'prescriptions.csv')
     prescriptions_list = read_prescriptions(prescriptions_path)
 
@@ -107,10 +107,15 @@ def fill_prescription(current_user, name, medicine_name):
         messagebox.showerror("Warning", "Not enough inventory.")
         return
 
+    signature_window = tk.Toplevel()
+    signature_pad = SignaturePad(signature_window)
+    confirm_button = tk.Button(signature_window, text="Confirm", command=signature_pad.save_and_close)
+    confirm_button.pack()
+
     prescriptions_list.remove(prescription)
 
     with open(prescriptions_path, mode='w', newline='', encoding='utf-8') as csv_file:
-        fieldnames = ["product_name", "qty", "patient_name"]
+        fieldnames = ["product_name", "qty", "patient_name", "rx_number"]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
         writer.writeheader()
@@ -126,7 +131,9 @@ def fill_prescription(current_user, name, medicine_name):
         log = logger(os.path.join("GUI","log.csv"))
         price = inventory_dict[medicine_name]["price"]
         qty = prescription["qty"]
-        fill_rx_event = event("user_action", events.fill_rx.name, f"{qty}x {medicine_name} filled at ${price}")
+        patient_name = prescription["patient_name"]
+        rx_number = prescription["rx_number"]
+        fill_rx_event = event("user_action", events.fill_rx.name, f"{qty}x {medicine_name} filled at ${price} for {patient_name}, RX#: {rx_number}")
         log.log(log_obj(fill_rx_event, current_user.username))
 
         # Calculate total price

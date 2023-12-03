@@ -28,6 +28,8 @@ def remove_expired(this_entry,window,ttk_tree,current_user):
     else: # match found, remove it from inventory
         inventory_path = os.path.join('GUI', 'inventory.csv')
         inventory_dict = read_inventory(inventory_path) # read csv
+        #get quantity removed
+        quantity = int(ttk_tree.item(key)["values"][1])
         del inventory_dict[product_name] # drop product
         ttk_tree.delete(key)
         write_inventory(inventory_path, inventory_dict) # write result to csv
@@ -35,7 +37,7 @@ def remove_expired(this_entry,window,ttk_tree,current_user):
         
         # Log the removal event
         log = logger(os.path.join("GUI","log.csv"))
-        this_event = event("user_action", events.remove_meds.name, f"User removed expired medicine {product_name}")
+        this_event = event("user_action", events.remove_meds.name, f"User removed expired medicine, med: {product_name}, qty: {quantity}")
         log.log(log_obj(this_event, current_user.username))
 
     # Destroy the check inventory window
