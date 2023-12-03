@@ -3,9 +3,10 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox, scrolledtext
 from GUI.inventory import read_inventory, get_near_expiry_medicines, write_inventory,get_low_inventory_items
+from GUI.reports import generate_inventory_report
 import datetime
 from logs.log import logger, event, events, log_obj
-
+import re  # For input validation with regular expression matching
 
 def create_inventory_table(frame):
     inventory_tree = ttk.Treeview(frame)
@@ -181,3 +182,51 @@ def add_new_medicine_popup(current_user):
 
     add_medicine_button = ttk.Button(frame, text="Confirm", command = lambda:update_inventory(current_user))
     add_medicine_button.pack(pady=10)
+
+def validate_date_format(date_str):
+    # Regular expression for matching MM/DD/YYYY format
+    if not re.match(r'\d{1,2}/\d{1,2}/\d{4}', date_str):
+        return False
+    return True
+
+def check_and_generate_report():
+    start_date = starting_entry.get()
+    end_date = ending_entry.get()
+
+    # Validate dates
+    if not validate_date_format(start_date) or not validate_date_format(end_date):
+        messagebox.showerror("Invalid Date", "Please enter dates in MM/DD/YYYY format.")
+        return
+
+    # If dates are valid, generate the report
+    generate_inventory_report(start_date, end_date)
+
+def inventory_report_popup():
+    # Create the window
+    inventory_report_popup = tk.Toplevel()
+    inventory_report_popup.title("Inventory Report Period")
+
+    # Configure the window to make it non-resizable
+    inventory_report_popup.geometry("400x180")
+    inventory_report_popup.resizable(False, False)
+
+    # Create a frame to hold the content
+    frame = ttk.Frame(inventory_report_popup)
+    frame.pack(expand=True, fill="both")
+
+    # Update labels to indicate the expected date format
+    starting_label = ttk.Label(frame, text="Start date (MM/DD/YYYY):")
+    starting_label.pack(pady=10)
+    global starting_entry
+    starting_entry = ttk.Entry(frame)
+    starting_entry.pack(pady=5)
+
+    ending_label = ttk.Label(frame, text="End date (MM/DD/YYYY):")
+    ending_label.pack(pady=5)
+    global ending_entry
+    ending_entry = ttk.Entry(frame)
+    ending_entry.pack(pady=5)
+
+    generate_inventory_report_button = ttk.Button(
+        frame, text="Generate Report", command=check_and_generate_report)
+    generate_inventory_report_button.pack(pady=5)

@@ -13,3 +13,7 @@ __pycache__
 .aider*
 *.orig
 GUI/log.csv
+build
+dist/windows.zip
+dist/main with console.exe
+dist/main.exe
