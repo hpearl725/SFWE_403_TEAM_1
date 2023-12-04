@@ -76,7 +76,7 @@ def edit_inventory(product, quantity, window, current_user):
     lines[i][2] = quantity
     
     log = logger(os.path.join("GUI","log.csv"))
-    this_event = event("user_action", events.edit_inventory.name, f"Manager Edited Inventory of {product}to {quantity}items")
+    this_event = event("user_action", events.edit_inventory.name, f"Manager Edited Inventory of {product} to {quantity} items")
     log.log(log_obj(this_event, current_user.username))
 
     with open(inventory_path, 'w', newline='') as csvfile:
