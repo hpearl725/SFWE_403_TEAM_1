@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import csv
+from logs.log import logger, event, events, log_obj
 
 # Function to handle the search button click event
 def check_inventory(this_entry,window,ttk_tree):
@@ -63,7 +64,7 @@ def create_check_inventory_window(inventory_tree):
     # Start the Tkinter main loop for the new user window
     entry_window.mainloop()
     
-def edit_inventory(product, quantity, window):
+def edit_inventory(product, quantity, window, current_user):
     inventory_path = os.path.join('GUI', 'inventory.csv')
     with open(inventory_path, 'r') as csvfile:
         csv_reader = csv.reader(csvfile)
@@ -73,6 +74,10 @@ def edit_inventory(product, quantity, window):
             break
     
     lines[i][2] = quantity
+    
+    log = logger(os.path.join("GUI","log.csv"))
+    this_event = event("user_action", events.edit_inventory.name, f"Manager Edited Inventory")
+    log.log(log_obj(this_event, current_user.username))
 
     with open(inventory_path, 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
@@ -80,7 +85,7 @@ def edit_inventory(product, quantity, window):
         
     window.destroy()
     
-def create_edit_inventory_window(inventory_tree):
+def create_edit_inventory_window(inventory_tree, current_user):
 # Create the window
     edit_inventory_popup = tk.Toplevel()
     edit_inventory_popup.title("Edit Inventory")
@@ -104,5 +109,5 @@ def create_edit_inventory_window(inventory_tree):
     quantity_entry.pack(pady=5)
 
     save = ttk.Button(
-        frame, text="Save", command=lambda: edit_inventory(name_entry.get(), quantity_entry.get(), edit_inventory_popup))
+        frame, text="Save", command=lambda: edit_inventory(name_entry.get(), quantity_entry.get(), edit_inventory_popup, current_user))
     save.pack(pady=5)

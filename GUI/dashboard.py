@@ -306,7 +306,7 @@ def show_edit_inventory_button():
     global edit_inventory_button
     if edit_inventory_button is None:
         edit_inventory_button = ttk.Button(frame, text="Edit Inventory",
-                                            command=lambda: check_inventory.create_edit_inventory_window(inventory_tree))
+                                            command=lambda: check_inventory.create_edit_inventory_window(inventory_tree, current_user))
     edit_inventory_button.pack(side="top", pady=10)
 
 def hide_add_user_button():
