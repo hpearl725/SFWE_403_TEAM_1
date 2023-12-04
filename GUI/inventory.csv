@@ -1,3 +1,4 @@
+
 ID_number,product_name,in_stock,date_added,date_expires,is_expired,price
 1,product1,130,3/13/2022,1/1/2032,FALSE,10.99
 2,product2,17,3/13/2022,1/1/2032,FALSE,5.99
@@ -12,3 +13,4 @@ ID_number,product_name,in_stock,date_added,date_expires,is_expired,price
 13,product21,1000,11/28/2023,11/11/2111,FALSE,20.99
 14,product3,1198,11/28/2023,11/11/2111,FALSE,50.99
 13,product22,2323,11/28/2023,11/11/2111,FALSE,20.33
+
