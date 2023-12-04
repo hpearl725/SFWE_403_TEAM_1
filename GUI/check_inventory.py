@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -63,9 +64,8 @@ def create_check_inventory_window(inventory_tree):
     entry_window.mainloop()
     
 def edit_inventory(product, quantity, window):
-    print(product)
-    print(quantity)
-    with open("GUI/inventory.csv", 'r') as csvfile:
+    inventory_path = os.path.join('GUI', 'inventory.csv')
+    with open(inventory_path, 'r') as csvfile:
         csv_reader = csv.reader(csvfile)
         lines = list(csv_reader)
     for i in range(0,len(lines)):
@@ -74,10 +74,10 @@ def edit_inventory(product, quantity, window):
     
     lines[i][2] = quantity
 
-    with open("GUI/inventory.csv", 'w', newline='') as csvfile:
+    with open(inventory_path, 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
-    
+        
     window.destroy()
     
 def create_edit_inventory_window(inventory_tree):

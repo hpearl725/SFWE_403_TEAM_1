@@ -170,6 +170,7 @@ def show_patients_table():
     hide_pharm_info_button()
     hide_receive_inventory_button()
     hide_place_order_button()
+    hide_edit_inventory_button()
     hide_generate_financial_report_button()
     hide_inventory_report_button()
 
@@ -193,6 +194,7 @@ def show_users_table():
     hide_pharm_info_button()
     hide_generate_financial_report_button()
     hide_place_order_button()
+    hide_edit_inventory_button()
     hide_inventory_report_button()
 
 def show_prescriptions_table():
@@ -215,6 +217,7 @@ def show_prescriptions_table():
     hide_receive_inventory_button()
     hide_generate_financial_report_button()
     hide_place_order_button()
+    hide_edit_inventory_button()
     hide_inventory_report_button()
 
 
@@ -239,6 +242,7 @@ def show_settings(current_user):
     hide_remove_patient_button()
     hide_receive_inventory_button()
     hide_place_order_button()
+    hide_edit_inventory_button()
     hide_inventory_report_button()
 
 # Function to open the new user window
