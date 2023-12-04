@@ -71,3 +71,4 @@ def get_low_inventory_items():
 
     #print(low_inventory_items)
     return low_inventory_items
+

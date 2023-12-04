@@ -33,6 +33,7 @@ add_patient_button = None
 update_patient_button = None
 add_prescription_button = None
 check_inventory_button = None
+edit_inventory_button = None
 remove_expired_button = None
 remove_patient_button = None
 change_user_settings_button = None
@@ -137,6 +138,7 @@ def show_inventory_table(current_user, shown_window):
     POS_table.hide_POS_table(pos_tree, buttons_container)
     show_check_inventory_button()
     show_receive_inventory_button()
+    show_edit_inventory_button()
     show_place_order_button()    
     if current_user.role == "manager":  # only manager can see the remove-inventory button
         show_remove_expired_button(current_user)
@@ -179,6 +181,7 @@ def show_patients_table():
     hide_pharm_info_button()
     hide_receive_inventory_button()
     hide_place_order_button()
+    hide_edit_inventory_button()
     hide_generate_financial_report_button()
     hide_inventory_report_button()
 
@@ -204,6 +207,7 @@ def show_users_table():
     hide_pharm_info_button()
     hide_generate_financial_report_button()
     hide_place_order_button()
+    hide_edit_inventory_button()
     hide_inventory_report_button()
 
 def show_prescriptions_table():
@@ -227,6 +231,7 @@ def show_prescriptions_table():
     hide_receive_inventory_button()
     hide_generate_financial_report_button()
     hide_place_order_button()
+    hide_edit_inventory_button()
     hide_inventory_report_button()
 
 
@@ -252,6 +257,7 @@ def show_settings(current_user):
     hide_remove_patient_button()
     hide_receive_inventory_button()
     hide_place_order_button()
+    hide_edit_inventory_button()
     hide_inventory_report_button()
 
 def show_POS_table():
@@ -322,6 +328,11 @@ def hide_check_inventory_button():
     if check_inventory_button is not None:
         check_inventory_button.pack_forget()
 
+def hide_edit_inventory_button():
+    global edit_inventory_button
+    if edit_inventory_button is not None:
+        edit_inventory_button.pack_forget()
+
 
 def show_check_inventory_button():
     global check_inventory_button
@@ -330,6 +341,12 @@ def show_check_inventory_button():
                                             command=lambda: check_inventory.create_check_inventory_window(inventory_tree))
     check_inventory_button.pack(side="top", pady=10)
 
+def show_edit_inventory_button():
+    global edit_inventory_button
+    if edit_inventory_button is None:
+        edit_inventory_button = ttk.Button(frame, text="Edit Inventory",
+                                            command=lambda: check_inventory.create_edit_inventory_window(inventory_tree, current_user))
+    edit_inventory_button.pack(side="top", pady=10)
 
 def hide_add_user_button():
     global add_user_button
