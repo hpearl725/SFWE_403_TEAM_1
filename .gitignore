@@ -1,3 +1,5 @@
+__pycache__
+.vscode
 # Default ignored files
 /shelf/
 /workspace.xml
@@ -6,3 +8,12 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+.idea
+*.aider*
+.aider*
+*.orig
+GUI/log.csv
+build
+dist/windows.zip
+dist/main with console.exe
+dist/main.exe
